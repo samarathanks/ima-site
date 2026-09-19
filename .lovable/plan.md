@@ -18,4 +18,14 @@
 ## Notas técnicas
 
 - O WhatsApp não existe na biblioteca de ícones usada (lucide); será um pequeno SVG embutido com o desenho oficial do aplicativo, mesmo tamanho e traço dos outros ícones.
-- Arquivo único alterado: `src/routes/index.tsx` (mais `roadmap.md` para o checklist interno).
+- Arquivo único alterado: `src/routes/index.tsx` (mais o checklist interno do projeto).
+
+## Seção "Aplicativo personalizado": trocar as telas
+
+- As três imagens atuais do celular (acesso, benefícios, perfil) estão praticamente pretas — o conteúdo da tela não aparece, e a seção vira uma mancha escura sem significado.
+- Serão geradas novas telas de aplicativo no estilo da Imã (verde-escuro, amarelo e menta do manual da marca), legíveis e com identidade da empresa cliente:
+  - **Saldo e benefícios** — saldo do cartão e categorias de benefícios.
+  - **Cartão virtual** — cartão com espaço para a marca da empresa.
+  - **Perfil do colaborador** — dados e acesso a suporte.
+- As novas telas substituem as atuais na mesma composição (três celulares sobre fundo verde-escuro), sem mudar textos nem o restante da seção.
+
