@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SiWhatsapp } from "@icons-pack/react-simple-icons";
 import {
   ArrowDown,
   ArrowRight,
@@ -8,7 +9,6 @@ import {
   HeartHandshake,
   Instagram,
   Mail,
-  MessageCircle,
   Menu,
   Phone,
   ShieldCheck,
@@ -375,7 +375,7 @@ function Index() {
                 <Phone className="size-5" aria-hidden="true" />
               </a>
               <a href={CONTACT_LINKS.whatsapp} target="_blank" rel="noreferrer" aria-label="Conversar pelo WhatsApp" title="Conversar pelo WhatsApp" className="flex size-12 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-all hover:-translate-y-0.5 hover:border-brand-mint hover:text-brand-mint">
-                <MessageCircle className="size-5" aria-hidden="true" />
+                <SiWhatsapp className="size-5" aria-hidden="true" />
               </a>
               <a href={CONTACT_LINKS.instagram} target="_blank" rel="noreferrer" aria-label="Visitar o Instagram" title="Visitar o Instagram" className="flex size-12 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-all hover:-translate-y-0.5 hover:border-brand-mint hover:text-brand-mint">
                 <Instagram className="size-5" aria-hidden="true" />
