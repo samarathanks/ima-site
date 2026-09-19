@@ -303,16 +303,27 @@ function Index() {
             </div>
             <a href={contactHref} className="inline-flex items-center gap-2 text-sm font-bold hover:text-brand-mint">Fale com a Imã <ArrowRight className="size-4" /></a>
           </div>
-          <div className="flex flex-col gap-4 text-sm sm:flex-row sm:items-center sm:gap-8">
-            <a href={contactHref} className="font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">contato@ima.com.br</a>
-            <a href="tel:+5511996443300" className="font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">(11) 99644-3300</a>
-            <a href="https://instagram.com/somos.ima" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">
-              <Instagram className="size-4" /> @somos.ima
-            </a>
+          <div className="flex flex-col gap-5 text-sm sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-8">
+              <a href={contactHref} className="inline-flex items-center gap-2 font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">
+                <Mail className="size-4" /> contato@ima.com.br
+              </a>
+              <a href="tel:+5511996443300" className="font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">(11) 99644-3300</a>
+            </div>
+            <div className="flex items-center gap-3">
+              <a href={contactHref} aria-label="Enviar e-mail para a Imã" className="flex size-10 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-brand-mint hover:text-brand-mint">
+                <Mail className="size-4" />
+              </a>
+              <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer" aria-label="Falar com a Imã no WhatsApp" className="flex size-10 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-brand-mint hover:text-brand-mint">
+                <WhatsAppIcon className="size-4" />
+              </a>
+              <a href="https://instagram.com/somos.ima" target="_blank" rel="noreferrer" aria-label="Seguir a Imã no Instagram" className="flex size-10 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-brand-mint hover:text-brand-mint">
+                <Instagram className="size-4" />
+              </a>
+            </div>
           </div>
-          <div className="flex flex-col justify-between gap-3 border-t border-primary-foreground/15 pt-7 text-xs text-primary-foreground/50 sm:flex-row">
+          <div className="border-t border-primary-foreground/15 pt-7 text-xs text-primary-foreground/50">
             <p>© 2026 Imã. Todos os direitos reservados.</p>
-            <p>Made by Biz. Tecnologia e infraestrutura operacional fornecidas pela Biz.</p>
           </div>
         </div>
       </footer>
