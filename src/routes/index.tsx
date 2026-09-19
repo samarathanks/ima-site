@@ -6,6 +6,7 @@ import {
   Check,
   CreditCard,
   HeartHandshake,
+  Instagram,
   Menu,
   ShieldCheck,
   Smartphone,
@@ -24,7 +25,7 @@ import logo from "@/assets/ima-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 
 const contactHref =
-  "mailto:?subject=Quero%20conhecer%20a%20Im%C3%A3&body=Ol%C3%A1%2C%20quero%20ver%20a%20marca%20da%20minha%20empresa%20na%20experi%C3%AAncia%20de%20benef%C3%ADcios.";
+  "mailto:contato@ima.com.br?subject=Quero%20conhecer%20a%20Im%C3%A3&body=Ol%C3%A1%2C%20quero%20ver%20a%20marca%20da%20minha%20empresa%20na%20experi%C3%AAncia%20de%20benef%C3%ADcios.";
 
 const featureGroups = [
   {
@@ -280,7 +281,7 @@ function Index() {
         </div>
       </section>
 
-      <footer className="bg-primary-deep py-12 text-primary-foreground">
+      <footer id="contato" className="bg-primary-deep py-12 text-primary-foreground">
         <div className="mx-auto flex max-w-7xl flex-col gap-10 px-5 sm:px-8 lg:px-12">
           <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end">
             <div>
@@ -288,6 +289,13 @@ function Index() {
               <p className="mt-4 text-sm text-primary-foreground/65">Benefícios que atraem. Pessoas que ficam.</p>
             </div>
             <a href={contactHref} className="inline-flex items-center gap-2 text-sm font-bold hover:text-brand-mint">Fale com a Imã <ArrowRight className="size-4" /></a>
+          </div>
+          <div className="flex flex-col gap-4 text-sm sm:flex-row sm:items-center sm:gap-8">
+            <a href={contactHref} className="font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">contato@ima.com.br</a>
+            <a href="tel:+5511996443300" className="font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">(11) 99644-3300</a>
+            <a href="https://instagram.com/somos.ima" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">
+              <Instagram className="size-4" /> @somos.ima
+            </a>
           </div>
           <div className="flex flex-col justify-between gap-3 border-t border-primary-foreground/15 pt-7 text-xs text-primary-foreground/50 sm:flex-row">
             <p>© 2026 Imã. Todos os direitos reservados.</p>
