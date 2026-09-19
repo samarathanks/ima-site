@@ -15,3 +15,10 @@
 - [x] Incorporar os vídeos e a capa oficiais no início do site, sem alterações
 - [x] Reestruturar conteúdo, navegação e formulário conforme o novo briefing
 - [x] Validar acessibilidade, desempenho e visual em computador e celular
+
+## Aperfeiçoamento da experiência comercial
+- [x] Reorganizar a abertura com proposta, cartão oficial e assinatura de campanha
+- [x] Posicionar o vídeo oficial após a abertura, com capa e redução de movimento
+- [x] Reforçar personalização, categorias, confiança e imagens humanas
+- [x] Transformar o formulário em solicitação de prévia personalizada
+- [x] Validar toda a experiência em computador e celular
