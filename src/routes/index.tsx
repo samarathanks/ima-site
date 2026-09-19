@@ -1,23 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  ArrowDown,
   ArrowRight,
   Award,
+  BookOpen,
+  BriefcaseBusiness,
   Bus,
   Check,
   ChevronDown,
   CreditCard,
   Gift,
   HeartHandshake,
+  House,
   Instagram,
   Mail,
   Menu,
   MessageCircle,
   Phone,
   Scale,
+  ShoppingBasket,
   Smartphone,
   Sparkles,
+  Upload,
   Users,
+  Utensils,
   WalletCards,
   X,
 } from "lucide-react";
@@ -30,6 +35,8 @@ import brandExperience from "@/assets/ima-brand-experience.png.asset.json";
 import officialCard from "@/assets/ima-cartao-oficial.png.asset.json";
 import heroPoster from "@/assets/ima-hero-poster.jpg.asset.json";
 import heroVideo from "@/assets/ima-hero-impacto-web.mp4.asset.json";
+import heroPeople from "@/assets/ima-hero-pessoas.jpg";
+import deliveryExperience from "@/assets/ima-entrega-experiencia.jpg";
 import logo from "@/assets/ima-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 
@@ -41,12 +48,16 @@ const CONTACT_LINKS = {
 };
 
 const benefits = [
-  { icon: WalletCards, title: "Alimentação e refeição", text: "Categorias organizadas para diferentes momentos da rotina." },
-  { icon: Bus, title: "Mobilidade", text: "Possibilidade de integrar transporte e mobilidade conforme contratação." },
-  { icon: HeartHandshake, title: "Saúde e bem-estar", text: "Benefícios que podem apoiar uma estratégia mais ampla de cuidado." },
-  { icon: Award, title: "Premiação e reconhecimento", text: "Apoio a campanhas internas, conquistas e datas especiais." },
-  { icon: Gift, title: "Cultura, lazer e vantagens", text: "Um ecossistema que pode ampliar o valor percebido no dia a dia." },
-  { icon: Smartphone, title: "Aplicativo personalizado", text: "Saldo, compras, cartão e suporte em uma experiência reconhecível." },
+  { icon: ShoppingBasket, title: "Alimentação", text: "Compras para a rotina, conforme a categoria contratada." },
+  { icon: Utensils, title: "Refeição", text: "Praticidade em restaurantes e estabelecimentos compatíveis." },
+  { icon: Bus, title: "Mobilidade", text: "Mais flexibilidade nos deslocamentos do dia a dia." },
+  { icon: WalletCards, title: "Vale-transporte", text: "Gestão integrada, conforme serviços e cobertura disponíveis." },
+  { icon: HeartHandshake, title: "Saúde e bem-estar", text: "Apoio a uma estratégia mais ampla de cuidado com as pessoas." },
+  { icon: BookOpen, title: "Educação", text: "Possibilidade de apoiar aprendizado e desenvolvimento." },
+  { icon: House, title: "Home office", text: "Recursos para apoiar a rotina de trabalho remoto." },
+  { icon: Award, title: "Premiação", text: "Reconhecimento de campanhas, metas e momentos importantes." },
+  { icon: BriefcaseBusiness, title: "Saldo livre", text: "Disponível quando aplicável ao produto contratado." },
+  { icon: Gift, title: "Clube de benefícios", text: "Condições e vantagens adicionais conforme o ecossistema disponível." },
 ];
 
 const companyBenefits = [
@@ -113,11 +124,20 @@ function HeroMedia() {
 
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [formNotice, setFormNotice] = useState("");
 
   function submitCommercialForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (data.get("consentimento") !== "on") return;
+    if (data.get("consentimento") !== "on") {
+      setFormNotice("Confirme o consentimento para continuar.");
+      return;
+    }
+    const logoFile = data.get("logo");
+    if (logoFile instanceof File && logoFile.size > 5 * 1024 * 1024) {
+      setFormNotice("O arquivo do logotipo deve ter até 5 MB.");
+      return;
+    }
 
     const value = (key: string, fallback = "Não informado") => {
       const field = data.get(key);
@@ -126,8 +146,9 @@ function Index() {
 
     const subject = encodeURIComponent("Quero conhecer a Imã");
     const body = encodeURIComponent(
-      `Nome: ${value("nome")}\nEmpresa: ${value("empresa")}\nCargo: ${value("cargo")}\nE-mail: ${value("email")}\nWhatsApp: ${value("whatsapp")}\nColaboradores: ${value("colaboradores")}\nBenefícios de interesse: ${value("beneficios")}\nCartão personalizado: ${value("personalizado")}\n\nMensagem:\n${value("mensagem", "Quero conhecer a solução da Imã.")}`,
+      `Nome: ${value("nome")}\nEmpresa: ${value("empresa")}\nCargo: ${value("cargo")}\nE-mail: ${value("email")}\nWhatsApp: ${value("whatsapp")}\nColaboradores: ${value("colaboradores")}\nSolicitação: Prévia personalizada do cartão\nLogotipo: será anexado manualmente a este e-mail\n\nMensagem:\nQuero conhecer a solução da Imã e receber orientação sobre uma prévia personalizada.`,
     );
+    setFormNotice("Sua solicitação foi preparada. Ao abrir seu e-mail, anexe o logotipo selecionado antes de enviar.");
     window.location.href = `${CONTACT_LINKS.email}?subject=${subject}&body=${body}`;
   }
 
@@ -167,29 +188,57 @@ function Index() {
         )}
       </header>
 
-      <section id="inicio" className="bg-primary text-primary-foreground">
-        <HeroMedia />
-        <div className="mx-auto flex max-w-7xl flex-col items-center px-5 py-10 text-center sm:px-8 sm:py-14 lg:px-12">
-          <p className="max-w-3xl text-xl font-bold leading-relaxed sm:text-2xl">Multibenefícios, cartão e aplicativo com a identidade da sua empresa.</p>
-          <div className="mt-7 flex w-full max-w-2xl flex-col justify-center gap-3 sm:flex-row">
-            <Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href="#contato">Quero conhecer a Imã <ArrowRight /></a></Button>
-            <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-primary-foreground/40 bg-transparent px-6 py-3 text-primary-foreground hover:bg-primary-foreground hover:text-primary"><a href="#contato">Quero ver minha marca no cartão</a></Button>
+      <section id="inicio" className="relative isolate min-h-[calc(100svh-5rem)] overflow-hidden bg-primary text-primary-foreground">
+        <img src={heroPeople} alt="Profissionais brasileiros reunidos em um momento de convivência" width={1920} height={1088} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover object-[68%_center]" />
+        <div className="hero-fade absolute inset-0" />
+        <div className="relative mx-auto grid min-h-[calc(100svh-5rem)] max-w-7xl items-center gap-10 px-5 py-14 sm:px-8 lg:grid-cols-[1.05fr_.95fr] lg:px-12">
+          <div className="max-w-2xl animate-rise">
+            <p className="inline-flex rounded-full border border-primary-foreground/30 bg-primary/80 px-4 py-2 text-xs font-extrabold uppercase text-brand-mint">Cartão multibenefícios Visa</p>
+            <h1 className="mt-6 text-4xl font-extrabold leading-[1.03] sm:text-5xl lg:text-6xl">O benefício da sua empresa com a marca da sua empresa.</h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/85">Alimentação, refeição, mobilidade, premiação e outros benefícios em um cartão e aplicativo personalizados com a identidade da sua empresa.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href="#contato">Quero ver minha marca no cartão <ArrowRight /></a></Button>
+              <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-primary-foreground/40 bg-primary/30 px-6 py-3 text-primary-foreground hover:bg-primary-foreground hover:text-primary"><a href="#beneficios">Conhecer os benefícios</a></Button>
+            </div>
+            <p className="mt-9 text-xl font-extrabold text-brand-mint">Sua empresa tem IMÃ?</p>
           </div>
-          <a href="#cartao" aria-label="Conhecer o cartão" className="mt-8 text-primary-foreground/70 transition-colors hover:text-primary-foreground"><ArrowDown /></a>
+          <div className="hidden self-end pb-10 lg:block">
+            <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} className="ml-auto w-full max-w-xl object-contain drop-shadow-2xl" />
+          </div>
         </div>
+      </section>
+
+      <section aria-label="Vídeo institucional da Imã" className="bg-primary-deep py-8 sm:py-12">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12"><div className="overflow-hidden rounded-md"><HeroMedia /></div></div>
       </section>
 
       <section id="cartao" className="bg-surface py-20 sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center lg:px-12">
           <div>
             <p className="eyebrow">Cartão multibenefícios Visa</p>
-            <h1 className="section-title mt-4">Um cartão. Múltiplas possibilidades.</h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">A Imã reúne categorias de benefícios em uma experiência simples, acompanhada de aplicativo para consultar saldo, acompanhar compras e gerenciar o cartão.</p>
+            <h2 className="section-title mt-4">Um cartão. Múltiplas possibilidades.</h2>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">A Imã reúne diferentes categorias em um cartão físico Visa e um aplicativo para consultar saldo, acompanhar compras e gerenciar a experiência.</p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {["Cartão físico Visa", "Pagamento por aproximação", "Compras físicas e digitais", "Gestão pelo aplicativo"].map((item) => <p key={item} className="flex items-center gap-3 font-bold text-primary"><span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-mint"><Check className="size-4" /></span>{item}</p>)}
             </div>
           </div>
-          <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} className="w-full object-contain" />
+          <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} loading="lazy" className="w-full object-contain" />
+        </div>
+      </section>
+
+      <section id="sua-marca" className="bg-primary py-20 text-primary-foreground sm:py-28">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-12">
+          <div>
+            <p className="eyebrow text-brand-mint">O maior diferencial</p>
+            <h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Seu benefício pode carregar a marca que seus colaboradores já conhecem.</h2>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/75">A IMÃ transforma o cartão de benefícios em uma extensão da identidade da sua empresa. Cartão, aplicativo e experiência de entrega podem ser personalizados para fortalecer pertencimento, reconhecimento e conexão com os colaboradores.</p>
+            <p className="mt-7 border-l-4 border-accent pl-5 text-xl font-bold">O benefício é oferecido pela sua empresa. A marca lembrada também pode ser a sua.</p>
+            <Button asChild size="lg" className="mt-9 h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href="#contato">Quero ver minha marca nessa experiência <ArrowRight /></a></Button>
+          </div>
+          <div className="relative">
+            <img src={brandExperience.url} alt="Exemplo conceitual de experiência personalizada com cartão, aplicativo e materiais de marca" loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
+            <p className="mt-4 text-sm leading-relaxed text-primary-foreground/65">Exemplo conceitual. As possibilidades de personalização dependem da configuração contratada e da validação técnica.</p>
+          </div>
         </div>
       </section>
 
@@ -198,22 +247,6 @@ function Index() {
           <div className="max-w-3xl"><p className="eyebrow">Benefícios para diferentes momentos</p><h2 className="section-title mt-4">Uma solução que acompanha a vida real.</h2><p className="mt-5 text-lg leading-relaxed text-muted-foreground">Categorias e experiências disponíveis conforme a configuração contratada e a validação técnica.</p></div>
           <div className="mt-12 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
             {benefits.map(({ icon: Icon, title, text }) => <article key={title} className="group min-h-60 bg-background p-7 transition-colors hover:bg-surface sm:p-8"><div className="flex size-11 items-center justify-center rounded-md bg-brand-mint text-primary"><Icon className="size-5" /></div><h3 className="mt-7 text-xl font-bold text-primary">{title}</h3><p className="mt-3 leading-relaxed text-muted-foreground">{text}</p></article>)}
-          </div>
-        </div>
-      </section>
-
-      <section id="sua-marca" className="bg-primary py-20 text-primary-foreground sm:py-28">
-        <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-12">
-          <div>
-            <p className="eyebrow text-brand-mint">O maior diferencial</p>
-            <h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Os benefícios da sua empresa também podem ter a sua marca.</h2>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/75">Com a Imã, cartão, aplicativo e comunicação podem carregar a identidade da sua empresa. O colaborador reconhece a marca, percebe o cuidado e vivencia o benefício como parte da cultura da organização.</p>
-            <p className="mt-7 border-l-4 border-accent pl-5 text-xl font-bold">Se a sua empresa investe nos benefícios, a sua marca deve fazer parte dessa experiência.</p>
-            <Button asChild size="lg" className="mt-9 h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href="#contato">Quero ver minha marca nessa experiência <ArrowRight /></a></Button>
-          </div>
-          <div className="relative">
-            <img src={brandExperience.url} alt="Exemplo conceitual de experiência personalizada com cartão, aplicativo e materiais de marca" loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
-            <p className="mt-4 text-sm leading-relaxed text-primary-foreground/65">Exemplo conceitual. As possibilidades de personalização dependem da configuração contratada e da validação técnica.</p>
           </div>
         </div>
       </section>
@@ -253,24 +286,31 @@ function Index() {
       <section className="py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid gap-6 lg:grid-cols-3">
-            <article className="info-panel bg-primary text-primary-foreground"><CreditCard /><p className="info-kicker text-brand-mint">Visa</p><h2>Liberdade para usar. Segurança para confiar.</h2><p>Cartão com bandeira Visa, pagamento por aproximação e uso em estabelecimentos físicos e digitais, conforme configuração.</p></article>
+            <article className="info-panel bg-primary text-primary-foreground"><CreditCard /><p className="info-kicker text-brand-mint">Visa</p><h2>Liberdade para usar. Segurança para sua empresa.</h2><p>Com a aceitação da bandeira Visa, o colaborador utiliza seus benefícios nos estabelecimentos compatíveis com cada categoria, enquanto a empresa conta com uma operação estruturada.</p></article>
             <article className="info-panel"><Bus /><p className="info-kicker">Mobilidade</p><h2>Da casa ao trabalho, com mais simplicidade.</h2><p>Vale-transporte e mobilidade podem ser organizados de forma integrada, conforme serviços contratados e cobertura disponível.</p></article>
-            <article className="info-panel"><Award /><p className="info-kicker">Premiação</p><h2>Reconhecimento que o colaborador percebe.</h2><p>Apoio a incentivos, campanhas internas e conquistas, sempre com estruturação adequada e sem substituir salário ou verbas obrigatórias.</p></article>
+            <article className="info-panel"><Award /><p className="info-kicker">Premiação</p><h2>Reconheça resultados sem deixar sua marca de fora.</h2><p>Premiações podem apoiar campanhas, metas e conquistas, com estruturação adequada e sem substituir salário ou verbas obrigatórias.</p></article>
           </div>
         </div>
       </section>
 
       <section className="bg-primary py-20 text-primary-foreground sm:py-24">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:px-12">
-          <div><Gift className="size-10 text-brand-mint" /><p className="eyebrow mt-7 text-brand-mint">Clube de benefícios</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Vantagens que continuam além do cartão.</h2></div>
+          <div><Gift className="size-10 text-brand-mint" /><p className="eyebrow mt-7 text-brand-mint">Clube de benefícios</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Um cartão. Várias formas de cuidar e reconhecer.</h2></div>
           <div><p className="text-xl leading-relaxed text-primary-foreground/80">Um ecossistema de vantagens pode ampliar a percepção de valor com descontos, saúde, bem-estar, lazer, cultura, serviços e conveniência.</p><p className="mt-5 text-sm text-primary-foreground/60">Condições, parceiros e vantagens estão sujeitos à disponibilidade e à configuração comercial.</p></div>
+        </div>
+      </section>
+
+      <section className="bg-background py-20 sm:py-28">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:items-center lg:px-12">
+          <img src={deliveryExperience} alt="Colaboradora recebendo uma experiência de boas-vindas" width={1600} height={1200} loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
+          <div><p className="eyebrow">Pertencimento em cada entrega</p><h2 className="section-title mt-4">Uma experiência que torna o cuidado visível.</h2><p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">Da carta-berço ao uso cotidiano, cada contato pode aproximar o colaborador da cultura e da identidade da empresa.</p><Button asChild size="lg" className="mt-8 h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href="#contato">Quero personalizar meu cartão <ArrowRight /></a></Button></div>
         </div>
       </section>
 
       <section id="seguranca" className="bg-surface py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid gap-8 lg:grid-cols-2">
-            <article className="rounded-md border border-border bg-background p-7 sm:p-10"><Scale className="size-9 text-accent" /><p className="eyebrow mt-7">PAT e segurança jurídica</p><h2 className="mt-4 text-3xl font-extrabold text-primary sm:text-4xl">Benefícios estruturados com mais segurança.</h2><p className="mt-5 leading-relaxed text-muted-foreground">A Imã oferece uma estrutura preparada para apoiar empresas na organização de seus benefícios. A definição da política e seu enquadramento jurídico devem considerar a realidade de cada organização, as regras do PAT, a legislação aplicável e a separação adequada das categorias.</p></article>
+            <article className="rounded-md border border-border bg-background p-7 sm:p-10"><Scale className="size-9 text-accent" /><p className="eyebrow mt-7">PAT e segurança jurídica</p><h2 className="mt-4 text-3xl font-extrabold text-primary sm:text-4xl">Benefícios bem estruturados protegem a empresa e valorizam as pessoas.</h2><p className="mt-5 leading-relaxed text-muted-foreground">A Imã oferece uma estrutura preparada para apoiar empresas na organização de seus benefícios. A definição da política e seu enquadramento jurídico devem considerar a realidade de cada organização, as regras do PAT, a legislação aplicável e a separação adequada das categorias.</p></article>
             <article className="rounded-md border border-border bg-background p-7 sm:p-10"><HeartHandshake className="size-9 text-accent" /><p className="eyebrow mt-7">NR-1 e bem-estar</p><h2 className="mt-4 text-3xl font-extrabold text-primary sm:text-4xl">Cuidar das pessoas também faz parte da gestão de riscos.</h2><p className="mt-5 leading-relaxed text-muted-foreground">Benefícios de saúde, bem-estar e apoio podem integrar uma estratégia mais ampla de cuidado. A gestão de riscos psicossociais exige diagnóstico, prevenção, acompanhamento e ações organizacionais próprias.</p></article>
           </div>
           <p className="mt-7 text-center text-xs leading-relaxed text-muted-foreground">As informações apresentadas têm caráter institucional e não substituem orientação jurídica, trabalhista ou contábil. A solução não substitui o PGR, profissionais especializados ou medidas obrigatórias.</p>
@@ -282,10 +322,18 @@ function Index() {
           <div className="text-center"><p className="eyebrow justify-center">Dúvidas frequentes</p><h2 className="section-title mt-4">O essencial sobre a Imã.</h2></div>
           <div className="mt-12 divide-y divide-border border-y border-border">
             {[
-              ["O que é a Imã?", "Uma solução de multibenefícios corporativos que reúne cartão Visa, aplicativo e uma experiência pensada para atrair, valorizar e reter pessoas."],
-              ["A empresa pode ter sua marca no cartão?", "Sim. Cartão, aplicativo e comunicação podem receber a identidade da empresa, conforme a configuração contratada e a validação técnica."],
-              ["Quais benefícios podem ser oferecidos?", "A solução pode contemplar alimentação, refeição, mobilidade, saúde, bem-estar, cultura, lazer, premiação, reconhecimento e clube de benefícios, conforme contratação e disponibilidade."],
-              ["A Imã garante conformidade com PAT ou NR-1?", "Não de forma isolada. A Imã apoia a organização dos benefícios, enquanto políticas, enquadramento jurídico e gestão de riscos dependem da realidade e das responsabilidades de cada empresa."],
+              ["O que é o cartão IMÃ?", "É um cartão multibenefícios Visa acompanhado de aplicativo e de uma experiência que pode receber a identidade da empresa contratante."],
+              ["Quais benefícios podem ser disponibilizados?", "Alimentação, refeição, mobilidade, vale-transporte, saúde e bem-estar, educação, home office, premiação, saldo livre e clube de benefícios podem estar disponíveis conforme contratação e validação comercial."],
+              ["O cartão pode ter a marca da minha empresa?", "Sim. A personalização depende da configuração contratada e da validação técnica do layout."],
+              ["O aplicativo também pode ser personalizado?", "A identidade da empresa pode estar presente no aplicativo e em outros pontos da jornada, conforme o escopo aprovado."],
+              ["Como funciona a bandeira Visa?", "O cartão pode ser utilizado em estabelecimentos compatíveis com cada categoria e configuração, com a praticidade e os recursos previstos na solução."],
+              ["A solução atende às regras do PAT?", "A estrutura pode apoiar a gestão adequada. O enquadramento deve considerar a política da empresa, a finalidade de cada categoria e a legislação aplicável."],
+              ["É possível incluir vale-transporte?", "A possibilidade depende dos serviços contratados, da cobertura disponível e da validação comercial."],
+              ["É possível realizar campanhas de premiação?", "Sim, conforme estruturação adequada. Premiações não devem substituir salário ou verbas obrigatórias."],
+              ["Como funciona o clube de benefícios?", "O colaborador pode acessar condições e vantagens adicionais conforme o ecossistema disponibilizado."],
+              ["Qual é o prazo de implantação?", "O prazo varia conforme escopo, personalização e validações necessárias. A equipe comercial apresenta uma estimativa para cada projeto."],
+              ["Existe quantidade mínima de colaboradores?", "As condições dependem da proposta comercial. Converse com a equipe para avaliar o cenário da sua empresa."],
+              ["Como solicitar uma prévia personalizada?", "Preencha o formulário e envie seu logotipo. A equipe comercial avaliará o material e orientará os próximos passos."],
             ].map(([question, answer]) => <details key={question} className="group py-6"><summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-bold text-primary">{question}<ChevronDown className="size-5 shrink-0 transition-transform group-open:rotate-180" /></summary><p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">{answer}</p></details>)}
           </div>
         </div>
@@ -293,12 +341,12 @@ function Index() {
 
       <section className="relative overflow-hidden bg-accent py-16 text-accent-foreground sm:py-20">
         <div className="wave-lines absolute inset-0 opacity-20" />
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-8"><p className="text-sm font-extrabold uppercase tracking-[.16em]">Sua empresa tem IMÃ?</p><h2 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">Transforme benefícios em uma experiência que carrega a identidade da sua empresa.</h2><p className="mt-5 max-w-3xl text-lg leading-relaxed text-accent-foreground/75">Aproxime pessoas, fortaleça vínculos e torne o cuidado da empresa reconhecível todos os dias.</p><Button asChild size="lg" className="mt-8 h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href="#contato">Quero levar a Imã para minha empresa <ArrowRight /></a></Button></div>
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-8"><p className="text-sm font-extrabold uppercase">Sua empresa tem IMÃ?</p><h2 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">Benefícios que atraem. Pessoas que ficam.</h2><p className="mt-5 max-w-3xl text-lg leading-relaxed text-accent-foreground/75">Quando o benefício carrega a marca da empresa, cada uso também reforça pertencimento, reconhecimento e conexão.</p><Button asChild size="lg" className="mt-8 h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href="#contato">Quero colocar minha marca nessa experiência <ArrowRight /></a></Button></div>
       </section>
 
       <section id="contato" className="bg-primary py-20 text-primary-foreground sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:px-12">
-          <div className="lg:sticky lg:top-28"><p className="eyebrow text-brand-mint">Conversa comercial</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Vamos criar uma experiência que tenha a marca da sua empresa?</h2><p className="mt-6 max-w-lg text-lg leading-relaxed text-primary-foreground/70">Conte um pouco sobre o seu momento. Sua mensagem será preparada no aplicativo de e-mail para envio.</p></div>
+          <div className="lg:sticky lg:top-28"><p className="eyebrow text-brand-mint">Prévia personalizada</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Veja como sua marca ficaria no cartão.</h2><p className="mt-6 max-w-lg text-lg leading-relaxed text-primary-foreground/70">Envie sua identidade visual e descubra como a experiência de benefícios pode ganhar ainda mais força. A prévia será avaliada e preparada pela equipe comercial.</p></div>
           <form onSubmit={submitCommercialForm} className="grid gap-5 rounded-md bg-background p-6 text-foreground shadow-xl sm:grid-cols-2 sm:p-8">
             <Field label="Nome" name="nome" autoComplete="name" required />
             <Field label="Empresa" name="empresa" autoComplete="organization" required />
@@ -306,11 +354,10 @@ function Index() {
             <Field label="E-mail corporativo" name="email" type="email" autoComplete="email" required />
             <Field label="WhatsApp" name="whatsapp" type="tel" autoComplete="tel" required />
             <label className="form-label">Número aproximado de colaboradores<select name="colaboradores" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option><option>Até 50</option><option>De 51 a 200</option><option>De 201 a 500</option><option>De 501 a 1.000</option><option>Mais de 1.000</option></select></label>
-            <label className="form-label">Benefícios de interesse<input name="beneficios" required maxLength={300} placeholder="Ex.: alimentação, mobilidade e bem-estar" className="form-control" /></label>
-            <label className="form-label">Interesse em cartão personalizado<select name="personalizado" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option><option>Sim</option><option>Quero entender melhor</option><option>Ainda não sei</option></select></label>
-            <label className="form-label sm:col-span-2">Mensagem<textarea name="mensagem" rows={4} maxLength={1000} className="form-control h-auto resize-none py-3" /></label>
+            <label className="form-label sm:col-span-2">Envie seu logotipo <span className="flex min-h-24 cursor-pointer items-center justify-center gap-3 rounded-md border border-dashed border-input bg-surface px-4 text-center text-muted-foreground transition-colors hover:border-primary"><Upload className="size-5" />Selecionar arquivo<input name="logo" type="file" accept="image/png,image/jpeg,image/svg+xml,application/pdf" className="sr-only" /></span><span className="font-normal text-muted-foreground">PNG, JPG, SVG ou PDF, com até 5 MB. O arquivo deverá ser anexado ao e-mail preparado.</span></label>
             <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground sm:col-span-2"><input type="checkbox" name="consentimento" required className="mt-1 size-4 shrink-0 accent-primary" />Autorizo o tratamento dos meus dados para receber contato comercial da Imã.</label>
-            <Button type="submit" size="lg" className="h-12 bg-accent text-accent-foreground hover:bg-accent/90 sm:col-span-2">Solicitar uma proposta <ArrowRight /></Button>
+            {formNotice && <p role="status" className="rounded-md bg-surface p-3 text-sm text-primary sm:col-span-2">{formNotice}</p>}
+            <Button type="submit" size="lg" className="h-12 bg-accent text-accent-foreground hover:bg-accent/90 sm:col-span-2">Quero uma prévia personalizada <ArrowRight /></Button>
           </form>
         </div>
       </section>
