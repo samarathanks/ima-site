@@ -2,7 +2,7 @@
 
 - [x] Analisar o manual da marca e os layouts validados
 - [x] Construir a página comercial com identidade própria da Imã
-- [x] Manter a Biz apenas na assinatura técnica discreta do rodapé, conforme orientação atual
+- [x] Remover toda e qualquer menção à Biz do site (decisão definitiva; nunca reintroduzir)
 - [x] Contatos oficiais: e-mail (mailto contextualizado), WhatsApp (wa.me) e Instagram (@somos.ima), com ícones clicáveis no rodapé
 - [x] Substituir as telas escuras do aplicativo por telas legíveis no estilo da Imã (saldo, cartão, perfil)
 - [x] Confirmar contatos: contato@ima.com.br, (11) 99644-3300, instagram somos.ima
