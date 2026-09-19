@@ -326,7 +326,7 @@ function Index() {
               <ContactIcon href={CONTACT_LINKS.instagram} label="Visitar o Instagram" external><Instagram /></ContactIcon>
             </div>
           </div>
-          <div className="flex flex-col gap-3 border-t border-primary-foreground/15 pt-7 text-xs text-primary-foreground/50 sm:flex-row sm:items-center sm:justify-between"><p>© 2026 Imã. Todos os direitos reservados.</p><p>Tecnologia e infraestrutura operacional fornecidas pela Biz.</p></div>
+          <div className="flex flex-col gap-3 border-t border-primary-foreground/15 pt-7 text-xs text-primary-foreground/50 sm:flex-row sm:items-center sm:justify-between"><p>© 2026 Imã. Todos os direitos reservados.</p></div>
         </div>
       </footer>
     </main>
