@@ -7,6 +7,7 @@ import {
   CreditCard,
   HeartHandshake,
   Instagram,
+  Mail,
   Menu,
   ShieldCheck,
   Smartphone,
@@ -16,13 +17,25 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-import appAccess from "@/assets/app-access.png.asset.json";
-import appBenefits from "@/assets/app-benefits.png.asset.json";
-import appProfile from "@/assets/app-profile.png.asset.json";
+import appCartao from "@/assets/app-cartao.png.asset.json";
+import appPerfil from "@/assets/app-perfil.png.asset.json";
+import appSaldo from "@/assets/app-saldo.png.asset.json";
 import brandExperience from "@/assets/ima-brand-experience.png.asset.json";
 import cards from "@/assets/ima-cards.png.asset.json";
 import logo from "@/assets/ima-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
+
+const WHATSAPP_HREF =
+  "https://wa.me/5511996443300?text=Ol%C3%A1%2C%20quero%20conhecer%20a%20Im%C3%A3%20e%20ver%20a%20marca%20da%20minha%20empresa%20na%20experi%C3%AAncia%20de%20benef%C3%ADcios.";
+
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
+    </svg>
+  );
+}
+
 
 const contactHref =
   "mailto:contato@ima.com.br?subject=Quero%20conhecer%20a%20Im%C3%A3&body=Ol%C3%A1%2C%20quero%20ver%20a%20marca%20da%20minha%20empresa%20na%20experi%C3%AAncia%20de%20benef%C3%ADcios.";
@@ -214,9 +227,9 @@ function Index() {
               <p className="text-xs font-bold uppercase tracking-[.16em] text-brand-mint">Aplicativo personalizado</p>
               <h2 className="mt-4 max-w-md text-3xl font-extrabold leading-tight sm:text-4xl">A identidade da empresa acompanha o colaborador.</h2>
             </div>
-            <img src={appBenefits.url} alt="Tela de benefícios no aplicativo Imã" className="absolute bottom-[-8%] left-[3%] h-[65%] rotate-[-5deg] drop-shadow-2xl" />
-            <img src={appAccess.url} alt="Tela de acesso do aplicativo Imã" className="absolute bottom-[-3%] z-10 h-[72%] drop-shadow-2xl" />
-            <img src={appProfile.url} alt="Tela de perfil do aplicativo Imã" className="absolute bottom-[-8%] right-[-2%] h-[65%] rotate-[5deg] drop-shadow-2xl" />
+            <img src={appSaldo.url} alt="Tela de saldo e benefícios no aplicativo Imã" className="absolute bottom-[-8%] left-[3%] h-[65%] rotate-[-5deg] drop-shadow-2xl" />
+            <img src={appCartao.url} alt="Tela de cartão virtual do aplicativo Imã" className="absolute bottom-[-3%] z-10 h-[72%] drop-shadow-2xl" />
+            <img src={appPerfil.url} alt="Tela de perfil do colaborador no aplicativo Imã" className="absolute bottom-[-8%] right-[-2%] h-[65%] rotate-[5deg] drop-shadow-2xl" />
           </div>
           <div>
             <p className="eyebrow text-brand-mint">Experiência digital</p>
@@ -290,16 +303,27 @@ function Index() {
             </div>
             <a href={contactHref} className="inline-flex items-center gap-2 text-sm font-bold hover:text-brand-mint">Fale com a Imã <ArrowRight className="size-4" /></a>
           </div>
-          <div className="flex flex-col gap-4 text-sm sm:flex-row sm:items-center sm:gap-8">
-            <a href={contactHref} className="font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">contato@ima.com.br</a>
-            <a href="tel:+5511996443300" className="font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">(11) 99644-3300</a>
-            <a href="https://instagram.com/somos.ima" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">
-              <Instagram className="size-4" /> @somos.ima
-            </a>
+          <div className="flex flex-col gap-5 text-sm sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-8">
+              <a href={contactHref} className="inline-flex items-center gap-2 font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">
+                <Mail className="size-4" /> contato@ima.com.br
+              </a>
+              <a href="tel:+5511996443300" className="font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">(11) 99644-3300</a>
+            </div>
+            <div className="flex items-center gap-3">
+              <a href={contactHref} aria-label="Enviar e-mail para a Imã" className="flex size-10 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-brand-mint hover:text-brand-mint">
+                <Mail className="size-4" />
+              </a>
+              <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer" aria-label="Falar com a Imã no WhatsApp" className="flex size-10 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-brand-mint hover:text-brand-mint">
+                <WhatsAppIcon className="size-4" />
+              </a>
+              <a href="https://instagram.com/somos.ima" target="_blank" rel="noreferrer" aria-label="Seguir a Imã no Instagram" className="flex size-10 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-brand-mint hover:text-brand-mint">
+                <Instagram className="size-4" />
+              </a>
+            </div>
           </div>
-          <div className="flex flex-col justify-between gap-3 border-t border-primary-foreground/15 pt-7 text-xs text-primary-foreground/50 sm:flex-row">
+          <div className="border-t border-primary-foreground/15 pt-7 text-xs text-primary-foreground/50">
             <p>© 2026 Imã. Todos os direitos reservados.</p>
-            <p>Made by Biz. Tecnologia e infraestrutura operacional fornecidas pela Biz.</p>
           </div>
         </div>
       </footer>
