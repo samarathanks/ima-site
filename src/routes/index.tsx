@@ -6,6 +6,7 @@ import {
   Check,
   CreditCard,
   HeartHandshake,
+  Instagram,
   Menu,
   ShieldCheck,
   Smartphone,
