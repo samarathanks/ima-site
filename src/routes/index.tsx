@@ -227,9 +227,9 @@ function Index() {
               <p className="text-xs font-bold uppercase tracking-[.16em] text-brand-mint">Aplicativo personalizado</p>
               <h2 className="mt-4 max-w-md text-3xl font-extrabold leading-tight sm:text-4xl">A identidade da empresa acompanha o colaborador.</h2>
             </div>
-            <img src={appBenefits.url} alt="Tela de benefícios no aplicativo Imã" className="absolute bottom-[-8%] left-[3%] h-[65%] rotate-[-5deg] drop-shadow-2xl" />
-            <img src={appAccess.url} alt="Tela de acesso do aplicativo Imã" className="absolute bottom-[-3%] z-10 h-[72%] drop-shadow-2xl" />
-            <img src={appProfile.url} alt="Tela de perfil do aplicativo Imã" className="absolute bottom-[-8%] right-[-2%] h-[65%] rotate-[5deg] drop-shadow-2xl" />
+            <img src={appSaldo.url} alt="Tela de saldo e benefícios no aplicativo Imã" className="absolute bottom-[-8%] left-[3%] h-[65%] rotate-[-5deg] drop-shadow-2xl" />
+            <img src={appCartao.url} alt="Tela de cartão virtual do aplicativo Imã" className="absolute bottom-[-3%] z-10 h-[72%] drop-shadow-2xl" />
+            <img src={appPerfil.url} alt="Tela de perfil do colaborador no aplicativo Imã" className="absolute bottom-[-8%] right-[-2%] h-[65%] rotate-[5deg] drop-shadow-2xl" />
           </div>
           <div>
             <p className="eyebrow text-brand-mint">Experiência digital</p>
