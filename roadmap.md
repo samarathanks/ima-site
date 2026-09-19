@@ -21,4 +21,4 @@
 - [x] Posicionar o vídeo oficial após a abertura, com capa e redução de movimento
 - [x] Reforçar personalização, categorias, confiança e imagens humanas
 - [x] Transformar o formulário em solicitação de prévia personalizada
-- [ ] Validar toda a experiência em computador e celular
+- [x] Validar toda a experiência em computador e celular

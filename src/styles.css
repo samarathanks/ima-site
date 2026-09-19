@@ -309,6 +309,12 @@
   position: absolute;
 }
 
+.hero-fade {
+  background:
+    linear-gradient(90deg, var(--primary) 0%, color-mix(in oklab, var(--primary) 94%, transparent) 28%, color-mix(in oklab, var(--primary) 42%, transparent) 58%, transparent 82%),
+    linear-gradient(0deg, color-mix(in oklab, var(--primary) 72%, transparent) 0%, transparent 48%);
+}
+
 .wave-lines {
   background-image: repeating-radial-gradient(ellipse at 50% 120%, transparent 0 26px, color-mix(in oklab, var(--accent-foreground) 20%, transparent) 27px 28px);
 }
@@ -330,4 +336,10 @@
   html { scroll-behavior: auto; }
   .animate-rise, .animate-float { animation: none; }
   .hero-video { display: none; }
+}
+
+@media (max-width: 63.99rem) {
+  .hero-fade {
+    background: linear-gradient(0deg, var(--primary) 8%, color-mix(in oklab, var(--primary) 90%, transparent) 48%, color-mix(in oklab, var(--primary) 36%, transparent) 100%);
+  }
 }

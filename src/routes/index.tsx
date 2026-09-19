@@ -202,8 +202,8 @@ function Index() {
             </div>
             <p className="mt-9 text-xl font-extrabold text-brand-mint">Sua empresa tem IMÃ?</p>
           </div>
-          <div className="hidden self-end pb-10 lg:block">
-            <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} className="ml-auto w-full max-w-xl object-contain drop-shadow-2xl" />
+          <div className="self-end pb-2 lg:pb-10">
+            <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} className="mx-auto w-full max-w-sm object-contain drop-shadow-2xl lg:ml-auto lg:max-w-xl" />
           </div>
         </div>
       </section>
@@ -354,7 +354,7 @@ function Index() {
             <Field label="E-mail corporativo" name="email" type="email" autoComplete="email" required />
             <Field label="WhatsApp" name="whatsapp" type="tel" autoComplete="tel" required />
             <label className="form-label">Número aproximado de colaboradores<select name="colaboradores" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option><option>Até 50</option><option>De 51 a 200</option><option>De 201 a 500</option><option>De 501 a 1.000</option><option>Mais de 1.000</option></select></label>
-            <label className="form-label sm:col-span-2">Envie seu logotipo <span className="flex min-h-24 cursor-pointer items-center justify-center gap-3 rounded-md border border-dashed border-input bg-surface px-4 text-center text-muted-foreground transition-colors hover:border-primary"><Upload className="size-5" />Selecionar arquivo<input name="logo" type="file" accept="image/png,image/jpeg,image/svg+xml,application/pdf" className="sr-only" /></span><span className="font-normal text-muted-foreground">PNG, JPG, SVG ou PDF, com até 5 MB. O arquivo deverá ser anexado ao e-mail preparado.</span></label>
+            <label className="form-label sm:col-span-2">Envie seu logotipo <span className="flex min-h-24 cursor-pointer items-center justify-center gap-3 rounded-md border border-dashed border-input bg-surface px-4 text-center text-muted-foreground transition-colors hover:border-primary"><Upload className="size-5" />Selecionar arquivo<input name="logo" type="file" required accept="image/png,image/jpeg,image/svg+xml,application/pdf" className="sr-only" /></span><span className="font-normal text-muted-foreground">PNG, JPG, SVG ou PDF, com até 5 MB. O arquivo deverá ser anexado ao e-mail preparado.</span></label>
             <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground sm:col-span-2"><input type="checkbox" name="consentimento" required className="mt-1 size-4 shrink-0 accent-primary" />Autorizo o tratamento dos meus dados para receber contato comercial da Imã.</label>
             {formNotice && <p role="status" className="rounded-md bg-surface p-3 text-sm text-primary sm:col-span-2">{formNotice}</p>}
             <Button type="submit" size="lg" className="h-12 bg-accent text-accent-foreground hover:bg-accent/90 sm:col-span-2">Quero uma prévia personalizada <ArrowRight /></Button>
