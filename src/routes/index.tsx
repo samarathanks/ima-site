@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SiWhatsapp } from "@icons-pack/react-simple-icons";
 import {
   ArrowDown,
   ArrowRight,
@@ -9,6 +10,7 @@ import {
   Instagram,
   Mail,
   Menu,
+  Phone,
   ShieldCheck,
   Smartphone,
   Sparkles,
@@ -22,23 +24,53 @@ import appPerfil from "@/assets/app-perfil.png.asset.json";
 import appSaldo from "@/assets/app-saldo.png.asset.json";
 import brandExperience from "@/assets/ima-brand-experience.png.asset.json";
 import cards from "@/assets/ima-cards.png.asset.json";
+import heroPeople from "@/assets/ima-hero-people.jpg";
 import logo from "@/assets/ima-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 
-const WHATSAPP_HREF =
-  "https://wa.me/5511996443300?text=Ol%C3%A1%2C%20quero%20conhecer%20a%20Im%C3%A3%20e%20ver%20a%20marca%20da%20minha%20empresa%20na%20experi%C3%AAncia%20de%20benef%C3%ADcios.";
+// Canais configuráveis: substitua somente os valores abaixo quando os destinos definitivos forem aprovados.
+const CONTACT_LINKS = {
+  email: "mailto:contato@ima.com.br",
+  phone: "tel:+5511996443300",
+  whatsapp: "https://wa.me/5511996443300",
+  instagram: "https://instagram.com/somos.ima",
+};
 
-function WhatsAppIcon({ className }: { className?: string }) {
+// Adicione os arquivos finais em /public/videos e preencha esta lista para ativar o vídeo automaticamente.
+const HERO_VIDEO_SOURCES: Array<{ src: string; type: string }> = [];
+
+function HeroMedia() {
+  const hasVideo = HERO_VIDEO_SOURCES.length > 0;
+
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
-    </svg>
+    <div className="absolute inset-0">
+      <img
+        src={heroPeople}
+        alt="Pessoas vivendo momentos de trabalho, alimentação, mobilidade e bem-estar"
+        width={1920}
+        height={1080}
+        className="h-full w-full object-cover object-center"
+      />
+      {hasVideo && (
+        <video
+          className="hero-video absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={heroPeople}
+          aria-label="Vídeo institucional da Imã sobre pessoas, benefícios e pertencimento"
+        >
+          {HERO_VIDEO_SOURCES.map((source) => (
+            <source key={source.src} src={source.src} type={source.type} />
+          ))}
+        </video>
+      )}
+      <div className="absolute inset-0 bg-primary/70" />
+    </div>
   );
 }
-
-
-const contactHref =
-  "mailto:contato@ima.com.br?subject=Quero%20conhecer%20a%20Im%C3%A3&body=Ol%C3%A1%2C%20quero%20ver%20a%20marca%20da%20minha%20empresa%20na%20experi%C3%AAncia%20de%20benef%C3%ADcios.";
 
 const featureGroups = [
   {
@@ -98,6 +130,16 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  function submitCommercialForm(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const subject = encodeURIComponent("Quero conhecer a Imã");
+    const body = encodeURIComponent(
+      `Nome: ${data.get("nome")}\nEmpresa: ${data.get("empresa")}\nE-mail: ${data.get("email")}\nTelefone: ${data.get("telefone") || "Não informado"}\n\nMensagem:\n${data.get("mensagem") || "Quero conhecer a solução da Imã."}`,
+    );
+    window.location.href = `${CONTACT_LINKS.email}?subject=${subject}&body=${body}`;
+  }
+
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <header className="absolute inset-x-0 top-0 z-50 border-b border-primary-foreground/15">
@@ -110,7 +152,7 @@ function Index() {
             <a className="nav-link" href="#experiencia">A experiência</a>
             <a className="nav-link" href="#como-funciona">Como funciona</a>
             <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <a href={contactHref}>Fale com a Imã <ArrowRight /></a>
+              <a href="#contato">Fale com a Imã <ArrowRight /></a>
             </Button>
           </nav>
           <Button
@@ -131,14 +173,15 @@ function Index() {
               <a className="nav-link" href="#experiencia" onClick={() => setMenuOpen(false)}>A experiência</a>
               <a className="nav-link" href="#como-funciona" onClick={() => setMenuOpen(false)}>Como funciona</a>
               <Button asChild className="mt-2 bg-accent text-accent-foreground hover:bg-accent/90">
-                <a href={contactHref}>Fale com a Imã <ArrowRight /></a>
+                <a href="#contato" onClick={() => setMenuOpen(false)}>Fale com a Imã <ArrowRight /></a>
               </Button>
             </div>
           </nav>
         )}
       </header>
 
-      <section id="inicio" className="hero-grid relative min-h-[92svh] bg-primary pt-20 text-primary-foreground">
+      <section id="inicio" className="relative min-h-[92svh] bg-primary pt-20 text-primary-foreground">
+        <HeroMedia />
         <div className="mx-auto grid min-h-[calc(92svh-5rem)] max-w-7xl items-center gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[1.05fr_.95fr] lg:px-12 lg:py-16">
           <div className="relative z-10 max-w-2xl animate-rise">
             <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-mint">
@@ -152,17 +195,17 @@ function Index() {
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
               <Button asChild size="lg" className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90">
-                <a href={contactHref}>Quero conhecer a Imã <ArrowRight /></a>
+                <a href="#contato">Quero conhecer a Imã <ArrowRight /></a>
               </Button>
               <a href="#diferencial" className="inline-flex items-center gap-2 text-sm font-semibold text-primary-foreground/85 hover:text-primary-foreground">
                 Entenda o diferencial <ArrowDown className="size-4" />
               </a>
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-xl animate-float lg:mr-0">
-            <div className="absolute -inset-5 rounded-full border border-brand-mint/20" />
-            <div className="absolute -inset-10 rounded-full border border-primary-foreground/10" />
-            <img src={cards.url} alt="Cartões Imã nas versões verde e clara" className="relative z-10 w-full drop-shadow-2xl" />
+          <div className="relative mx-auto h-72 w-full max-w-xl animate-float sm:h-96 lg:mr-0">
+            <div className="absolute inset-x-[4%] top-[8%] h-[70%] rotate-[-4deg] overflow-hidden rounded-md shadow-2xl">
+              <img src={cards.url} alt="Cartão multibenefícios verde da Imã" className="h-[195%] w-full object-cover object-top" />
+            </div>
             <div className="absolute bottom-3 left-1 z-20 max-w-[13rem] rounded-md bg-brand-mint px-4 py-3 text-sm font-bold leading-snug text-primary">
               Sua marca presente em cada escolha.
             </div>
@@ -182,7 +225,7 @@ function Index() {
               <p className="text-2xl font-extrabold text-primary">Tecnologia por trás. Sua marca na frente.</p>
             </div>
             <Button asChild size="lg" className="mt-9 h-12 px-6">
-              <a href={contactHref}>Quero ver minha marca nessa experiência <ArrowRight /></a>
+              <a href="#contato">Quero ver minha marca nessa experiência <ArrowRight /></a>
             </Button>
           </div>
           <div className="relative">
@@ -281,44 +324,61 @@ function Index() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-accent py-20 text-accent-foreground sm:py-24">
+      <section id="contato" className="relative overflow-hidden bg-accent py-20 text-accent-foreground sm:py-24">
         <div className="wave-lines absolute inset-0 opacity-25" />
-        <div className="relative mx-auto flex max-w-5xl flex-col items-start justify-between gap-9 px-5 sm:px-8 lg:flex-row lg:items-end">
-          <div>
+        <div className="relative mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-[.85fr_1.15fr] lg:items-start">
+          <div className="lg:pt-4">
             <p className="text-xs font-bold uppercase tracking-[.16em]">Sua empresa tem Imã?</p>
             <h2 className="mt-4 max-w-3xl text-4xl font-extrabold leading-tight sm:text-5xl">Transforme benefícios em um sinal diário de valorização.</h2>
+            <p className="mt-5 max-w-lg text-lg leading-relaxed text-accent-foreground/75">Conte um pouco sobre sua empresa. A mensagem será preparada no seu aplicativo de e-mail.</p>
           </div>
-          <Button asChild size="lg" className="h-12 shrink-0 bg-primary px-6 text-primary-foreground hover:bg-primary/90">
-            <a href={contactHref}>Vamos conversar <ArrowRight /></a>
-          </Button>
+          <form onSubmit={submitCommercialForm} className="grid gap-4 rounded-md bg-background p-6 text-foreground shadow-xl sm:grid-cols-2 sm:p-8">
+            <label className="grid gap-2 text-sm font-bold text-primary">
+              Nome
+              <input name="nome" required autoComplete="name" className="h-12 rounded-md border border-input bg-background px-4 font-normal outline-none transition-shadow focus:ring-2 focus:ring-ring" />
+            </label>
+            <label className="grid gap-2 text-sm font-bold text-primary">
+              Empresa
+              <input name="empresa" required autoComplete="organization" className="h-12 rounded-md border border-input bg-background px-4 font-normal outline-none transition-shadow focus:ring-2 focus:ring-ring" />
+            </label>
+            <label className="grid gap-2 text-sm font-bold text-primary">
+              E-mail profissional
+              <input name="email" type="email" required autoComplete="email" className="h-12 rounded-md border border-input bg-background px-4 font-normal outline-none transition-shadow focus:ring-2 focus:ring-ring" />
+            </label>
+            <label className="grid gap-2 text-sm font-bold text-primary">
+              Telefone
+              <input name="telefone" type="tel" autoComplete="tel" className="h-12 rounded-md border border-input bg-background px-4 font-normal outline-none transition-shadow focus:ring-2 focus:ring-ring" />
+            </label>
+            <label className="grid gap-2 text-sm font-bold text-primary sm:col-span-2">
+              Como podemos ajudar?
+              <textarea name="mensagem" rows={4} className="resize-none rounded-md border border-input bg-background px-4 py-3 font-normal outline-none transition-shadow focus:ring-2 focus:ring-ring" />
+            </label>
+            <Button type="submit" size="lg" className="h-12 bg-primary text-primary-foreground hover:bg-primary/90 sm:col-span-2">
+              Solicitar uma proposta <ArrowRight />
+            </Button>
+          </form>
         </div>
       </section>
 
-      <footer id="contato" className="bg-primary-deep py-12 text-primary-foreground">
+      <footer className="bg-primary-deep py-12 text-primary-foreground">
         <div className="mx-auto flex max-w-7xl flex-col gap-10 px-5 sm:px-8 lg:px-12">
           <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end">
             <div>
               <img src={logo.url} alt="Imã" className="h-11 w-auto brightness-0 invert" />
               <p className="mt-4 text-sm text-primary-foreground/65">Benefícios que atraem. Pessoas que ficam.</p>
             </div>
-            <a href={contactHref} className="inline-flex items-center gap-2 text-sm font-bold hover:text-brand-mint">Fale com a Imã <ArrowRight className="size-4" /></a>
-          </div>
-          <div className="flex flex-col gap-5 text-sm sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-8">
-              <a href={contactHref} className="inline-flex items-center gap-2 font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">
-                <Mail className="size-4" /> contato@ima.com.br
+            <div className="flex items-center gap-3" aria-label="Canais de contato">
+              <a href={CONTACT_LINKS.email} aria-label="Enviar e-mail" title="Enviar e-mail" className="flex size-12 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-all hover:-translate-y-0.5 hover:border-brand-mint hover:text-brand-mint">
+                <Mail className="size-5" aria-hidden="true" />
               </a>
-              <a href="tel:+5511996443300" className="font-semibold text-primary-foreground/85 transition-colors hover:text-brand-mint">(11) 99644-3300</a>
-            </div>
-            <div className="flex items-center gap-3">
-              <a href={contactHref} aria-label="Enviar e-mail para a Imã" className="flex size-10 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-brand-mint hover:text-brand-mint">
-                <Mail className="size-4" />
+              <a href={CONTACT_LINKS.phone} aria-label="Ligar para a Imã" title="Ligar para a Imã" className="flex size-12 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-all hover:-translate-y-0.5 hover:border-brand-mint hover:text-brand-mint">
+                <Phone className="size-5" aria-hidden="true" />
               </a>
-              <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer" aria-label="Falar com a Imã no WhatsApp" className="flex size-10 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-brand-mint hover:text-brand-mint">
-                <WhatsAppIcon className="size-4" />
+              <a href={CONTACT_LINKS.whatsapp} target="_blank" rel="noreferrer" aria-label="Conversar pelo WhatsApp" title="Conversar pelo WhatsApp" className="flex size-12 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-all hover:-translate-y-0.5 hover:border-brand-mint hover:text-brand-mint">
+                <SiWhatsapp className="size-5" aria-hidden="true" />
               </a>
-              <a href="https://instagram.com/somos.ima" target="_blank" rel="noreferrer" aria-label="Seguir a Imã no Instagram" className="flex size-10 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-colors hover:border-brand-mint hover:text-brand-mint">
-                <Instagram className="size-4" />
+              <a href={CONTACT_LINKS.instagram} target="_blank" rel="noreferrer" aria-label="Visitar o Instagram" title="Visitar o Instagram" className="flex size-12 items-center justify-center rounded-full border border-primary-foreground/25 text-primary-foreground/85 transition-all hover:-translate-y-0.5 hover:border-brand-mint hover:text-brand-mint">
+                <Instagram className="size-5" aria-hidden="true" />
               </a>
             </div>
           </div>
