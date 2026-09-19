@@ -2,16 +2,16 @@
 
 - [x] Analisar o manual da marca e os layouts validados
 - [x] Construir a página comercial com identidade própria da Imã
-- [x] Remover todas as menções à Biz do site (a pedido do usuário)
+- [x] Manter a Biz apenas na assinatura técnica discreta do rodapé, conforme orientação atual
 - [x] Contatos oficiais: e-mail (mailto contextualizado), WhatsApp (wa.me) e Instagram (@somos.ima), com ícones clicáveis no rodapé
 - [x] Substituir as telas escuras do aplicativo por telas legíveis no estilo da Imã (saldo, cartão, perfil)
 - [x] Confirmar contatos: contato@ima.com.br, (11) 99644-3300, instagram somos.ima
 - [x] Remover contatos escritos e manter e-mail, telefone, WhatsApp e Instagram apenas como ícones acessíveis
 - [x] Direcionar todos os botões comerciais ao formulário final
 - [x] Preparar a abertura para vídeo MP4/WebM com autoplay silencioso, loop, capa e redução de movimento
-- [x] Criar capa provisória com pessoas reais e exibir exclusivamente o cartão verde aprovado
+- [x] Substituir a capa provisória pela capa oficial e exibir exclusivamente o cartão verde aprovado
 ## Atualização com materiais oficiais
 
-- [ ] Incorporar os vídeos e a capa oficiais no início do site, sem alterações
-- [ ] Reestruturar conteúdo, navegação e formulário conforme o novo briefing
-- [ ] Validar acessibilidade, desempenho e visual em computador e celular
+- [x] Incorporar os vídeos e a capa oficiais no início do site, sem alterações
+- [x] Reestruturar conteúdo, navegação e formulário conforme o novo briefing
+- [x] Validar acessibilidade, desempenho e visual em computador e celular
