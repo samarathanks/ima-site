@@ -233,6 +233,68 @@
     line-height: 1.65;
     margin-top: 1rem;
   }
+
+  .info-panel {
+    min-height: 25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+  }
+
+  .info-panel > svg {
+    color: var(--accent);
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .info-panel h2 {
+    color: var(--primary);
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-top: 0.75rem;
+  }
+
+  .info-panel p:last-child {
+    color: var(--muted-foreground);
+    line-height: 1.65;
+    margin-top: 1.25rem;
+  }
+
+  .info-panel.bg-primary h2 { color: var(--primary-foreground); }
+  .info-panel.bg-primary p:last-child { color: color-mix(in oklab, var(--primary-foreground) 75%, transparent); }
+
+  .info-kicker {
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    margin-top: 4rem;
+    text-transform: uppercase;
+  }
+
+  .form-label {
+    color: var(--primary);
+    display: grid;
+    font-size: 0.875rem;
+    font-weight: 700;
+    gap: 0.5rem;
+  }
+
+  .form-control {
+    background: var(--background);
+    border: 1px solid var(--input);
+    border-radius: var(--radius);
+    color: var(--foreground);
+    font-weight: 400;
+    height: 3rem;
+    outline: none;
+    padding-inline: 1rem;
+    transition: box-shadow 180ms ease;
+    width: 100%;
+  }
+
+  .form-control:focus { box-shadow: 0 0 0 2px var(--ring); }
 }
 
 .hero-grid::before {
