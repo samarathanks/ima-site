@@ -10,3 +10,8 @@
 - [x] Direcionar todos os botões comerciais ao formulário final
 - [x] Preparar a abertura para vídeo MP4/WebM com autoplay silencioso, loop, capa e redução de movimento
 - [x] Criar capa provisória com pessoas reais e exibir exclusivamente o cartão verde aprovado
+## Atualização com materiais oficiais
+
+- [ ] Incorporar os vídeos e a capa oficiais no início do site, sem alterações
+- [ ] Reestruturar conteúdo, navegação e formulário conforme o novo briefing
+- [ ] Validar acessibilidade, desempenho e visual em computador e celular
