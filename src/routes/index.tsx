@@ -189,7 +189,7 @@ function Index() {
               {["Cartão físico Visa", "Pagamento por aproximação", "Compras físicas e digitais", "Gestão pelo aplicativo"].map((item) => <p key={item} className="flex items-center gap-3 font-bold text-primary"><span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-mint"><Check className="size-4" /></span>{item}</p>)}
             </div>
           </div>
-          <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={1366} height={768} className="w-full rounded-md object-contain" />
+          <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} className="w-full object-contain" />
         </div>
       </section>
 
