@@ -35,3 +35,9 @@
 - [x] Priorizar os CTAs de solução e conversa, mantendo personalização secundária
 - [x] Adicionar movimentos sutis ao cartão, aplicativo, seções e benefícios
 - [x] Validar experiência, acessibilidade e conversão em computador e celular
+
+## Aprimoramento do aplicativo e das soluções
+- [x] Reorganizar a apresentação do aplicativo com saldos, categorias, compras, gestão e experiência do colaborador
+- [x] Destacar somente multibenefícios, premiação, mobilidade e vale-transporte, clube, saúde e bem-estar
+- [x] Manter o formulário único, o cartão verde oficial e a personalização como diferencial opcional
+- [x] Validar a nova experiência em computador e celular
