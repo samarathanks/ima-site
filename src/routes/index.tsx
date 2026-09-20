@@ -239,6 +239,25 @@ function Index() {
       const subject = encodeURIComponent(LEAD_LABEL[kind]);
       const body = encodeURIComponent([...base, ...extra].join("\n"));
 
+      // Estrutura pronta para uma futura integração de CRM.
+      if (LEAD_ENDPOINT) {
+        void fetch(LEAD_ENDPOINT, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            tipo_conversao: LEAD_LABEL[kind],
+            cta,
+            origem: typeof window !== "undefined" ? window.location.href : "",
+            enviado_em: new Date().toISOString(),
+            consentimento: true,
+            campos: Object.fromEntries(
+              [...data.entries()].filter(([, item]) => typeof item === "string"),
+            ),
+          }),
+        }).catch(() => undefined);
+      }
+
+
       setNotice((prev) => ({
         ...prev,
         [kind]: {
