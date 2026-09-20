@@ -72,13 +72,29 @@ const INTEREST_OPTIONS = [
 
 const MEETING_TOPICS = [
   "Cartão multibenefícios",
-  "Personalização com a marca da empresa",
   "Alimentação e refeição",
   "Mobilidade e vale-transporte",
   "Premiação",
   "Clube de benefícios",
+  "Gestão dos benefícios e aplicativo",
   "PAT e gestão responsável",
   "Quero avaliar a solução completa",
+];
+
+const CUSTOM_INTEREST_OPTIONS = [
+  "Sim, gostaria de entender essa possibilidade",
+  "Não neste momento",
+  "Quero conhecer primeiro a solução padrão IMÃ",
+  "Ainda não sei",
+];
+
+const CUSTOM_TYPE_OPTIONS = [
+  "Cartão com a identidade da empresa",
+  "Aplicativo",
+  "Carta-berço e kit de entrega",
+  "Comunicação de implantação",
+  "Jornada de boas-vindas",
+  "Ainda estou avaliando",
 ];
 
 const PRIVACY_NOTE =
@@ -114,20 +130,20 @@ const employeeBenefits = [
   "Consulta de saldo e compras",
   "Gestão e segurança pelo aplicativo",
   "Pagamento por aproximação",
-  "Experiência com a identidade da empresa",
+  "Uso simples no dia a dia",
   "Acesso a vantagens e benefícios",
 ];
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Imã | Cartão multibenefícios com a marca da sua empresa" },
+      { title: "Imã | Cartão multibenefícios para empresas" },
       {
         name: "description",
-        content: "Cartão multibenefícios Visa, aplicativo e comunicação com a identidade da sua empresa. Benefícios que atraem. Pessoas que ficam.",
+        content: "Cartão multibenefícios e aplicativo para alimentação, refeição, mobilidade, premiação e clube de benefícios. Benefícios que atraem. Pessoas que ficam.",
       },
       { property: "og:title", content: "Imã | Benefícios que atraem. Pessoas que ficam." },
-      { property: "og:description", content: "Multibenefícios, cartão e aplicativo com a identidade da sua empresa." },
+      { property: "og:description", content: "Uma solução de benefícios prática, flexível e segura para empresas que querem cuidar melhor das pessoas." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -165,8 +181,8 @@ function HeroMedia() {
 type LeadKind = "previa" | "reuniao";
 
 const LEAD_LABEL: Record<LeadKind, string> = {
-  previa: "Solicitação de prévia personalizada",
-  reuniao: "Solicitação de reunião comercial",
+  previa: "Interesse em personalização",
+  reuniao: "Interesse na solução IMÃ",
 };
 
 function Index() {
@@ -225,15 +241,18 @@ function Index() {
       const extra =
         kind === "previa"
           ? [
-              `Benefícios de maior interesse: ${list("interesses")}`,
+              `Tipo de personalização de interesse: ${list("tipos_personalizacao")}`,
               `Logotipo: ${logoFile instanceof File && logoFile.size > 0 ? "será anexado ao e-mail" : "não enviado"}`,
+              "",
+              "Observação: solicitação de avaliação de projeto personalizado (sujeita à análise).",
             ]
           : [
               `O que deseja conhecer: ${value("tema")}`,
-              `Benefício ou necessidade principal: ${value("necessidade")}`,
+              `Benefícios de maior interesse: ${list("interesses")}`,
+              `Interesse em avaliar personalização da marca: ${value("interesse_personalizacao")}`,
               `Melhor período para contato: ${value("periodo")}`,
               "",
-              `Observações: ${value("mensagem", "—")}`,
+              `Necessidade / observações: ${value("mensagem", "—")}`,
             ];
 
       const subject = encodeURIComponent(LEAD_LABEL[kind]);
@@ -264,7 +283,7 @@ function Index() {
           ok: true,
           text:
             kind === "previa"
-              ? "Recebemos suas informações. Nossa equipe avaliará a melhor forma de apresentar a sua marca na experiência IMÃ e entrará em contato."
+              ? "Recebemos sua solicitação de avaliação. Nossa equipe analisará o cenário da sua empresa e retornará sobre as possibilidades de personalização."
               : "Recebemos sua solicitação. Nossa equipe entrará em contato para entender o cenário da sua empresa e apresentar a solução mais adequada.",
         },
       }));
@@ -288,7 +307,7 @@ function Index() {
           <nav className="hidden items-center gap-5 xl:flex" aria-label="Navegação principal">
             <a className="nav-link" href="#cartao">O cartão</a>
             <a className="nav-link" href="#beneficios">Benefícios</a>
-            <a className="nav-link" href="#sua-marca">Sua marca na Imã</a>
+            <a className="nav-link" href="#sua-marca">Personalização</a>
             <a className="nav-link" href="#empresas">Para empresas</a>
             <a className="nav-link" href="#seguranca">PAT e segurança</a>
             <a className="nav-link" href="#duvidas">Dúvidas</a>
@@ -304,11 +323,11 @@ function Index() {
         {menuOpen && (
           <nav className="border-t border-primary-foreground/15 bg-primary px-5 py-6 xl:hidden" aria-label="Menu móvel">
             <div className="mx-auto flex max-w-7xl flex-col gap-5">
-              {[['O cartão', '#cartao'], ['Benefícios', '#beneficios'], ['Sua marca na Imã', '#sua-marca'], ['Para empresas', '#empresas'], ['PAT e segurança', '#seguranca'], ['Dúvidas', '#duvidas']].map(([label, href]) => (
+              {[['O cartão', '#cartao'], ['Benefícios', '#beneficios'], ['Personalização', '#sua-marca'], ['Para empresas', '#empresas'], ['PAT e segurança', '#seguranca'], ['Dúvidas', '#duvidas']].map(([label, href]) => (
                 <a key={href} className="nav-link" href={href} onClick={closeMenu}>{label}</a>
               ))}
               <Button asChild className="mt-2 bg-accent text-accent-foreground hover:bg-accent/90"><a href={MEETING_HREF} onClick={closeMenu}><CalendarCheck /> Agendar uma conversa</a></Button>
-              <Button asChild variant="outline" className="border-brand-mint/60 bg-transparent text-brand-mint"><a href={PREVIEW_HREF} onClick={closeMenu}>Quero ver minha marca no cartão</a></Button>
+              <Button asChild variant="outline" className="border-brand-mint/60 bg-transparent text-brand-mint"><a href="#cartao" onClick={closeMenu}>Conhecer a solução</a></Button>
 
             </div>
           </nav>
@@ -321,13 +340,12 @@ function Index() {
         <div className="relative mx-auto grid min-h-[calc(100svh-5rem)] max-w-7xl items-center gap-10 px-5 py-14 sm:px-8 lg:grid-cols-[1.05fr_.95fr] lg:px-12">
           <div className="max-w-2xl animate-rise">
             <p className="inline-flex rounded-full border border-primary-foreground/30 bg-primary/80 px-4 py-2 text-xs font-extrabold uppercase text-brand-mint">Cartão multibenefícios</p>
-            <h1 className="mt-6 text-4xl font-extrabold leading-[1.03] sm:text-5xl lg:text-6xl">O benefício da sua empresa com a marca da sua empresa.</h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/85">Alimentação, refeição, mobilidade, premiação e outros benefícios em um cartão e aplicativo personalizados com a identidade da sua empresa.</p>
+            <h1 className="mt-6 text-4xl font-extrabold leading-[1.03] sm:text-5xl lg:text-6xl">Benefícios que atraem. Pessoas que ficam.</h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/85">Uma solução de benefícios prática, flexível e segura para empresas que querem cuidar melhor das pessoas.</p>
+            <p className="mt-4 max-w-xl leading-relaxed text-primary-foreground/65">E, para empresas que desejam levar sua identidade ainda mais longe, existe a possibilidade de personalizar a experiência conforme o projeto.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF}>Quero ver minha marca no cartão <ArrowRight /></a></Button>
+              <Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href="#cartao">Conhecer a solução <ArrowRight /></a></Button>
               <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-brand-mint/60 bg-transparent px-6 py-3 text-brand-mint hover:bg-brand-mint hover:text-primary"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button>
-              <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-primary-foreground/40 bg-primary/30 px-6 py-3 text-primary-foreground hover:bg-primary-foreground hover:text-primary"><a href="#beneficios">Conhecer os benefícios</a></Button>
-
             </div>
             <p className="mt-9 text-xl font-extrabold text-brand-mint">Sua empresa tem IMÃ?</p>
           </div>
@@ -345,11 +363,13 @@ function Index() {
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center lg:px-12">
           <div>
             <p className="eyebrow">Cartão multibenefícios</p>
-            <h2 className="section-title mt-4">Um cartão. Múltiplas possibilidades.</h2>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">A Imã reúne diferentes categorias em um cartão físico Visa e um aplicativo para consultar saldo, acompanhar compras e gerenciar a experiência.</p>
+            <h2 className="section-title mt-4">O cartão que reúne benefícios para a rotina da sua empresa.</h2>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">O cartão IMÃ reúne diferentes benefícios em uma experiência simples para a empresa e flexível para os colaboradores.</p>
+            <p className="mt-4 max-w-xl leading-relaxed text-muted-foreground">Ele pode ser utilizado como a solução oficial da IMÃ, com sua identidade própria, ou fazer parte de projetos especiais de personalização, conforme a necessidade da empresa.</p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {["Cartão físico Visa", "Pagamento por aproximação", "Compras físicas e digitais", "Gestão pelo aplicativo"].map((item) => <p key={item} className="flex items-center gap-3 font-bold text-primary"><span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-mint"><Check className="size-4" /></span>{item}</p>)}
+              {["Cartão multibenefícios", "Alimentação e refeição", "Mobilidade e vale-transporte", "Premiação", "Clube de benefícios", "Aplicativo", "Gestão dos benefícios", "Bandeira Visa, quando aplicável à configuração contratada"].map((item) => <p key={item} className="flex items-center gap-3 font-bold text-primary"><span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-mint"><Check className="size-4" /></span>{item}</p>)}
             </div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button></div>
           </div>
           <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} loading="lazy" className="w-full object-contain" />
         </div>
