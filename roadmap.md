@@ -29,3 +29,9 @@
 - [x] Remover “Visa” do selo da segunda seção do cartão
 - [x] Incluir gestão de despesas e antecipação salarial entre as possibilidades do cartão
 - [x] Validar as correções em computador e celular
+
+## Revisão final de experiência e conversão
+- [ ] Unificar os dois formulários em um formulário inteligente e condicional
+- [ ] Priorizar os CTAs de solução e conversa, mantendo personalização secundária
+- [ ] Adicionar movimentos sutis ao cartão, aplicativo, seções e benefícios
+- [ ] Validar experiência, acessibilidade e conversão em computador e celular
