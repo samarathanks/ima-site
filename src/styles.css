@@ -332,9 +332,45 @@
 .animate-rise { animation: rise 700ms ease-out both; }
 .animate-float { animation: float 6s ease-in-out infinite; }
 
+.card-perspective { perspective: 900px; }
+.card-tilt {
+  transform-style: preserve-3d;
+  transition: transform 180ms ease-out, filter 180ms ease-out;
+  will-change: transform;
+}
+
+.reveal-section {
+  animation: section-reveal linear both;
+  animation-range: entry 8% cover 28%;
+  animation-timeline: view();
+}
+
+.benefit-card {
+  min-height: 7.5rem;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+.benefit-card:hover { background: var(--surface); transform: translateY(-2px); }
+.benefit-answer { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 220ms ease, opacity 180ms ease; }
+.benefit-answer > p { overflow: hidden; }
+.benefit-card[open] .benefit-answer { grid-template-rows: 1fr; opacity: 1; }
+
+.app-screen { transition: transform 400ms ease-out; will-change: transform; }
+.app-screen-left { animation: phone-left linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
+.app-screen-center { animation: phone-center linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
+.app-screen-right { animation: phone-right linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
+
+@keyframes section-reveal {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes phone-left { from { transform: translateY(45px) rotate(-8deg); } to { transform: translateY(0) rotate(-5deg); } }
+@keyframes phone-center { from { transform: translateY(70px); } to { transform: translateY(0); } }
+@keyframes phone-right { from { transform: translateY(45px) rotate(8deg); } to { transform: translateY(0) rotate(5deg); } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .animate-rise, .animate-float { animation: none; }
+  .animate-rise, .animate-float, .reveal-section, .app-screen { animation: none; }
+  .card-tilt, .benefit-card, .benefit-answer { transition: none; }
   .hero-video { display: none; }
 }
 
