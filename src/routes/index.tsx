@@ -29,7 +29,7 @@ import {
   WalletCards,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import appCartao from "@/assets/app-cartao.png.asset.json";
 import appPerfil from "@/assets/app-perfil.png.asset.json";
@@ -276,9 +276,7 @@ function Index() {
             </div>
             <p className="mt-9 text-xl font-extrabold text-brand-mint">Sua empresa tem IMÃ?</p>
           </div>
-          <div className="self-end pb-2 lg:pb-10">
-            <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} className="mx-auto w-full max-w-sm object-contain drop-shadow-2xl lg:ml-auto lg:max-w-xl" />
-          </div>
+          <div className="self-end pb-2 lg:pb-10"><TiltCard className="mx-auto w-full max-w-sm lg:ml-auto lg:max-w-xl" /></div>
         </div>
       </section>
 
@@ -286,7 +284,7 @@ function Index() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12"><div className="overflow-hidden rounded-md"><HeroMedia /></div></div>
       </section>
 
-      <section id="cartao" className="bg-surface py-20 sm:py-28">
+      <section id="cartao" className="reveal-section bg-surface py-20 sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center lg:px-12">
           <div>
             <p className="eyebrow">Cartão multibenefícios</p>
@@ -298,16 +296,16 @@ function Index() {
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button></div>
           </div>
-          <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} loading="lazy" className="w-full object-contain" />
+          <TiltCard className="w-full" lazy />
         </div>
       </section>
 
 
-      <section id="beneficios" className="py-20 sm:py-28">
+      <section id="beneficios" className="reveal-section py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="max-w-3xl"><p className="eyebrow">Benefícios para diferentes momentos</p><h2 className="section-title mt-4">Uma solução que acompanha a vida real.</h2><p className="mt-5 text-lg leading-relaxed text-muted-foreground">Categorias e experiências disponíveis conforme a configuração contratada e a validação técnica.</p></div>
           <div className="mt-12 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {benefits.map(({ icon: Icon, title, text }) => <article key={title} className="group min-h-60 bg-background p-7 transition-colors hover:bg-surface sm:p-8"><div className="flex size-11 items-center justify-center rounded-md bg-brand-mint text-primary"><Icon className="size-5" /></div><h3 className="mt-7 text-xl font-bold text-primary">{title}</h3><p className="mt-3 leading-relaxed text-muted-foreground">{text}</p></article>)}
+            {benefits.map(({ icon: Icon, title, text }) => <details key={title} className="benefit-card group bg-background p-7 sm:p-8"><summary className="flex cursor-pointer list-none items-center gap-4"><span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-brand-mint text-primary"><Icon className="size-5" /></span><span className="flex-1 text-lg font-bold text-primary">{title}</span><ChevronDown className="size-5 shrink-0 text-accent transition-transform group-open:rotate-180" /></summary><div className="benefit-answer"><p className="pt-5 leading-relaxed text-muted-foreground">{text}</p></div></details>)}
           </div>
           <Button asChild size="lg" variant="outline" className="mt-10 h-auto min-h-12 border-primary/30 px-6 py-3 text-primary hover:bg-primary hover:text-primary-foreground"><a href={MEETING_HREF}><CalendarCheck /> Entender como funciona</a></Button>
 
@@ -315,14 +313,14 @@ function Index() {
       </section>
 
 
-      <section className="py-20 sm:py-28">
+      <section className="reveal-section py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-center">
             <div className="relative flex h-[490px] items-end justify-center overflow-hidden rounded-md bg-primary sm:h-[570px]">
               <div className="absolute inset-x-0 top-0 p-8 sm:p-10"><p className="text-xs font-bold uppercase tracking-[.16em] text-brand-mint">Cartão e aplicativo</p><h2 className="mt-4 max-w-md text-3xl font-extrabold leading-tight text-primary-foreground sm:text-4xl">Saldo, compras e benefícios na mão do colaborador.</h2></div>
-              <img src={appSaldo.url} alt="Tela de saldo no aplicativo Imã" loading="lazy" className="absolute bottom-[-8%] left-[3%] h-[62%] rotate-[-5deg] drop-shadow-2xl" />
-              <img src={appCartao.url} alt="Tela de cartão no aplicativo Imã" loading="lazy" className="absolute bottom-[-3%] z-10 h-[70%] drop-shadow-2xl" />
-              <img src={appPerfil.url} alt="Tela de perfil no aplicativo Imã" loading="lazy" className="absolute bottom-[-8%] right-[-2%] h-[62%] rotate-[5deg] drop-shadow-2xl" />
+              <img src={appSaldo.url} alt="Tela de saldo no aplicativo Imã" loading="lazy" className="app-screen app-screen-left absolute bottom-[-8%] left-[3%] h-[62%] drop-shadow-2xl" />
+              <img src={appCartao.url} alt="Tela de cartão no aplicativo Imã" loading="lazy" className="app-screen app-screen-center absolute bottom-[-3%] z-10 h-[70%] drop-shadow-2xl" />
+              <img src={appPerfil.url} alt="Tela de perfil no aplicativo Imã" loading="lazy" className="app-screen app-screen-right absolute bottom-[-8%] right-[-2%] h-[62%] drop-shadow-2xl" />
             </div>
             <div><p className="eyebrow">Experiência do colaborador</p><h2 className="section-title mt-4">Simples para usar. Fácil de reconhecer.</h2><p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">O cartão e o aplicativo entram na rotina como uma extensão do cuidado da empresa — com autonomia, informação e identidade.</p><div className="mt-9 grid gap-4 sm:grid-cols-2">{employeeBenefits.map((item) => <p key={item} className="flex gap-3 font-semibold"><Check className="mt-0.5 size-5 shrink-0 text-accent" />{item}</p>)}</div></div>
           </div>
@@ -346,7 +344,7 @@ function Index() {
         </div>
       </section>
 
-      <section id="sua-marca" className="bg-primary py-20 text-primary-foreground sm:py-28">
+      <section id="sua-marca" className="reveal-section bg-primary py-20 text-primary-foreground sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-12">
           <div>
             <p className="eyebrow text-brand-mint">Diferencial opcional</p>
@@ -356,7 +354,7 @@ function Index() {
               {["Cartão com a identidade da empresa", "Aplicativo", "Carta-berço e kit de entrega", "Comunicação de implantação", "Materiais de ativação", "Jornada de boas-vindas"].map((item) => <div key={item} className="flex min-h-20 items-center gap-3 bg-primary p-5"><Sparkles className="size-5 shrink-0 text-brand-mint" /><p className="font-semibold">{item}</p></div>)}
             </div>
             <p className="mt-6 max-w-xl text-sm leading-relaxed text-primary-foreground/60">Projetos personalizados sob consulta, conforme a configuração contratada e sujeitos à avaliação do projeto.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF}>Quero entender se minha empresa pode personalizar <ArrowRight /></a></Button></div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF} onClick={() => setTopic("Possibilidade de personalização")}>Quero avaliar essa possibilidade <ArrowRight /></a></Button></div>
           </div>
           <div className="relative">
             <img src={brandExperience.url} alt="Exemplo demonstrativo de personalização com cartão, aplicativo e materiais de marca fictícia" loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
