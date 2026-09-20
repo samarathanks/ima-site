@@ -39,7 +39,6 @@ import heroPoster from "@/assets/ima-hero-poster.jpg.asset.json";
 import heroVideo from "@/assets/ima-hero-impacto-web.mp4.asset.json";
 import heroPeople from "@/assets/ima-hero-pessoas.jpg";
 import deliveryExperience from "@/assets/ima-entrega-experiencia.jpg";
-import logo from "@/assets/ima-logo.png.asset.json";
 import logoWhiteCoral from "@/assets/ima-logo-white-coral.png";
 import { Button } from "@/components/ui/button";
 
