@@ -356,6 +356,27 @@
 .benefit-card[open] .benefit-answer { grid-template-rows: 1fr; opacity: 1; }
 
 .app-screen { transition: transform 400ms ease-out; will-change: transform; }
+.app-stage::after {
+  background: linear-gradient(0deg, var(--primary) 0%, transparent 100%);
+  bottom: 0;
+  content: "";
+  height: 22%;
+  inset-inline: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 15;
+}
+.app-screen.is-active { filter: drop-shadow(0 22px 24px color-mix(in oklab, var(--primary-deep) 55%, transparent)); transform: translateY(-12px) scale(1.035); z-index: 12; }
+.app-orbit { border: 1px solid color-mix(in oklab, var(--brand-mint) 38%, transparent); border-radius: 999px; pointer-events: none; position: absolute; }
+.app-orbit-one { bottom: 7%; height: 19rem; width: 19rem; }
+.app-orbit-two { bottom: 13%; height: 26rem; width: 26rem; }
+.app-feature { border: 1px solid transparent; border-radius: var(--radius); transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease; }
+.app-feature:hover { background: var(--surface); transform: translateX(3px); }
+.app-feature.is-active { background: var(--surface); border-color: var(--border); }
+.app-feature-icon { align-items: center; background: var(--brand-mint); border-radius: var(--radius); color: var(--primary); display: flex; flex-shrink: 0; height: 2.75rem; justify-content: center; width: 2.75rem; }
+.app-feature.is-active .app-feature-icon { background: var(--accent); color: var(--accent-foreground); }
+.app-feature-arrow { color: var(--accent); opacity: 0; transform: translateX(-4px); transition: opacity 180ms ease, transform 180ms ease; }
+.app-feature.is-active .app-feature-arrow { opacity: 1; transform: translateX(0); }
 .app-screen-left { animation: phone-left linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
 .app-screen-center { animation: phone-center linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
 .app-screen-right { animation: phone-right linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
@@ -368,7 +389,7 @@
   html { scroll-behavior: auto; }
   .animate-rise, .animate-float, .app-screen { animation: none; }
   .reveal-section { opacity: 1; transform: none; transition: none; }
-  .card-tilt, .benefit-card, .benefit-answer { transition: none; }
+  .card-tilt, .benefit-card, .benefit-answer, .app-feature, .app-feature-arrow { transition: none; }
   .hero-video { display: none; }
 }
 

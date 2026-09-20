@@ -3,24 +3,21 @@ import {
   ArrowRight,
   CalendarCheck,
   Award,
-  BookOpen,
-  BriefcaseBusiness,
   Bus,
   Check,
   ChevronDown,
   CreditCard,
   Gift,
   HeartHandshake,
-  House,
   Instagram,
-  Landmark,
+  ListChecks,
   Mail,
   Menu,
   MessageCircle,
   Phone,
-  ReceiptText,
   Scale,
   ShoppingBasket,
+  ShoppingBag,
   Smartphone,
   Sparkles,
   Upload,
@@ -72,18 +69,19 @@ const PRIVACY_NOTE =
 
 
 const benefits = [
-  { icon: ShoppingBasket, title: "Alimentação", text: "Compras para a rotina, conforme a categoria contratada." },
-  { icon: Utensils, title: "Refeição", text: "Praticidade em restaurantes e estabelecimentos compatíveis." },
-  { icon: Bus, title: "Mobilidade", text: "Mais flexibilidade nos deslocamentos do dia a dia." },
-  { icon: WalletCards, title: "Vale-transporte", text: "Gestão integrada, conforme serviços e cobertura disponíveis." },
-  { icon: HeartHandshake, title: "Saúde e bem-estar", text: "Apoio a uma estratégia mais ampla de cuidado com as pessoas." },
-  { icon: BookOpen, title: "Educação", text: "Possibilidade de apoiar aprendizado e desenvolvimento." },
-  { icon: House, title: "Home office", text: "Recursos para apoiar a rotina de trabalho remoto." },
-  { icon: Award, title: "Premiação", text: "Reconhecimento de campanhas, metas e momentos importantes." },
-  { icon: BriefcaseBusiness, title: "Saldo livre", text: "Disponível quando aplicável ao produto contratado." },
-  { icon: ReceiptText, title: "Gestão de despesas", text: "Controle de gastos corporativos com regras de uso definidas pela empresa." },
-  { icon: Landmark, title: "Antecipação salarial", text: "Acesso antecipado a parte do salário, conforme contratação e regras definidas pela empresa." },
+  { icon: ShoppingBasket, title: "Multibenefícios", text: "Alimentação, refeição e outras categorias reunidas em uma experiência simples, conforme a configuração contratada." },
+  { icon: Award, title: "Premiação", text: "Reconhecimento de campanhas, metas e momentos importantes, com estruturação adequada." },
+  { icon: Bus, title: "Mobilidade e vale-transporte", text: "Mais simplicidade nos deslocamentos, conforme os serviços contratados e a cobertura disponível." },
   { icon: Gift, title: "Clube de benefícios", text: "Condições e vantagens adicionais conforme o ecossistema disponível." },
+  { icon: HeartHandshake, title: "Saúde e bem-estar", text: "Uma possibilidade de apoio a estratégias mais amplas de cuidado, quando aplicável." },
+];
+
+const appFeatures = [
+  { icon: WalletCards, title: "Saldos", text: "Visualização clara dos valores disponíveis para o dia a dia." },
+  { icon: ListChecks, title: "Categorias de benefícios", text: "Organização dos benefícios conforme a configuração contratada." },
+  { icon: ShoppingBag, title: "Consulta de compras", text: "Acompanhamento das movimentações realizadas com o cartão." },
+  { icon: Smartphone, title: "Gestão pelo aplicativo", text: "Informações e recursos reunidos em uma experiência simples de usar." },
+  { icon: Users, title: "Experiência do colaborador", text: "Mais autonomia, clareza e praticidade em cada interação." },
 ];
 
 const companyBenefits = [
@@ -153,6 +151,7 @@ function Index() {
   const [notice, setNotice] = useState<{ text: string; ok: boolean } | null>(null);
   const [sending, setSending] = useState(false);
   const [topic, setTopic] = useState("");
+  const [activeAppFeature, setActiveAppFeature] = useState(0);
 
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>(".reveal-section");
@@ -319,7 +318,7 @@ function Index() {
       <section id="beneficios" className="reveal-section py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="max-w-3xl"><p className="eyebrow">Benefícios para diferentes momentos</p><h2 className="section-title mt-4">Uma solução que acompanha a vida real.</h2><p className="mt-5 text-lg leading-relaxed text-muted-foreground">Categorias e experiências disponíveis conforme a configuração contratada e a validação técnica.</p></div>
-          <div className="mt-12 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
             {benefits.map(({ icon: Icon, title, text }) => <details key={title} className="benefit-card group bg-background p-7 sm:p-8"><summary className="flex cursor-pointer list-none items-center gap-4"><span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-brand-mint text-primary"><Icon className="size-5" /></span><span className="flex-1 text-lg font-bold text-primary">{title}</span><ChevronDown className="size-5 shrink-0 text-accent transition-transform group-open:rotate-180" /></summary><div className="benefit-answer"><p className="pt-5 leading-relaxed text-muted-foreground">{text}</p></div></details>)}
           </div>
           <Button asChild size="lg" variant="outline" className="mt-10 h-auto min-h-12 border-primary/30 px-6 py-3 text-primary hover:bg-primary hover:text-primary-foreground"><a href={MEETING_HREF}><CalendarCheck /> Entender como funciona</a></Button>
@@ -330,14 +329,16 @@ function Index() {
 
       <section className="reveal-section py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-center">
-            <div className="relative flex h-[490px] items-end justify-center overflow-hidden rounded-md bg-primary sm:h-[570px]">
-              <div className="absolute inset-x-0 top-0 p-8 sm:p-10"><p className="text-xs font-bold uppercase tracking-[.16em] text-brand-mint">Cartão e aplicativo</p><h2 className="mt-4 max-w-md text-3xl font-extrabold leading-tight text-primary-foreground sm:text-4xl">Saldo, compras e benefícios na mão do colaborador.</h2></div>
-              <img src={appSaldo.url} alt="Tela de saldo no aplicativo Imã" loading="lazy" className="app-screen app-screen-left absolute bottom-[-8%] left-[3%] h-[62%] drop-shadow-2xl" />
-              <img src={appCartao.url} alt="Tela de cartão no aplicativo Imã" loading="lazy" className="app-screen app-screen-center absolute bottom-[-3%] z-10 h-[70%] drop-shadow-2xl" />
-              <img src={appPerfil.url} alt="Tela de perfil no aplicativo Imã" loading="lazy" className="app-screen app-screen-right absolute bottom-[-8%] right-[-2%] h-[62%] drop-shadow-2xl" />
+          <div className="grid gap-12 lg:grid-cols-[1.08fr_.92fr] lg:items-center">
+            <div className="app-stage relative flex h-[520px] items-end justify-center overflow-hidden rounded-md bg-primary sm:h-[610px]">
+              <div className="absolute inset-x-0 top-0 z-20 p-8 sm:p-10"><p className="text-xs font-bold uppercase tracking-[.16em] text-brand-mint">Cartão e aplicativo</p><h2 className="mt-4 max-w-md text-3xl font-extrabold leading-tight text-primary-foreground sm:text-4xl">Benefícios na mão do colaborador.</h2></div>
+              <div className="app-orbit app-orbit-one" aria-hidden="true" />
+              <div className="app-orbit app-orbit-two" aria-hidden="true" />
+              <img src={appSaldo.url} alt="Tela de saldos e benefícios no aplicativo Imã" loading="lazy" className={`app-screen app-screen-left absolute bottom-[-6%] left-[1%] h-[60%] drop-shadow-2xl ${activeAppFeature < 2 ? "is-active" : ""}`} />
+              <img src={appCartao.url} alt="Tela do cartão no aplicativo Imã" loading="lazy" className={`app-screen app-screen-center absolute bottom-[-2%] z-10 h-[69%] drop-shadow-2xl ${activeAppFeature === 2 || activeAppFeature === 3 ? "is-active" : ""}`} />
+              <img src={appPerfil.url} alt="Tela da experiência do colaborador no aplicativo Imã" loading="lazy" className={`app-screen app-screen-right absolute bottom-[-6%] right-[-3%] h-[60%] drop-shadow-2xl ${activeAppFeature === 4 ? "is-active" : ""}`} />
             </div>
-            <div><p className="eyebrow">Experiência do colaborador</p><h2 className="section-title mt-4">Simples para usar. Fácil de reconhecer.</h2><p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">O cartão e o aplicativo entram na rotina como uma extensão do cuidado da empresa — com autonomia, informação e identidade.</p><div className="mt-9 grid gap-4 sm:grid-cols-2">{employeeBenefits.map((item) => <p key={item} className="flex gap-3 font-semibold"><Check className="mt-0.5 size-5 shrink-0 text-accent" />{item}</p>)}</div></div>
+            <div><p className="eyebrow">Experiência do colaborador</p><h2 className="section-title mt-4">Simples para usar. Fácil de acompanhar.</h2><p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">O aplicativo reúne informações essenciais para uma jornada mais clara, prática e segura.</p><div className="mt-9 grid gap-2" role="list" aria-label="Recursos do aplicativo">{appFeatures.map(({ icon: Icon, title, text }, index) => <Button key={title} type="button" variant="ghost" onClick={() => setActiveAppFeature(index)} className={`app-feature h-auto min-h-20 w-full justify-start gap-4 whitespace-normal px-4 py-4 text-left ${activeAppFeature === index ? "is-active" : ""}`} aria-pressed={activeAppFeature === index}><span className="app-feature-icon"><Icon className="size-5" /></span><span className="min-w-0 flex-1"><span className="block font-extrabold text-primary">{title}</span><span className="mt-1 block text-sm font-normal leading-relaxed text-muted-foreground">{text}</span></span><ArrowRight className="app-feature-arrow size-4 shrink-0" /></Button>)}</div></div>
           </div>
         </div>
       </section>
