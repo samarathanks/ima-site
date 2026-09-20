@@ -343,7 +343,7 @@ function Index() {
             <h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Seu benefício pode carregar a marca que seus colaboradores já conhecem.</h2>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/75">A IMÃ transforma o cartão de benefícios em uma extensão da identidade da sua empresa. Cartão, aplicativo e experiência de entrega podem ser personalizados para fortalecer pertencimento, reconhecimento e conexão com os colaboradores.</p>
             <p className="mt-7 border-l-4 border-accent pl-5 text-xl font-bold">O benefício é oferecido pela sua empresa. A marca lembrada também pode ser a sua.</p>
-            <Button asChild size="lg" className="mt-9 h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href="#contato">Quero ver minha marca nessa experiência <ArrowRight /></a></Button>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF}>Criar uma prévia personalizada <ArrowRight /></a></Button><Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-brand-mint/60 bg-transparent px-6 py-3 text-brand-mint hover:bg-brand-mint hover:text-primary"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button></div>
           </div>
           <div className="relative">
             <img src={brandExperience.url} alt="Exemplo conceitual de experiência personalizada com cartão, aplicativo e materiais de marca" loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
