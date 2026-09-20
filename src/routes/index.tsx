@@ -288,7 +288,9 @@ function Index() {
               {[['O cartão', '#cartao'], ['Benefícios', '#beneficios'], ['Sua marca na Imã', '#sua-marca'], ['Para empresas', '#empresas'], ['PAT e segurança', '#seguranca'], ['Dúvidas', '#duvidas']].map(([label, href]) => (
                 <a key={href} className="nav-link" href={href} onClick={closeMenu}>{label}</a>
               ))}
-              <Button asChild className="mt-2 bg-accent text-accent-foreground hover:bg-accent/90"><a href="#contato" onClick={closeMenu}>Quero conhecer <ArrowRight /></a></Button>
+              <Button asChild className="mt-2 bg-accent text-accent-foreground hover:bg-accent/90"><a href={MEETING_HREF} onClick={closeMenu}><CalendarCheck /> Agendar uma conversa</a></Button>
+              <Button asChild variant="outline" className="border-brand-mint/60 bg-transparent text-brand-mint"><a href={PREVIEW_HREF} onClick={closeMenu}>Quero ver minha marca no cartão</a></Button>
+
             </div>
           </nav>
         )}
