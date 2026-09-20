@@ -50,11 +50,40 @@ const CONTACT_LINKS = {
   instagram: "https://instagram.com/somos.ima",
 };
 
-// Quando a integração com o calendário estiver pronta, informe o link aqui
-// (ex.: "https://calendly.com/..."). Enquanto estiver vazio, o botão
-// "Quero conhecer melhor a Imã" leva ao formulário comercial.
+// Quando existir um link real de agenda, informe-o aqui. Enquanto estiver
+// vazio, o CTA "Agendar uma conversa" leva ao formulário de reunião comercial.
 const SCHEDULE_LINK = "";
-const MEETING_HREF = SCHEDULE_LINK || "#contato";
+const MEETING_HREF = SCHEDULE_LINK || "#reuniao";
+const PREVIEW_HREF = "#previa";
+
+// Endpoint preparado para futura integração de CRM (ex.: Zoho).
+// Enquanto estiver vazio, os dados são organizados em um e-mail comercial.
+const LEAD_ENDPOINT = "";
+
+const INTEREST_OPTIONS = [
+  "Alimentação",
+  "Refeição",
+  "Mobilidade",
+  "Vale-transporte",
+  "Premiação",
+  "Clube de benefícios",
+  "Outros benefícios",
+];
+
+const MEETING_TOPICS = [
+  "Cartão multibenefícios",
+  "Personalização com a marca da empresa",
+  "Alimentação e refeição",
+  "Mobilidade e vale-transporte",
+  "Premiação",
+  "Clube de benefícios",
+  "PAT e gestão responsável",
+  "Quero avaliar a solução completa",
+];
+
+const PRIVACY_NOTE =
+  "Seus dados serão utilizados apenas para o atendimento da sua solicitação, conforme nossa Política de Privacidade.";
+
 
 const benefits = [
   { icon: ShoppingBasket, title: "Alimentação", text: "Compras para a rotina, conforme a categoria contratada." },
