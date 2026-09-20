@@ -468,9 +468,9 @@ function Index() {
           <div className="text-center"><p className="eyebrow justify-center">Dúvidas frequentes</p><h2 className="section-title mt-4">O essencial sobre a Imã.</h2></div>
           <div className="mt-12 divide-y divide-border border-y border-border">
             {[
-              ["O que é o cartão IMÃ?", "É um cartão multibenefícios Visa acompanhado de aplicativo e de uma experiência que pode receber a identidade da empresa contratante."],
+              ["O que é o cartão IMÃ?", "É um cartão multibenefícios acompanhado de aplicativo, que reúne diferentes categorias de benefícios em uma única solução para a empresa e para o colaborador."],
               ["Quais benefícios podem ser disponibilizados?", "Alimentação, refeição, mobilidade, vale-transporte, saúde e bem-estar, educação, home office, premiação, saldo livre e clube de benefícios podem estar disponíveis. A solução também pode incluir gestão de despesas e antecipação salarial, conforme contratação e validação comercial."],
-              ["O cartão pode ter a marca da minha empresa?", "Sim. A personalização depende da configuração contratada e da validação técnica do layout."],
+              ["O cartão pode ter a marca da minha empresa?", "A empresa pode contratar a solução com o cartão oficial da IMÃ ou avaliar um projeto de personalização. Essa possibilidade é analisada caso a caso, conforme a configuração contratada e a avaliação do projeto."],
               ["O aplicativo também pode ser personalizado?", "A identidade da empresa pode estar presente no aplicativo e em outros pontos da jornada, conforme o escopo aprovado."],
               ["Como funciona a bandeira Visa?", "O cartão pode ser utilizado em estabelecimentos compatíveis com cada categoria e configuração, com a praticidade e os recursos previstos na solução."],
               ["A solução atende às regras do PAT?", "A estrutura pode apoiar a gestão adequada. O enquadramento deve considerar a política da empresa, a finalidade de cada categoria e a legislação aplicável."],
