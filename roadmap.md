@@ -28,4 +28,4 @@
 - [x] Aplicar o acento coral oficial no logo do topo e do rodapé
 - [x] Remover “Visa” do selo da segunda seção do cartão
 - [x] Incluir gestão de despesas e antecipação salarial entre as possibilidades do cartão
-- [ ] Validar as correções em computador e celular
+- [x] Validar as correções em computador e celular
