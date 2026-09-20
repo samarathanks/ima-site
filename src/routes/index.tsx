@@ -375,21 +375,6 @@ function Index() {
         </div>
       </section>
 
-      <section id="sua-marca" className="bg-primary py-20 text-primary-foreground sm:py-28">
-        <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-12">
-          <div>
-            <p className="eyebrow text-brand-mint">O maior diferencial</p>
-            <h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Seu benefício pode carregar a marca que seus colaboradores já conhecem.</h2>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/75">A IMÃ transforma o cartão de benefícios em uma extensão da identidade da sua empresa. Cartão, aplicativo e experiência de entrega podem ser personalizados para fortalecer pertencimento, reconhecimento e conexão com os colaboradores.</p>
-            <p className="mt-7 border-l-4 border-accent pl-5 text-xl font-bold">O benefício é oferecido pela sua empresa. A marca lembrada também pode ser a sua.</p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF}>Criar uma prévia personalizada <ArrowRight /></a></Button><Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-brand-mint/60 bg-transparent px-6 py-3 text-brand-mint hover:bg-brand-mint hover:text-primary"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button></div>
-          </div>
-          <div className="relative">
-            <img src={brandExperience.url} alt="Exemplo conceitual de experiência personalizada com cartão, aplicativo e materiais de marca" loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
-            <p className="mt-4 text-sm leading-relaxed text-primary-foreground/65">Exemplo conceitual. As possibilidades de personalização dependem da configuração contratada e da validação técnica.</p>
-          </div>
-        </div>
-      </section>
 
       <section id="beneficios" className="py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
@@ -402,22 +387,12 @@ function Index() {
         </div>
       </section>
 
-      <section className="bg-surface py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-          <div className="grid gap-8 lg:grid-cols-5">
-            <div className="lg:col-span-2"><p className="eyebrow">Uma experiência integrada</p><h2 className="section-title mt-4">Sua identidade em cada ponto de contato.</h2><p className="mt-6 text-lg leading-relaxed text-muted-foreground">Personalização vai além de cores e logotipo. Ela aproxima benefícios, cultura e reconhecimento em toda a jornada.</p></div>
-            <div className="grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:col-span-3">
-              {["Cartão com a marca da empresa", "Aplicativo personalizado", "Carta-berço", "Comunicação de implantação", "Materiais de ativação", "Jornada de boas-vindas"].map((item) => <div key={item} className="flex min-h-28 items-center gap-4 bg-background p-6"><Sparkles className="size-5 shrink-0 text-accent" /><p className="font-bold text-primary">{item}</p></div>)}
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-center">
             <div className="relative flex h-[490px] items-end justify-center overflow-hidden rounded-md bg-primary sm:h-[570px]">
-              <div className="absolute inset-x-0 top-0 p-8 sm:p-10"><p className="text-xs font-bold uppercase tracking-[.16em] text-brand-mint">Cartão e aplicativo</p><h2 className="mt-4 max-w-md text-3xl font-extrabold leading-tight text-primary-foreground sm:text-4xl">A marca da empresa acompanha o colaborador.</h2></div>
+              <div className="absolute inset-x-0 top-0 p-8 sm:p-10"><p className="text-xs font-bold uppercase tracking-[.16em] text-brand-mint">Cartão e aplicativo</p><h2 className="mt-4 max-w-md text-3xl font-extrabold leading-tight text-primary-foreground sm:text-4xl">Saldo, compras e benefícios na mão do colaborador.</h2></div>
               <img src={appSaldo.url} alt="Tela de saldo no aplicativo Imã" loading="lazy" className="absolute bottom-[-8%] left-[3%] h-[62%] rotate-[-5deg] drop-shadow-2xl" />
               <img src={appCartao.url} alt="Tela de cartão no aplicativo Imã" loading="lazy" className="absolute bottom-[-3%] z-10 h-[70%] drop-shadow-2xl" />
               <img src={appPerfil.url} alt="Tela de perfil no aplicativo Imã" loading="lazy" className="absolute bottom-[-8%] right-[-2%] h-[62%] rotate-[5deg] drop-shadow-2xl" />
@@ -443,6 +418,26 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <section id="sua-marca" className="bg-primary py-20 text-primary-foreground sm:py-28">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-12">
+          <div>
+            <p className="eyebrow text-brand-mint">Diferencial opcional</p>
+            <h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Para algumas empresas, a experiência pode levar ainda mais identidade.</h2>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/75">Além da solução padrão IMÃ, empresas que desejam fortalecer sua marca empregadora podem avaliar projetos de personalização do cartão e de outros pontos da jornada do colaborador.</p>
+            <div className="mt-8 grid gap-px overflow-hidden rounded-md border border-primary-foreground/15 bg-primary-foreground/15 sm:grid-cols-2">
+              {["Cartão com a identidade da empresa", "Aplicativo", "Carta-berço e kit de entrega", "Comunicação de implantação", "Materiais de ativação", "Jornada de boas-vindas"].map((item) => <div key={item} className="flex min-h-20 items-center gap-3 bg-primary p-5"><Sparkles className="size-5 shrink-0 text-brand-mint" /><p className="font-semibold">{item}</p></div>)}
+            </div>
+            <p className="mt-6 max-w-xl text-sm leading-relaxed text-primary-foreground/60">Projetos personalizados sob consulta, conforme a configuração contratada e sujeitos à avaliação do projeto.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF}>Quero entender se minha empresa pode personalizar <ArrowRight /></a></Button></div>
+          </div>
+          <div className="relative">
+            <img src={brandExperience.url} alt="Exemplo demonstrativo de personalização com cartão, aplicativo e materiais de marca fictícia" loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
+            <p className="mt-4 text-sm leading-relaxed text-primary-foreground/65">Exemplo demonstrativo com marca fictícia. As possibilidades de personalização dependem da configuração contratada e da avaliação de cada projeto.</p>
+          </div>
+        </div>
+      </section>
+
 
       <section className="bg-primary py-20 text-primary-foreground sm:py-24">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:px-12">
