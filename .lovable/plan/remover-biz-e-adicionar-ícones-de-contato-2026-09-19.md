@@ -1,9 +1,9 @@
-# Remover Biz e adicionar ícones de contato
+# Remover menções a fornecedores e adicionar ícones de contato
 
 ## O que será feito
 
-1. **Remover a menção à Biz**
-   - Excluir a linha do rodapé: "Made by Biz. Tecnologia e infraestrutura operacional fornecidas pela Biz."
+1. **Remover menções nominais a fornecedores**
+   - Excluir do rodapé qualquer crédito ou referência a empresas parceiras ou fornecedoras.
    - É a única menção visível no site; nenhuma outra aparece em textos, títulos ou botões.
    - Ajuste no layout do rodapé para a linha de copyright ficar alinhada sem lacuna.
 
@@ -13,7 +13,7 @@
    - Instagram: mantido como está (@somos.ima, nova aba).
    - Os três ícones ficam juntos no rodapé, ao lado do texto atual (contato@ima.com.br, telefone e @somos.ima), no mesmo estilo visual (verde-escuro com destaque amarelo no toque/click).
 
-3. **Atualizar o checklist interno** do projeto refletindo a remoção da Biz.
+3. **Atualizar o checklist interno** do projeto refletindo a remoção dessas referências.
 
 ## Notas técnicas
 

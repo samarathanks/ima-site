@@ -7,7 +7,7 @@ Evoluir a página existente sem reconstruí-la, deixando claro já na primeira t
 - Seguir integralmente o Manual da Marca e o material de validação anexados.
 - Manter verde profundo, coral, menta, lettering e símbolo oficiais.
 - Usar exclusivamente o cartão verde aprovado, legível, horizontal e sem amostras de cor ou elementos inventados.
-- Manter toda e qualquer menção à Biz fora do site, conforme decisão definitiva confirmada.
+- Manter toda e qualquer menção nominal a empresas parceiras ou fornecedoras fora do site, conforme decisão definitiva confirmada.
 - Preservar as partes visualmente resolvidas e aprimorar somente hierarquia, conteúdo, imagens, transições e conversão.
 
 ## Atualizações da página
@@ -52,4 +52,4 @@ Evoluir a página existente sem reconstruí-la, deixando claro já na primeira t
 - Confirmar que vídeo e capa funcionam nos estados normal, conexão lenta e redução de movimento.
 - Confirmar que o produto e o diferencial são compreendidos imediatamente.
 - Revisar textos, links, formulário, metadados e ausência de dados, contatos ou provas inventadas.
-- Confirmar que não existe nenhuma menção à Biz.
+- Confirmar que não existe nenhuma menção nominal a empresas parceiras ou fornecedoras.
