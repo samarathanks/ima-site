@@ -305,9 +305,10 @@ function Index() {
             <h1 className="mt-6 text-4xl font-extrabold leading-[1.03] sm:text-5xl lg:text-6xl">O benefício da sua empresa com a marca da sua empresa.</h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/85">Alimentação, refeição, mobilidade, premiação e outros benefícios em um cartão e aplicativo personalizados com a identidade da sua empresa.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href="#contato">Quero ver minha marca no cartão <ArrowRight /></a></Button>
+              <Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF}>Quero ver minha marca no cartão <ArrowRight /></a></Button>
+              <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-brand-mint/60 bg-transparent px-6 py-3 text-brand-mint hover:bg-brand-mint hover:text-primary"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button>
               <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-primary-foreground/40 bg-primary/30 px-6 py-3 text-primary-foreground hover:bg-primary-foreground hover:text-primary"><a href="#beneficios">Conhecer os benefícios</a></Button>
-              <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-brand-mint/60 bg-transparent px-6 py-3 text-brand-mint hover:bg-brand-mint hover:text-primary"><a href={MEETING_HREF}><CalendarCheck /> Quero conhecer melhor a Imã</a></Button>
+
             </div>
             <p className="mt-9 text-xl font-extrabold text-brand-mint">Sua empresa tem IMÃ?</p>
           </div>
