@@ -22,3 +22,10 @@
 - [x] Reforçar personalização, categorias, confiança e imagens humanas
 - [x] Transformar o formulário em solicitação de prévia personalizada
 - [x] Validar toda a experiência em computador e celular
+
+## Correções de comunicação
+
+- [x] Aplicar o acento coral oficial no logo do topo e do rodapé
+- [x] Remover “Visa” do selo da segunda seção do cartão
+- [x] Incluir gestão de despesas e antecipação salarial entre as possibilidades do cartão
+- [x] Validar as correções em computador e celular
