@@ -29,7 +29,7 @@ import {
   WalletCards,
   X,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import appCartao from "@/assets/app-cartao.png.asset.json";
 import appPerfil from "@/assets/app-perfil.png.asset.json";
@@ -153,6 +153,21 @@ function Index() {
   const [notice, setNotice] = useState<{ text: string; ok: boolean } | null>(null);
   const [sending, setSending] = useState(false);
   const [topic, setTopic] = useState("");
+
+  useEffect(() => {
+    const sections = document.querySelectorAll<HTMLElement>(".reveal-section");
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      }),
+      { threshold: 0.08 },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();

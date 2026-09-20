@@ -340,10 +340,11 @@
 }
 
 .reveal-section {
-  animation: section-reveal linear both;
-  animation-range: entry 8% cover 28%;
-  animation-timeline: view();
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
 }
+.reveal-section.is-visible { opacity: 1; transform: translateY(0); }
 
 .benefit-card {
   min-height: 7.5rem;
@@ -359,17 +360,14 @@
 .app-screen-center { animation: phone-center linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
 .app-screen-right { animation: phone-right linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
 
-@keyframes section-reveal {
-  from { opacity: 0; transform: translateY(28px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 @keyframes phone-left { from { transform: translateY(45px) rotate(-8deg); } to { transform: translateY(0) rotate(-5deg); } }
 @keyframes phone-center { from { transform: translateY(70px); } to { transform: translateY(0); } }
 @keyframes phone-right { from { transform: translateY(45px) rotate(8deg); } to { transform: translateY(0) rotate(5deg); } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .animate-rise, .animate-float, .reveal-section, .app-screen { animation: none; }
+  .animate-rise, .animate-float, .app-screen { animation: none; }
+  .reveal-section { opacity: 1; transform: none; transition: none; }
   .card-tilt, .benefit-card, .benefit-answer { transition: none; }
   .hero-video { display: none; }
 }
