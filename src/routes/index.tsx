@@ -454,23 +454,68 @@ function Index() {
         <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-8"><p className="text-sm font-extrabold uppercase">Sua empresa tem IMÃ?</p><h2 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">Benefícios que atraem. Pessoas que ficam.</h2><p className="mt-5 max-w-3xl text-lg leading-relaxed text-accent-foreground/75">Quando o benefício carrega a marca da empresa, cada uso também reforça pertencimento, reconhecimento e conexão.</p><div className="mt-8 flex flex-col items-center gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href="#contato">Quero colocar minha marca nessa experiência <ArrowRight /></a></Button><Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-accent-foreground/50 bg-transparent px-6 py-3 text-accent-foreground hover:bg-accent-foreground hover:text-accent"><a href={MEETING_HREF}><CalendarCheck /> Quero conhecer melhor a Imã</a></Button></div></div>
       </section>
 
-      <section id="contato" className="bg-primary py-20 text-primary-foreground sm:py-28">
+      <section id="contato" className="bg-surface py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+          <div className="max-w-3xl"><p className="eyebrow">Dois caminhos</p><h2 className="section-title mt-4">Como você prefere começar?</h2></div>
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+            <article className="flex flex-col rounded-md border border-border bg-background p-7 sm:p-9">
+              <Sparkles className="size-9 text-accent" />
+              <h3 className="mt-6 text-2xl font-extrabold text-primary">Sua marca no cartão</h3>
+              <p className="mt-4 leading-relaxed text-muted-foreground">Veja como sua empresa pode aparecer na experiência de benefícios.</p>
+              <Button asChild size="lg" className="mt-7 h-auto min-h-12 self-start bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF}>Quero uma prévia personalizada <ArrowRight /></a></Button>
+            </article>
+            <article className="flex flex-col rounded-md border border-border bg-primary p-7 text-primary-foreground sm:p-9">
+              <CalendarCheck className="size-9 text-brand-mint" />
+              <h3 className="mt-6 text-2xl font-extrabold">Uma conversa sobre a solução</h3>
+              <p className="mt-4 leading-relaxed text-primary-foreground/75">Entenda o cartão, os benefícios, a implantação e as possibilidades para sua empresa.</p>
+              <Button asChild size="lg" className="mt-7 h-auto min-h-12 self-start bg-brand-mint px-6 py-3 text-primary hover:bg-brand-mint/90"><a href={MEETING_HREF}>Agendar uma conversa <ArrowRight /></a></Button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="previa" className="bg-primary py-20 text-primary-foreground sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:px-12">
-          <div className="lg:sticky lg:top-28"><p className="eyebrow text-brand-mint">Prévia personalizada</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Veja como sua marca ficaria no cartão.</h2><p className="mt-6 max-w-lg text-lg leading-relaxed text-primary-foreground/70">Envie sua identidade visual e descubra como a experiência de benefícios pode ganhar ainda mais força. A prévia será avaliada e preparada pela equipe comercial.</p></div>
-          <form onSubmit={submitCommercialForm} className="grid gap-5 rounded-md bg-background p-6 text-foreground shadow-xl sm:grid-cols-2 sm:p-8">
+          <div className="lg:sticky lg:top-28"><p className="eyebrow text-brand-mint">Prévia personalizada</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Veja como sua marca pode aparecer na experiência de benefícios.</h2><p className="mt-6 max-w-lg text-lg leading-relaxed text-primary-foreground/70">Envie algumas informações sobre sua empresa e, se desejar, o logotipo. Nossa equipe poderá preparar uma prévia conceitual do cartão personalizado para você.</p></div>
+          <form onSubmit={handleSubmit("previa", "Quero uma prévia personalizada")} className="grid gap-5 rounded-md bg-background p-6 text-foreground shadow-xl sm:grid-cols-2 sm:p-8">
             <Field label="Nome" name="nome" autoComplete="name" required />
             <Field label="Empresa" name="empresa" autoComplete="organization" required />
             <Field label="Cargo" name="cargo" autoComplete="organization-title" required />
             <Field label="E-mail corporativo" name="email" type="email" autoComplete="email" required />
             <Field label="WhatsApp" name="whatsapp" type="tel" autoComplete="tel" required />
             <label className="form-label">Número aproximado de colaboradores<select name="colaboradores" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option><option>Até 50</option><option>De 51 a 200</option><option>De 201 a 500</option><option>De 501 a 1.000</option><option>Mais de 1.000</option></select></label>
-            <label className="form-label sm:col-span-2">Envie seu logotipo <span className="flex min-h-24 cursor-pointer items-center justify-center gap-3 rounded-md border border-dashed border-input bg-surface px-4 text-center text-muted-foreground transition-colors hover:border-primary"><Upload className="size-5" />Selecionar arquivo<input name="logo" type="file" required accept="image/png,image/jpeg,image/svg+xml,application/pdf" className="sr-only" /></span><span className="font-normal text-muted-foreground">PNG, JPG, SVG ou PDF, com até 5 MB. O arquivo deverá ser anexado ao e-mail preparado.</span></label>
-            <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground sm:col-span-2"><input type="checkbox" name="consentimento" required className="mt-1 size-4 shrink-0 accent-primary" />Autorizo o tratamento dos meus dados para receber contato comercial da Imã.</label>
-            {formNotice && <p role="status" className="rounded-md bg-surface p-3 text-sm text-primary sm:col-span-2">{formNotice}</p>}
-            <Button type="submit" size="lg" className="h-12 bg-accent text-accent-foreground hover:bg-accent/90 sm:col-span-2">Quero uma prévia personalizada <ArrowRight /></Button>
+            <fieldset className="sm:col-span-2"><legend className="text-sm font-bold text-primary">Benefícios de maior interesse</legend><div className="mt-3 grid gap-3 sm:grid-cols-2">{INTEREST_OPTIONS.map((item) => <label key={item} className="flex items-center gap-3 text-sm text-muted-foreground"><input type="checkbox" name="interesses" value={item} className="size-4 shrink-0 accent-primary" />{item}</label>)}</div></fieldset>
+            <label className="form-label sm:col-span-2">Logotipo da empresa <span className="font-normal text-muted-foreground">(opcional)</span><span className="flex min-h-24 cursor-pointer items-center justify-center gap-3 rounded-md border border-dashed border-input bg-surface px-4 text-center text-muted-foreground transition-colors hover:border-primary"><Upload className="size-5" />Selecionar arquivo<input name="logo" type="file" accept="image/png,image/jpeg,image/svg+xml,application/pdf" className="sr-only" /></span><span className="font-normal text-muted-foreground">PNG, JPG, SVG ou PDF, com até 5 MB. O arquivo deverá ser anexado ao e-mail preparado.</span></label>
+            <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground sm:col-span-2"><input type="checkbox" name="consentimento" required className="mt-1 size-4 shrink-0 accent-primary" />Autorizo o contato da Imã e o tratamento dos meus dados conforme a Política de Privacidade.</label>
+            {notice.previa && <p role="status" className={`rounded-md p-3 text-sm sm:col-span-2 ${notice.previa.ok ? "bg-secondary text-secondary-foreground" : "bg-surface text-destructive"}`}>{notice.previa.text}</p>}
+            <Button type="submit" size="lg" disabled={sending === "previa"} className="h-12 bg-accent text-accent-foreground hover:bg-accent/90 sm:col-span-2">Criar uma prévia personalizada <ArrowRight /></Button>
+            <p className="text-xs leading-relaxed text-muted-foreground sm:col-span-2">{PRIVACY_NOTE}</p>
           </form>
         </div>
       </section>
+
+      <section id="reuniao" className="bg-background py-20 sm:py-28">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:px-12">
+          <div className="lg:sticky lg:top-28"><p className="eyebrow">Reunião comercial</p><h2 className="section-title mt-4">Vamos entender o que a sua empresa precisa?</h2><p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">Converse com nossa equipe para conhecer o cartão multibenefícios, as possibilidades de personalização, as categorias disponíveis e a melhor forma de estruturar a solução para sua empresa.</p></div>
+          <form onSubmit={handleSubmit("reuniao", "Agendar uma conversa")} className="grid gap-5 rounded-md border border-border bg-surface p-6 sm:grid-cols-2 sm:p-8">
+            <Field label="Nome" name="nome" autoComplete="name" required />
+            <Field label="Empresa" name="empresa" autoComplete="organization" required />
+            <Field label="Cargo" name="cargo" autoComplete="organization-title" required />
+            <Field label="E-mail corporativo" name="email" type="email" autoComplete="email" required />
+            <Field label="WhatsApp" name="whatsapp" type="tel" autoComplete="tel" required />
+            <label className="form-label">Número aproximado de colaboradores<select name="colaboradores" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option><option>Até 50</option><option>De 51 a 200</option><option>De 201 a 500</option><option>De 501 a 1.000</option><option>Mais de 1.000</option></select></label>
+            <label className="form-label">O que você deseja conhecer?<select name="tema" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option>{MEETING_TOPICS.map((item) => <option key={item}>{item}</option>)}</select></label>
+            <label className="form-label">Melhor período para contato<select name="periodo" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option><option>Manhã</option><option>Tarde</option><option>Fim do dia</option><option>Qualquer período</option></select></label>
+            <Field label="Benefício ou necessidade principal" name="necessidade" required />
+            <label className="form-label sm:col-span-2">Conte brevemente o que você gostaria de entender <span className="font-normal text-muted-foreground">(opcional)</span><textarea name="mensagem" rows={4} maxLength={1000} className="form-control h-auto py-3" /></label>
+            <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground sm:col-span-2"><input type="checkbox" name="consentimento" required className="mt-1 size-4 shrink-0 accent-primary" />Autorizo o contato da Imã e o tratamento dos meus dados conforme a Política de Privacidade.</label>
+            {notice.reuniao && <p role="status" className={`rounded-md p-3 text-sm sm:col-span-2 ${notice.reuniao.ok ? "bg-secondary text-secondary-foreground" : "bg-background text-destructive"}`}>{notice.reuniao.text}</p>}
+            <Button type="submit" size="lg" disabled={sending === "reuniao"} className="h-12 bg-primary text-primary-foreground hover:bg-primary/90 sm:col-span-2">Solicitar uma conversa <ArrowRight /></Button>
+            <p className="text-xs leading-relaxed text-muted-foreground sm:col-span-2">{PRIVACY_NOTE}</p>
+          </form>
+        </div>
+      </section>
+
 
       <footer className="bg-primary-deep py-12 text-primary-foreground">
         <div className="mx-auto flex max-w-7xl flex-col gap-9 px-5 sm:px-8 lg:px-12">
