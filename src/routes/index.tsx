@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
+  CalendarCheck,
   Award,
   BookOpen,
   BriefcaseBusiness,
@@ -48,6 +49,12 @@ const CONTACT_LINKS = {
   whatsapp: "https://wa.me/5511996443300",
   instagram: "https://instagram.com/somos.ima",
 };
+
+// Quando a integração com o calendário estiver pronta, informe o link aqui
+// (ex.: "https://calendly.com/..."). Enquanto estiver vazio, o botão
+// "Quero conhecer melhor a Imã" leva ao formulário comercial.
+const SCHEDULE_LINK = "";
+const MEETING_HREF = SCHEDULE_LINK || "#contato";
 
 const benefits = [
   { icon: ShoppingBasket, title: "Alimentação", text: "Compras para a rotina, conforme a categoria contratada." },
@@ -200,9 +207,10 @@ function Index() {
             <p className="inline-flex rounded-full border border-primary-foreground/30 bg-primary/80 px-4 py-2 text-xs font-extrabold uppercase text-brand-mint">Cartão multibenefícios Visa</p>
             <h1 className="mt-6 text-4xl font-extrabold leading-[1.03] sm:text-5xl lg:text-6xl">O benefício da sua empresa com a marca da sua empresa.</h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/85">Alimentação, refeição, mobilidade, premiação e outros benefícios em um cartão e aplicativo personalizados com a identidade da sua empresa.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href="#contato">Quero ver minha marca no cartão <ArrowRight /></a></Button>
               <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-primary-foreground/40 bg-primary/30 px-6 py-3 text-primary-foreground hover:bg-primary-foreground hover:text-primary"><a href="#beneficios">Conhecer os benefícios</a></Button>
+              <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-brand-mint/60 bg-transparent px-6 py-3 text-brand-mint hover:bg-brand-mint hover:text-primary"><a href={MEETING_HREF}><CalendarCheck /> Quero conhecer melhor a Imã</a></Button>
             </div>
             <p className="mt-9 text-xl font-extrabold text-brand-mint">Sua empresa tem IMÃ?</p>
           </div>
@@ -345,7 +353,7 @@ function Index() {
 
       <section className="relative overflow-hidden bg-accent py-16 text-accent-foreground sm:py-20">
         <div className="wave-lines absolute inset-0 opacity-20" />
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-8"><p className="text-sm font-extrabold uppercase">Sua empresa tem IMÃ?</p><h2 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">Benefícios que atraem. Pessoas que ficam.</h2><p className="mt-5 max-w-3xl text-lg leading-relaxed text-accent-foreground/75">Quando o benefício carrega a marca da empresa, cada uso também reforça pertencimento, reconhecimento e conexão.</p><Button asChild size="lg" className="mt-8 h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href="#contato">Quero colocar minha marca nessa experiência <ArrowRight /></a></Button></div>
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-8"><p className="text-sm font-extrabold uppercase">Sua empresa tem IMÃ?</p><h2 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">Benefícios que atraem. Pessoas que ficam.</h2><p className="mt-5 max-w-3xl text-lg leading-relaxed text-accent-foreground/75">Quando o benefício carrega a marca da empresa, cada uso também reforça pertencimento, reconhecimento e conexão.</p><div className="mt-8 flex flex-col items-center gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href="#contato">Quero colocar minha marca nessa experiência <ArrowRight /></a></Button><Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-accent-foreground/50 bg-transparent px-6 py-3 text-accent-foreground hover:bg-accent-foreground hover:text-accent"><a href={MEETING_HREF}><CalendarCheck /> Quero conhecer melhor a Imã</a></Button></div></div>
       </section>
 
       <section id="contato" className="bg-primary py-20 text-primary-foreground sm:py-28">
