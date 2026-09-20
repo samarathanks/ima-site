@@ -162,37 +162,102 @@ function HeroMedia() {
   );
 }
 
+type LeadKind = "previa" | "reuniao";
+
+const LEAD_LABEL: Record<LeadKind, string> = {
+  previa: "Solicitação de prévia personalizada",
+  reuniao: "Solicitação de reunião comercial",
+};
+
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [formNotice, setFormNotice] = useState("");
+  const [notice, setNotice] = useState<Record<LeadKind, { text: string; ok: boolean } | null>>({
+    previa: null,
+    reuniao: null,
+  });
+  const [sending, setSending] = useState<LeadKind | null>(null);
 
-  function submitCommercialForm(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    if (data.get("consentimento") !== "on") {
-      setFormNotice("Confirme o consentimento para continuar.");
-      return;
-    }
-    const logoFile = data.get("logo");
-    if (logoFile instanceof File && logoFile.size > 5 * 1024 * 1024) {
-      setFormNotice("O arquivo do logotipo deve ter até 5 MB.");
-      return;
-    }
+  function handleSubmit(kind: LeadKind, cta: string) {
+    return (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (sending) return;
+      const form = event.currentTarget;
+      const data = new FormData(form);
 
-    const value = (key: string, fallback = "Não informado") => {
-      const field = data.get(key);
-      return typeof field === "string" && field.trim() ? field.trim().slice(0, 1000) : fallback;
+      const fail = (text: string) => setNotice((prev) => ({ ...prev, [kind]: { text, ok: false } }));
+
+      if (data.get("consentimento") !== "on") {
+        fail("Confirme o consentimento para continuar.");
+        return;
+      }
+      const logoFile = data.get("logo");
+      if (logoFile instanceof File && logoFile.size > 5 * 1024 * 1024) {
+        fail("O arquivo do logotipo deve ter até 5 MB.");
+        return;
+      }
+
+      const value = (key: string, fallback = "Não informado") => {
+        const field = data.get(key);
+        return typeof field === "string" && field.trim() ? field.trim().slice(0, 1000) : fallback;
+      };
+      const list = (key: string) => {
+        const items = data.getAll(key).filter((item): item is string => typeof item === "string");
+        return items.length ? items.join(", ") : "Não informado";
+      };
+
+      setSending(kind);
+
+      const base = [
+        `Tipo de conversão: ${LEAD_LABEL[kind]}`,
+        `CTA utilizado: ${cta}`,
+        `Origem: ${typeof window !== "undefined" ? window.location.href : "site Imã"}`,
+        `Data e horário: ${new Date().toLocaleString("pt-BR")}`,
+        "Consentimento de contato: concedido",
+        "",
+        `Nome: ${value("nome")}`,
+        `Empresa: ${value("empresa")}`,
+        `Cargo: ${value("cargo")}`,
+        `E-mail corporativo: ${value("email")}`,
+        `WhatsApp: ${value("whatsapp")}`,
+        `Colaboradores: ${value("colaboradores")}`,
+      ];
+
+      const extra =
+        kind === "previa"
+          ? [
+              `Benefícios de maior interesse: ${list("interesses")}`,
+              `Logotipo: ${logoFile instanceof File && logoFile.size > 0 ? "será anexado ao e-mail" : "não enviado"}`,
+            ]
+          : [
+              `O que deseja conhecer: ${value("tema")}`,
+              `Benefício ou necessidade principal: ${value("necessidade")}`,
+              `Melhor período para contato: ${value("periodo")}`,
+              "",
+              `Observações: ${value("mensagem", "—")}`,
+            ];
+
+      const subject = encodeURIComponent(LEAD_LABEL[kind]);
+      const body = encodeURIComponent([...base, ...extra].join("\n"));
+
+      setNotice((prev) => ({
+        ...prev,
+        [kind]: {
+          ok: true,
+          text:
+            kind === "previa"
+              ? "Recebemos suas informações. Nossa equipe avaliará a melhor forma de apresentar a sua marca na experiência IMÃ e entrará em contato."
+              : "Recebemos sua solicitação. Nossa equipe entrará em contato para entender o cenário da sua empresa e apresentar a solução mais adequada.",
+        },
+      }));
+
+      window.location.href = `${CONTACT_LINKS.email}?subject=${subject}&body=${body}`;
+      form.reset();
+      window.setTimeout(() => setSending(null), 4000);
     };
-
-    const subject = encodeURIComponent("Quero conhecer a Imã");
-    const body = encodeURIComponent(
-      `Nome: ${value("nome")}\nEmpresa: ${value("empresa")}\nCargo: ${value("cargo")}\nE-mail: ${value("email")}\nWhatsApp: ${value("whatsapp")}\nColaboradores: ${value("colaboradores")}\nSolicitação: Prévia personalizada do cartão\nLogotipo: será anexado manualmente a este e-mail\n\nMensagem:\nQuero conhecer a solução da Imã e receber orientação sobre uma prévia personalizada.`,
-    );
-    setFormNotice("Sua solicitação foi preparada. Ao abrir seu e-mail, anexe o logotipo selecionado antes de enviar.");
-    window.location.href = `${CONTACT_LINKS.email}?subject=${subject}&body=${body}`;
   }
 
   const closeMenu = () => setMenuOpen(false);
+
 
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
