@@ -29,7 +29,7 @@ import {
   WalletCards,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import appCartao from "@/assets/app-cartao.png.asset.json";
 import appPerfil from "@/assets/app-perfil.png.asset.json";
@@ -53,48 +53,18 @@ const CONTACT_LINKS = {
 // Quando existir um link real de agenda, informe-o aqui. Enquanto estiver
 // vazio, o CTA "Agendar uma conversa" leva ao formulário de reunião comercial.
 const SCHEDULE_LINK = "";
-const MEETING_HREF = SCHEDULE_LINK || "#reuniao";
-const PREVIEW_HREF = "#previa";
+const MEETING_HREF = SCHEDULE_LINK || "#contato";
+const PREVIEW_HREF = "#contato";
 
 // Endpoint preparado para futura integração de CRM (ex.: Zoho).
 // Enquanto estiver vazio, os dados são organizados em um e-mail comercial.
 const LEAD_ENDPOINT = "";
 
-const INTEREST_OPTIONS = [
-  "Alimentação",
-  "Refeição",
-  "Mobilidade",
-  "Vale-transporte",
-  "Premiação",
-  "Clube de benefícios",
-  "Outros benefícios",
-];
-
 const MEETING_TOPICS = [
-  "Cartão multibenefícios",
-  "Alimentação e refeição",
-  "Mobilidade e vale-transporte",
-  "Premiação",
-  "Clube de benefícios",
-  "Gestão dos benefícios e aplicativo",
-  "PAT e gestão responsável",
-  "Quero avaliar a solução completa",
-];
-
-const CUSTOM_INTEREST_OPTIONS = [
-  "Sim, gostaria de entender essa possibilidade",
-  "Não neste momento",
-  "Quero conhecer primeiro a solução padrão IMÃ",
-  "Ainda não sei",
-];
-
-const CUSTOM_TYPE_OPTIONS = [
-  "Cartão com a identidade da empresa",
-  "Aplicativo",
-  "Carta-berço e kit de entrega",
-  "Comunicação de implantação",
-  "Jornada de boas-vindas",
-  "Ainda estou avaliando",
+  "Solução de cartão multibenefícios",
+  "Possibilidade de personalização",
+  "Benefícios para colaboradores",
+  "Agendar uma conversa",
 ];
 
 const PRIVACY_NOTE =
@@ -178,29 +148,34 @@ function HeroMedia() {
   );
 }
 
-type LeadKind = "previa" | "reuniao";
-
-const LEAD_LABEL: Record<LeadKind, string> = {
-  previa: "Interesse em personalização",
-  reuniao: "Interesse na solução IMÃ",
-};
-
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [notice, setNotice] = useState<Record<LeadKind, { text: string; ok: boolean } | null>>({
-    previa: null,
-    reuniao: null,
-  });
-  const [sending, setSending] = useState<LeadKind | null>(null);
+  const [notice, setNotice] = useState<{ text: string; ok: boolean } | null>(null);
+  const [sending, setSending] = useState(false);
+  const [topic, setTopic] = useState("");
 
-  function handleSubmit(kind: LeadKind, cta: string) {
-    return (event: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    const sections = document.querySelectorAll<HTMLElement>(".reveal-section");
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      }),
+      { threshold: 0.08 },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
       if (sending) return;
       const form = event.currentTarget;
       const data = new FormData(form);
 
-      const fail = (text: string) => setNotice((prev) => ({ ...prev, [kind]: { text, ok: false } }));
+      const fail = (text: string) => setNotice({ text, ok: false });
 
       if (data.get("consentimento") !== "on") {
         fail("Confirme o consentimento para continuar.");
@@ -216,47 +191,24 @@ function Index() {
         const field = data.get(key);
         return typeof field === "string" && field.trim() ? field.trim().slice(0, 1000) : fallback;
       };
-      const list = (key: string) => {
-        const items = data.getAll(key).filter((item): item is string => typeof item === "string");
-        return items.length ? items.join(", ") : "Não informado";
-      };
-
-      setSending(kind);
+      setSending(true);
 
       const base = [
-        `Tipo de conversão: ${LEAD_LABEL[kind]}`,
-        `CTA utilizado: ${cta}`,
+        `Tipo de conversão: ${value("tema")}`,
         `Origem: ${typeof window !== "undefined" ? window.location.href : "site Imã"}`,
         `Data e horário: ${new Date().toLocaleString("pt-BR")}`,
         "Consentimento de contato: concedido",
         "",
         `Nome: ${value("nome")}`,
         `Empresa: ${value("empresa")}`,
-        `Cargo: ${value("cargo")}`,
         `E-mail corporativo: ${value("email")}`,
         `WhatsApp: ${value("whatsapp")}`,
-        `Colaboradores: ${value("colaboradores")}`,
+        `O que deseja conhecer: ${value("tema")}`,
+        `Logotipo: ${logoFile instanceof File && logoFile.size > 0 ? "selecionado pelo visitante" : "não enviado"}`,
       ];
 
-      const extra =
-        kind === "previa"
-          ? [
-              `Tipo de personalização de interesse: ${list("tipos_personalizacao")}`,
-              `Logotipo: ${logoFile instanceof File && logoFile.size > 0 ? "será anexado ao e-mail" : "não enviado"}`,
-              "",
-              "Observação: solicitação de avaliação de projeto personalizado (sujeita à análise).",
-            ]
-          : [
-              `O que deseja conhecer: ${value("tema")}`,
-              `Benefícios de maior interesse: ${list("interesses")}`,
-              `Interesse em avaliar personalização da marca: ${value("interesse_personalizacao")}`,
-              `Melhor período para contato: ${value("periodo")}`,
-              "",
-              `Necessidade / observações: ${value("mensagem", "—")}`,
-            ];
-
-      const subject = encodeURIComponent(LEAD_LABEL[kind]);
-      const body = encodeURIComponent([...base, ...extra].join("\n"));
+      const subject = encodeURIComponent(`Contato pelo site — ${value("tema")}`);
+      const body = encodeURIComponent(base.join("\n"));
 
       // Estrutura pronta para uma futura integração de CRM.
       if (LEAD_ENDPOINT) {
@@ -264,8 +216,7 @@ function Index() {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
-            tipo_conversao: LEAD_LABEL[kind],
-            cta,
+            tipo_conversao: value("tema"),
             origem: typeof window !== "undefined" ? window.location.href : "",
             enviado_em: new Date().toISOString(),
             consentimento: true,
@@ -277,21 +228,12 @@ function Index() {
       }
 
 
-      setNotice((prev) => ({
-        ...prev,
-        [kind]: {
-          ok: true,
-          text:
-            kind === "previa"
-              ? "Recebemos sua solicitação de avaliação. Nossa equipe analisará o cenário da sua empresa e retornará sobre as possibilidades de personalização."
-              : "Recebemos sua solicitação. Nossa equipe entrará em contato para entender o cenário da sua empresa e apresentar a solução mais adequada.",
-        },
-      }));
+      setNotice({ ok: true, text: "Sua solicitação está pronta. Nossa equipe dará continuidade ao atendimento pelo canal escolhido." });
 
       window.location.href = `${CONTACT_LINKS.email}?subject=${subject}&body=${body}`;
       form.reset();
-      window.setTimeout(() => setSending(null), 4000);
-    };
+      setTopic("");
+      window.setTimeout(() => setSending(false), 4000);
   }
 
   const closeMenu = () => setMenuOpen(false);
@@ -349,9 +291,7 @@ function Index() {
             </div>
             <p className="mt-9 text-xl font-extrabold text-brand-mint">Sua empresa tem IMÃ?</p>
           </div>
-          <div className="self-end pb-2 lg:pb-10">
-            <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} className="mx-auto w-full max-w-sm object-contain drop-shadow-2xl lg:ml-auto lg:max-w-xl" />
-          </div>
+          <div className="self-end pb-2 lg:pb-10"><TiltCard className="mx-auto w-full max-w-sm lg:ml-auto lg:max-w-xl" /></div>
         </div>
       </section>
 
@@ -359,7 +299,7 @@ function Index() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12"><div className="overflow-hidden rounded-md"><HeroMedia /></div></div>
       </section>
 
-      <section id="cartao" className="bg-surface py-20 sm:py-28">
+      <section id="cartao" className="reveal-section bg-surface py-20 sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center lg:px-12">
           <div>
             <p className="eyebrow">Cartão multibenefícios</p>
@@ -371,16 +311,16 @@ function Index() {
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button></div>
           </div>
-          <img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} loading="lazy" className="w-full object-contain" />
+          <TiltCard className="w-full" lazy />
         </div>
       </section>
 
 
-      <section id="beneficios" className="py-20 sm:py-28">
+      <section id="beneficios" className="reveal-section py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="max-w-3xl"><p className="eyebrow">Benefícios para diferentes momentos</p><h2 className="section-title mt-4">Uma solução que acompanha a vida real.</h2><p className="mt-5 text-lg leading-relaxed text-muted-foreground">Categorias e experiências disponíveis conforme a configuração contratada e a validação técnica.</p></div>
           <div className="mt-12 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {benefits.map(({ icon: Icon, title, text }) => <article key={title} className="group min-h-60 bg-background p-7 transition-colors hover:bg-surface sm:p-8"><div className="flex size-11 items-center justify-center rounded-md bg-brand-mint text-primary"><Icon className="size-5" /></div><h3 className="mt-7 text-xl font-bold text-primary">{title}</h3><p className="mt-3 leading-relaxed text-muted-foreground">{text}</p></article>)}
+            {benefits.map(({ icon: Icon, title, text }) => <details key={title} className="benefit-card group bg-background p-7 sm:p-8"><summary className="flex cursor-pointer list-none items-center gap-4"><span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-brand-mint text-primary"><Icon className="size-5" /></span><span className="flex-1 text-lg font-bold text-primary">{title}</span><ChevronDown className="size-5 shrink-0 text-accent transition-transform group-open:rotate-180" /></summary><div className="benefit-answer"><p className="pt-5 leading-relaxed text-muted-foreground">{text}</p></div></details>)}
           </div>
           <Button asChild size="lg" variant="outline" className="mt-10 h-auto min-h-12 border-primary/30 px-6 py-3 text-primary hover:bg-primary hover:text-primary-foreground"><a href={MEETING_HREF}><CalendarCheck /> Entender como funciona</a></Button>
 
@@ -388,14 +328,14 @@ function Index() {
       </section>
 
 
-      <section className="py-20 sm:py-28">
+      <section className="reveal-section py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-center">
             <div className="relative flex h-[490px] items-end justify-center overflow-hidden rounded-md bg-primary sm:h-[570px]">
               <div className="absolute inset-x-0 top-0 p-8 sm:p-10"><p className="text-xs font-bold uppercase tracking-[.16em] text-brand-mint">Cartão e aplicativo</p><h2 className="mt-4 max-w-md text-3xl font-extrabold leading-tight text-primary-foreground sm:text-4xl">Saldo, compras e benefícios na mão do colaborador.</h2></div>
-              <img src={appSaldo.url} alt="Tela de saldo no aplicativo Imã" loading="lazy" className="absolute bottom-[-8%] left-[3%] h-[62%] rotate-[-5deg] drop-shadow-2xl" />
-              <img src={appCartao.url} alt="Tela de cartão no aplicativo Imã" loading="lazy" className="absolute bottom-[-3%] z-10 h-[70%] drop-shadow-2xl" />
-              <img src={appPerfil.url} alt="Tela de perfil no aplicativo Imã" loading="lazy" className="absolute bottom-[-8%] right-[-2%] h-[62%] rotate-[5deg] drop-shadow-2xl" />
+              <img src={appSaldo.url} alt="Tela de saldo no aplicativo Imã" loading="lazy" className="app-screen app-screen-left absolute bottom-[-8%] left-[3%] h-[62%] drop-shadow-2xl" />
+              <img src={appCartao.url} alt="Tela de cartão no aplicativo Imã" loading="lazy" className="app-screen app-screen-center absolute bottom-[-3%] z-10 h-[70%] drop-shadow-2xl" />
+              <img src={appPerfil.url} alt="Tela de perfil no aplicativo Imã" loading="lazy" className="app-screen app-screen-right absolute bottom-[-8%] right-[-2%] h-[62%] drop-shadow-2xl" />
             </div>
             <div><p className="eyebrow">Experiência do colaborador</p><h2 className="section-title mt-4">Simples para usar. Fácil de reconhecer.</h2><p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">O cartão e o aplicativo entram na rotina como uma extensão do cuidado da empresa — com autonomia, informação e identidade.</p><div className="mt-9 grid gap-4 sm:grid-cols-2">{employeeBenefits.map((item) => <p key={item} className="flex gap-3 font-semibold"><Check className="mt-0.5 size-5 shrink-0 text-accent" />{item}</p>)}</div></div>
           </div>
@@ -419,7 +359,7 @@ function Index() {
         </div>
       </section>
 
-      <section id="sua-marca" className="bg-primary py-20 text-primary-foreground sm:py-28">
+      <section id="sua-marca" className="reveal-section bg-primary py-20 text-primary-foreground sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-12">
           <div>
             <p className="eyebrow text-brand-mint">Diferencial opcional</p>
@@ -429,7 +369,7 @@ function Index() {
               {["Cartão com a identidade da empresa", "Aplicativo", "Carta-berço e kit de entrega", "Comunicação de implantação", "Materiais de ativação", "Jornada de boas-vindas"].map((item) => <div key={item} className="flex min-h-20 items-center gap-3 bg-primary p-5"><Sparkles className="size-5 shrink-0 text-brand-mint" /><p className="font-semibold">{item}</p></div>)}
             </div>
             <p className="mt-6 max-w-xl text-sm leading-relaxed text-primary-foreground/60">Projetos personalizados sob consulta, conforme a configuração contratada e sujeitos à avaliação do projeto.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF}>Quero entender se minha empresa pode personalizar <ArrowRight /></a></Button></div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF} onClick={() => setTopic("Possibilidade de personalização")}>Quero avaliar essa possibilidade <ArrowRight /></a></Button></div>
           </div>
           <div className="relative">
             <img src={brandExperience.url} alt="Exemplo demonstrativo de personalização com cartão, aplicativo e materiais de marca fictícia" loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
@@ -485,71 +425,25 @@ function Index() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-accent py-16 text-accent-foreground sm:py-20">
+      <section className="reveal-section relative overflow-hidden bg-accent py-16 text-accent-foreground sm:py-20">
         <div className="wave-lines absolute inset-0 opacity-20" />
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-8"><p className="text-sm font-extrabold uppercase">Sua empresa tem IMÃ?</p><h2 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">Benefícios que atraem. Pessoas que ficam.</h2><p className="mt-5 max-w-3xl text-lg leading-relaxed text-accent-foreground/75">Uma solução de benefícios que organiza a gestão da empresa e valoriza a experiência de quem recebe.</p><div className="mt-8 flex flex-col items-center gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button><Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-accent-foreground/50 bg-transparent px-6 py-3 text-accent-foreground hover:bg-accent-foreground hover:text-accent"><a href={PREVIEW_HREF}>Avaliar personalização</a></Button></div></div>
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-8"><p className="text-sm font-extrabold uppercase">Sua empresa tem IMÃ?</p><h2 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">Benefícios que atraem. Pessoas que ficam.</h2><p className="mt-5 max-w-3xl text-lg leading-relaxed text-accent-foreground/75">Uma solução de benefícios que organiza a gestão da empresa e valoriza a experiência de quem recebe.</p><div className="mt-8 flex flex-col items-center gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button><Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-accent-foreground/50 bg-transparent px-6 py-3 text-accent-foreground hover:bg-accent-foreground hover:text-accent"><a href={PREVIEW_HREF} onClick={() => setTopic("Possibilidade de personalização")}>Avaliar personalização</a></Button></div></div>
       </section>
 
-      <section id="contato" className="bg-surface py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-          <div className="max-w-3xl"><p className="eyebrow">Dois caminhos</p><h2 className="section-title mt-4">Como você prefere começar?</h2></div>
-          <div className="mt-10 grid gap-6 lg:grid-cols-[1.25fr_.75fr] lg:items-start">
-            <article className="flex flex-col rounded-md border border-primary/20 bg-primary p-8 text-primary-foreground shadow-xl sm:p-10">
-              <CreditCard className="size-10 text-brand-mint" />
-              <h3 className="mt-6 text-3xl font-extrabold">Conheça a solução IMÃ</h3>
-              <p className="mt-4 text-lg leading-relaxed text-primary-foreground/80">Um cartão multibenefícios para organizar benefícios e valorizar a experiência dos colaboradores.</p>
-              <Button asChild size="lg" className="mt-8 h-auto min-h-12 self-start bg-brand-mint px-6 py-3 text-primary hover:bg-brand-mint/90"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button>
-            </article>
-            <article className="flex flex-col rounded-md border border-border bg-background p-7 sm:p-8">
-              <Sparkles className="size-8 text-accent" />
-              <h3 className="mt-5 text-xl font-extrabold text-primary">Avalie uma experiência personalizada</h3>
-              <p className="mt-3 leading-relaxed text-muted-foreground">Para empresas que desejam levar sua identidade para o cartão e para outros pontos da jornada.</p>
-              <Button asChild variant="outline" className="mt-6 h-auto min-h-12 self-start border-primary/30 px-5 py-3 text-primary hover:bg-primary hover:text-primary-foreground"><a href={PREVIEW_HREF}>Avaliar personalização</a></Button>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="reuniao" className="bg-primary py-20 text-primary-foreground sm:py-28">
+      <section id="contato" className="reveal-section bg-primary py-20 text-primary-foreground sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:px-12">
-          <div className="lg:sticky lg:top-28"><p className="eyebrow text-brand-mint">Conhecer a solução</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Vamos entender o que sua empresa precisa?</h2><p className="mt-6 max-w-lg text-lg leading-relaxed text-primary-foreground/70">Converse com nossa equipe para conhecer o cartão multibenefícios, as categorias disponíveis, o aplicativo e a melhor forma de estruturar a solução para sua empresa.</p></div>
-          <form onSubmit={handleSubmit("reuniao", "Agendar uma conversa")} className="grid gap-5 rounded-md bg-background p-6 text-foreground shadow-xl sm:grid-cols-2 sm:p-8">
+          <div className="lg:sticky lg:top-28"><p className="eyebrow text-brand-mint">Conhecer a solução</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Vamos entender o que sua empresa precisa?</h2><p className="mt-6 max-w-lg text-lg leading-relaxed text-primary-foreground/70">Conte seu interesse em poucos campos. A personalização é uma possibilidade opcional, sob consulta e conforme o projeto contratado.</p></div>
+          <form onSubmit={handleSubmit} className="grid gap-5 rounded-md bg-background p-6 text-foreground shadow-xl sm:grid-cols-2 sm:p-8">
             <Field label="Nome" name="nome" autoComplete="name" required />
             <Field label="Empresa" name="empresa" autoComplete="organization" required />
-            <Field label="Cargo" name="cargo" autoComplete="organization-title" required />
             <Field label="E-mail corporativo" name="email" type="email" autoComplete="email" required />
             <Field label="WhatsApp" name="whatsapp" type="tel" autoComplete="tel" required />
-            <label className="form-label">Número aproximado de colaboradores<select name="colaboradores" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option><option>Até 50</option><option>De 51 a 200</option><option>De 201 a 500</option><option>De 501 a 1.000</option><option>Mais de 1.000</option></select></label>
-            <label className="form-label">O que você deseja conhecer?<select name="tema" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option>{MEETING_TOPICS.map((item) => <option key={item}>{item}</option>)}</select></label>
-            <label className="form-label">Melhor período para contato<select name="periodo" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option><option>Manhã</option><option>Tarde</option><option>Fim do dia</option><option>Qualquer período</option></select></label>
-            <fieldset className="sm:col-span-2"><legend className="text-sm font-bold text-primary">Benefícios de interesse</legend><div className="mt-3 grid gap-3 sm:grid-cols-2">{INTEREST_OPTIONS.map((item) => <label key={item} className="flex items-center gap-3 text-sm text-muted-foreground"><input type="checkbox" name="interesses" value={item} className="size-4 shrink-0 accent-primary" />{item}</label>)}</div></fieldset>
-            <label className="form-label sm:col-span-2">Você tem interesse em avaliar a personalização da marca?<select name="interesse_personalizacao" defaultValue="" className="form-control"><option value="">Selecione (opcional)</option>{CUSTOM_INTEREST_OPTIONS.map((item) => <option key={item}>{item}</option>)}</select></label>
-            <label className="form-label sm:col-span-2">Conte brevemente a sua necessidade <span className="font-normal text-muted-foreground">(opcional)</span><textarea name="mensagem" rows={4} maxLength={1000} className="form-control h-auto py-3" /></label>
+            <label className="form-label sm:col-span-2">O que você deseja conhecer?<select name="tema" required value={topic} onChange={(event) => setTopic(event.target.value)} className="form-control"><option value="" disabled>Selecione</option>{MEETING_TOPICS.map((item) => <option key={item}>{item}</option>)}</select></label>
+            {topic === "Possibilidade de personalização" && <label className="form-label animate-fade-in sm:col-span-2">Logotipo da empresa <span className="font-normal text-muted-foreground">(opcional)</span><span className="flex min-h-24 cursor-pointer items-center justify-center gap-3 rounded-md border border-dashed border-input bg-surface px-4 text-center text-muted-foreground transition-colors hover:border-primary"><Upload className="size-5" />Selecionar arquivo<input name="logo" type="file" accept="image/png,image/jpeg,image/svg+xml,application/pdf" className="sr-only" /></span><span className="font-normal text-muted-foreground">PNG, JPG, SVG ou PDF, com até 5 MB. A personalização será avaliada conforme o projeto e a configuração contratada.</span></label>}
             <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground sm:col-span-2"><input type="checkbox" name="consentimento" required className="mt-1 size-4 shrink-0 accent-primary" />Autorizo o contato da Imã e o tratamento dos meus dados conforme a Política de Privacidade.</label>
-            {notice.reuniao && <p role="status" className={`rounded-md p-3 text-sm sm:col-span-2 ${notice.reuniao.ok ? "bg-secondary text-secondary-foreground" : "bg-surface text-destructive"}`}>{notice.reuniao.text}</p>}
-            <Button type="submit" size="lg" disabled={sending === "reuniao"} className="h-12 bg-accent text-accent-foreground hover:bg-accent/90 sm:col-span-2">Solicitar uma conversa <ArrowRight /></Button>
+            {notice && <p role="status" className={`rounded-md p-3 text-sm sm:col-span-2 ${notice.ok ? "bg-secondary text-secondary-foreground" : "bg-surface text-destructive"}`}>{notice.text}</p>}
+            <Button type="submit" size="lg" disabled={sending} className="h-12 bg-accent text-accent-foreground hover:bg-accent/90 sm:col-span-2">{sending ? "Preparando contato..." : "Conhecer a solução"} <ArrowRight /></Button>
             <p className="text-xs leading-relaxed text-muted-foreground sm:col-span-2">{PRIVACY_NOTE}</p>
-          </form>
-        </div>
-      </section>
-
-
-      <section id="previa" className="bg-background py-20 sm:py-28">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:px-12">
-          <div className="lg:sticky lg:top-28"><p className="eyebrow">Avaliar personalização</p><h2 className="section-title mt-4">Avalie a possibilidade de levar sua marca para a experiência de benefícios.</h2><p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">Para empresas que desejam avaliar um projeto personalizado, nossa equipe analisará a configuração mais adequada para o cartão e para a jornada do colaborador.</p></div>
-          <form onSubmit={handleSubmit("previa", "Avaliar personalização")} className="grid gap-5 rounded-md border border-border bg-surface p-6 sm:grid-cols-2 sm:p-8">
-            <Field label="Nome" name="nome" autoComplete="name" required />
-            <Field label="Empresa" name="empresa" autoComplete="organization" required />
-            <Field label="Cargo" name="cargo" autoComplete="organization-title" required />
-            <Field label="E-mail corporativo" name="email" type="email" autoComplete="email" required />
-            <Field label="WhatsApp" name="whatsapp" type="tel" autoComplete="tel" required />
-            <label className="form-label">Número aproximado de colaboradores<select name="colaboradores" required defaultValue="" className="form-control"><option value="" disabled>Selecione</option><option>Até 50</option><option>De 51 a 200</option><option>De 201 a 500</option><option>De 501 a 1.000</option><option>Mais de 1.000</option></select></label>
-            <fieldset className="sm:col-span-2"><legend className="text-sm font-bold text-primary">Tipo de personalização de interesse</legend><div className="mt-3 grid gap-3 sm:grid-cols-2">{CUSTOM_TYPE_OPTIONS.map((item) => <label key={item} className="flex items-center gap-3 text-sm text-muted-foreground"><input type="checkbox" name="tipos_personalizacao" value={item} className="size-4 shrink-0 accent-primary" />{item}</label>)}</div></fieldset>
-            <label className="form-label sm:col-span-2">Logotipo da empresa <span className="font-normal text-muted-foreground">(opcional)</span><span className="flex min-h-24 cursor-pointer items-center justify-center gap-3 rounded-md border border-dashed border-input bg-background px-4 text-center text-muted-foreground transition-colors hover:border-primary"><Upload className="size-5" />Selecionar arquivo<input name="logo" type="file" accept="image/png,image/jpeg,image/svg+xml,application/pdf" className="sr-only" /></span><span className="font-normal text-muted-foreground">PNG, JPG, SVG ou PDF, com até 5 MB. O arquivo deverá ser anexado ao e-mail preparado.</span></label>
-            <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground sm:col-span-2"><input type="checkbox" name="consentimento" required className="mt-1 size-4 shrink-0 accent-primary" />Autorizo o contato da Imã e o tratamento dos meus dados conforme a Política de Privacidade.</label>
-            {notice.previa && <p role="status" className={`rounded-md p-3 text-sm sm:col-span-2 ${notice.previa.ok ? "bg-secondary text-secondary-foreground" : "bg-background text-destructive"}`}>{notice.previa.text}</p>}
-            <Button type="submit" size="lg" disabled={sending === "previa"} className="h-12 bg-primary text-primary-foreground hover:bg-primary/90 sm:col-span-2">Solicitar avaliação <ArrowRight /></Button>
-            <p className="text-xs leading-relaxed text-muted-foreground sm:col-span-2">O envio das informações representa uma solicitação de avaliação, e não uma garantia de personalização. {PRIVACY_NOTE}</p>
           </form>
         </div>
       </section>
@@ -576,6 +470,19 @@ function Index() {
 
 function Field({ label, name, type = "text", autoComplete, required }: { label: string; name: string; type?: string; autoComplete?: string; required?: boolean }) {
   return <label className="form-label">{label}<input name={name} type={type} autoComplete={autoComplete} required={required} maxLength={180} className="form-control" /></label>;
+}
+
+function TiltCard({ className, lazy }: { className?: string; lazy?: boolean }) {
+  const card = useRef<HTMLImageElement>(null);
+  const move = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "touch" || !card.current) return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    card.current.style.transform = `perspective(900px) rotateX(${-y * 7}deg) rotateY(${x * 9}deg) translateY(-4px)`;
+  };
+  const reset = () => { if (card.current) card.current.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)"; };
+  return <div className={`card-perspective ${className ?? ""}`} onPointerMove={move} onPointerLeave={reset}><img ref={card} src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} loading={lazy ? "lazy" : "eager"} className="card-tilt w-full object-contain drop-shadow-2xl" /></div>;
 }
 
 function ContactIcon({ href, label, external, children }: { href: string; label: string; external?: boolean; children: React.ReactElement }) {
