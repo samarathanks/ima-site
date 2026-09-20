@@ -274,8 +274,9 @@ function Index() {
             <a className="nav-link" href="#seguranca">PAT e segurança</a>
             <a className="nav-link" href="#duvidas">Dúvidas</a>
             <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <a href="#contato">Quero conhecer <ArrowRight /></a>
+              <a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a>
             </Button>
+
           </nav>
           <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground xl:hidden" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen}>
             {menuOpen ? <X /> : <Menu />}
