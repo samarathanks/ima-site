@@ -29,7 +29,7 @@ import {
   WalletCards,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import appCartao from "@/assets/app-cartao.png.asset.json";
 import appPerfil from "@/assets/app-perfil.png.asset.json";
@@ -53,48 +53,18 @@ const CONTACT_LINKS = {
 // Quando existir um link real de agenda, informe-o aqui. Enquanto estiver
 // vazio, o CTA "Agendar uma conversa" leva ao formulário de reunião comercial.
 const SCHEDULE_LINK = "";
-const MEETING_HREF = SCHEDULE_LINK || "#reuniao";
-const PREVIEW_HREF = "#previa";
+const MEETING_HREF = SCHEDULE_LINK || "#contato";
+const PREVIEW_HREF = "#contato";
 
 // Endpoint preparado para futura integração de CRM (ex.: Zoho).
 // Enquanto estiver vazio, os dados são organizados em um e-mail comercial.
 const LEAD_ENDPOINT = "";
 
-const INTEREST_OPTIONS = [
-  "Alimentação",
-  "Refeição",
-  "Mobilidade",
-  "Vale-transporte",
-  "Premiação",
-  "Clube de benefícios",
-  "Outros benefícios",
-];
-
 const MEETING_TOPICS = [
-  "Cartão multibenefícios",
-  "Alimentação e refeição",
-  "Mobilidade e vale-transporte",
-  "Premiação",
-  "Clube de benefícios",
-  "Gestão dos benefícios e aplicativo",
-  "PAT e gestão responsável",
-  "Quero avaliar a solução completa",
-];
-
-const CUSTOM_INTEREST_OPTIONS = [
-  "Sim, gostaria de entender essa possibilidade",
-  "Não neste momento",
-  "Quero conhecer primeiro a solução padrão IMÃ",
-  "Ainda não sei",
-];
-
-const CUSTOM_TYPE_OPTIONS = [
-  "Cartão com a identidade da empresa",
-  "Aplicativo",
-  "Carta-berço e kit de entrega",
-  "Comunicação de implantação",
-  "Jornada de boas-vindas",
-  "Ainda estou avaliando",
+  "Solução de cartão multibenefícios",
+  "Possibilidade de personalização",
+  "Benefícios para colaboradores",
+  "Agendar uma conversa",
 ];
 
 const PRIVACY_NOTE =
@@ -178,29 +148,19 @@ function HeroMedia() {
   );
 }
 
-type LeadKind = "previa" | "reuniao";
-
-const LEAD_LABEL: Record<LeadKind, string> = {
-  previa: "Interesse em personalização",
-  reuniao: "Interesse na solução IMÃ",
-};
-
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [notice, setNotice] = useState<Record<LeadKind, { text: string; ok: boolean } | null>>({
-    previa: null,
-    reuniao: null,
-  });
-  const [sending, setSending] = useState<LeadKind | null>(null);
+  const [notice, setNotice] = useState<{ text: string; ok: boolean } | null>(null);
+  const [sending, setSending] = useState(false);
+  const [topic, setTopic] = useState("");
 
-  function handleSubmit(kind: LeadKind, cta: string) {
-    return (event: React.FormEvent<HTMLFormElement>) => {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
       if (sending) return;
       const form = event.currentTarget;
       const data = new FormData(form);
 
-      const fail = (text: string) => setNotice((prev) => ({ ...prev, [kind]: { text, ok: false } }));
+      const fail = (text: string) => setNotice({ text, ok: false });
 
       if (data.get("consentimento") !== "on") {
         fail("Confirme o consentimento para continuar.");
@@ -216,47 +176,24 @@ function Index() {
         const field = data.get(key);
         return typeof field === "string" && field.trim() ? field.trim().slice(0, 1000) : fallback;
       };
-      const list = (key: string) => {
-        const items = data.getAll(key).filter((item): item is string => typeof item === "string");
-        return items.length ? items.join(", ") : "Não informado";
-      };
-
-      setSending(kind);
+      setSending(true);
 
       const base = [
-        `Tipo de conversão: ${LEAD_LABEL[kind]}`,
-        `CTA utilizado: ${cta}`,
+        `Tipo de conversão: ${value("tema")}`,
         `Origem: ${typeof window !== "undefined" ? window.location.href : "site Imã"}`,
         `Data e horário: ${new Date().toLocaleString("pt-BR")}`,
         "Consentimento de contato: concedido",
         "",
         `Nome: ${value("nome")}`,
         `Empresa: ${value("empresa")}`,
-        `Cargo: ${value("cargo")}`,
         `E-mail corporativo: ${value("email")}`,
         `WhatsApp: ${value("whatsapp")}`,
-        `Colaboradores: ${value("colaboradores")}`,
+        `O que deseja conhecer: ${value("tema")}`,
+        `Logotipo: ${logoFile instanceof File && logoFile.size > 0 ? "selecionado pelo visitante" : "não enviado"}`,
       ];
 
-      const extra =
-        kind === "previa"
-          ? [
-              `Tipo de personalização de interesse: ${list("tipos_personalizacao")}`,
-              `Logotipo: ${logoFile instanceof File && logoFile.size > 0 ? "será anexado ao e-mail" : "não enviado"}`,
-              "",
-              "Observação: solicitação de avaliação de projeto personalizado (sujeita à análise).",
-            ]
-          : [
-              `O que deseja conhecer: ${value("tema")}`,
-              `Benefícios de maior interesse: ${list("interesses")}`,
-              `Interesse em avaliar personalização da marca: ${value("interesse_personalizacao")}`,
-              `Melhor período para contato: ${value("periodo")}`,
-              "",
-              `Necessidade / observações: ${value("mensagem", "—")}`,
-            ];
-
-      const subject = encodeURIComponent(LEAD_LABEL[kind]);
-      const body = encodeURIComponent([...base, ...extra].join("\n"));
+      const subject = encodeURIComponent(`Contato pelo site — ${value("tema")}`);
+      const body = encodeURIComponent(base.join("\n"));
 
       // Estrutura pronta para uma futura integração de CRM.
       if (LEAD_ENDPOINT) {
@@ -264,8 +201,7 @@ function Index() {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
-            tipo_conversao: LEAD_LABEL[kind],
-            cta,
+            tipo_conversao: value("tema"),
             origem: typeof window !== "undefined" ? window.location.href : "",
             enviado_em: new Date().toISOString(),
             consentimento: true,
@@ -277,21 +213,12 @@ function Index() {
       }
 
 
-      setNotice((prev) => ({
-        ...prev,
-        [kind]: {
-          ok: true,
-          text:
-            kind === "previa"
-              ? "Recebemos sua solicitação de avaliação. Nossa equipe analisará o cenário da sua empresa e retornará sobre as possibilidades de personalização."
-              : "Recebemos sua solicitação. Nossa equipe entrará em contato para entender o cenário da sua empresa e apresentar a solução mais adequada.",
-        },
-      }));
+      setNotice({ ok: true, text: "Sua solicitação está pronta. Nossa equipe dará continuidade ao atendimento pelo canal escolhido." });
 
       window.location.href = `${CONTACT_LINKS.email}?subject=${subject}&body=${body}`;
       form.reset();
-      window.setTimeout(() => setSending(null), 4000);
-    };
+      setTopic("");
+      window.setTimeout(() => setSending(false), 4000);
   }
 
   const closeMenu = () => setMenuOpen(false);
