@@ -358,6 +358,8 @@ function Index() {
           <div className="mt-12 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
             {benefits.map(({ icon: Icon, title, text }) => <article key={title} className="group min-h-60 bg-background p-7 transition-colors hover:bg-surface sm:p-8"><div className="flex size-11 items-center justify-center rounded-md bg-brand-mint text-primary"><Icon className="size-5" /></div><h3 className="mt-7 text-xl font-bold text-primary">{title}</h3><p className="mt-3 leading-relaxed text-muted-foreground">{text}</p></article>)}
           </div>
+          <Button asChild size="lg" variant="outline" className="mt-10 h-auto min-h-12 border-primary/30 px-6 py-3 text-primary hover:bg-primary hover:text-primary-foreground"><a href={MEETING_HREF}><CalendarCheck /> Entender como funciona</a></Button>
+
         </div>
       </section>
 
