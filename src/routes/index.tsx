@@ -455,7 +455,6 @@ function Index() {
               ["É possível realizar campanhas de premiação?", "Sim, conforme estruturação adequada. Premiações não devem substituir salário ou verbas obrigatórias."],
               ["Como funciona o clube de benefícios?", "O colaborador pode acessar condições e vantagens adicionais conforme o ecossistema disponibilizado."],
               ["Qual é o prazo de implantação?", "O prazo varia conforme escopo, personalização e validações necessárias. A equipe comercial apresenta uma estimativa para cada projeto."],
-              ["Existe quantidade mínima de colaboradores?", "As condições dependem da proposta comercial. Converse com a equipe para avaliar o cenário da sua empresa."],
               ["Como avaliar a possibilidade de personalização?", "Preencha o formulário de avaliação. A equipe comercial analisará o cenário da sua empresa e orientará os próximos passos. O envio das informações representa uma solicitação de avaliação, não uma garantia de personalização."],
             ].map(([question, answer]) => <details key={question} className="group py-6"><summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-bold text-primary">{question}<ChevronDown className="size-5 shrink-0 transition-transform group-open:rotate-180" /></summary><p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">{answer}</p></details>)}
           </div>
