@@ -52,3 +52,11 @@
 - [ ] Corrigir formulário e hierarquia dos CTAs
 - [ ] Reduzir espaços vazios preservando a estrutura aprovada
 - [ ] Validar computador, celular, interações e conversão
+
+## Revisão detalhada de acabamento visual
+- [ ] Padronizar as 12 categorias em cards independentes, com grade responsiva e expansão uniforme
+- [ ] Simplificar o menu superior e adicionar “O que é IMÃ?” em uma única linha no desktop
+- [ ] Inserir o bloco compacto de significado da IMÃ após o vídeo institucional
+- [ ] Ajustar todos os intervalos verticais para a faixa aprovada em computador e celular
+- [ ] Preservar produto, personalização opcional, mensagens, formulário único e seções institucionais
+- [ ] Validar acabamento em computador, tablet e celular
