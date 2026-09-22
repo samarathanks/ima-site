@@ -41,3 +41,14 @@
 - [x] Destacar somente multibenefícios, premiação, mobilidade e vale-transporte, clube, saúde e bem-estar
 - [x] Manter o formulário único, o cartão verde oficial e a personalização como diferencial opcional
 - [x] Validar a nova experiência em computador e celular
+
+## Acabamento de produto e conversão
+- [ ] Remover o selo do Lovable da publicação
+- [ ] Refinar o efeito 3D do cartão oficial sem alterar sua arte
+- [ ] Criar a seção “Como funciona”
+- [ ] Manter despesas e antecipação salarial fora dos produtos principais
+- [ ] Tornar o Clube de benefícios mais visual
+- [ ] Ajustar a imagem e a leitura da seção de personalização
+- [ ] Corrigir formulário e hierarquia dos CTAs
+- [ ] Reduzir espaços vazios preservando a estrutura aprovada
+- [ ] Validar computador, celular, interações e conversão
