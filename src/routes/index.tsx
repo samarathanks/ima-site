@@ -3,6 +3,8 @@ import {
   ArrowRight,
   CalendarCheck,
   Award,
+  BookOpen,
+  BriefcaseBusiness,
   Bus,
   Check,
   ChevronDown,
@@ -15,6 +17,7 @@ import {
   Menu,
   MessageCircle,
   Phone,
+  ReceiptText,
   Scale,
   ShoppingBasket,
   ShoppingBag,
@@ -24,6 +27,7 @@ import {
   Users,
   Utensils,
   WalletCards,
+  Zap,
   X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -69,11 +73,31 @@ const PRIVACY_NOTE =
 
 
 const benefits = [
-  { icon: ShoppingBasket, title: "Multibenefícios", text: "Alimentação, refeição e outras categorias reunidas em uma experiência simples, conforme a configuração contratada." },
+  { icon: ShoppingBasket, title: "Vale-alimentação", text: "Uso voltado à compra de alimentos, conforme a configuração contratada." },
+  { icon: Utensils, title: "Vale-refeição", text: "Praticidade para refeições no dia a dia, conforme a configuração contratada." },
+  { icon: Bus, title: "Mobilidade", text: "Mais flexibilidade para os deslocamentos cotidianos, conforme os serviços contratados." },
+  { icon: Bus, title: "Vale-transporte", text: "Organização do benefício de transporte conforme cobertura disponível e validação comercial." },
+  { icon: HeartHandshake, title: "Saúde e bem-estar", text: "Apoio a estratégias mais amplas de cuidado, quando aplicável." },
+  { icon: BookOpen, title: "Educação", text: "Possibilidades voltadas ao desenvolvimento das pessoas, conforme a configuração contratada." },
+  { icon: BriefcaseBusiness, title: "Home office", text: "Apoio à rotina de trabalho remoto, quando previsto na solução contratada." },
   { icon: Award, title: "Premiação", text: "Reconhecimento de campanhas, metas e momentos importantes, com estruturação adequada." },
-  { icon: Bus, title: "Mobilidade e vale-transporte", text: "Mais simplicidade nos deslocamentos, conforme os serviços contratados e a cobertura disponível." },
+  { icon: WalletCards, title: "Saldo livre", text: "Flexibilidade de uso conforme as regras e categorias definidas pela empresa." },
+  { icon: ReceiptText, title: "Gestão de despesas", text: "Possibilidade complementar para organizar despesas corporativas, sujeita à validação comercial." },
+  { icon: Zap, title: "Antecipação salarial", text: "Possibilidade complementar, disponível somente conforme escopo e validação comercial." },
   { icon: Gift, title: "Clube de benefícios", text: "Condições e vantagens adicionais conforme o ecossistema disponível." },
-  { icon: HeartHandshake, title: "Saúde e bem-estar", text: "Uma possibilidade de apoio a estratégias mais amplas de cuidado, quando aplicável." },
+];
+
+const howItWorks = [
+  { number: "01", title: "Entendemos a empresa", text: "A equipe conhece o perfil, as necessidades e os benefícios desejados." },
+  { number: "02", title: "Configuramos a solução", text: "As categorias e condições são definidas conforme o projeto contratado." },
+  { number: "03", title: "A experiência começa", text: "Cartão e aplicativo apoiam a gestão da empresa e a rotina dos colaboradores." },
+];
+
+const clubHighlights = [
+  { icon: HeartHandshake, title: "Saúde e bem-estar" },
+  { icon: Gift, title: "Lazer e cultura" },
+  { icon: ShoppingBag, title: "Serviços e conveniência" },
+  { icon: WalletCards, title: "Economia no dia a dia" },
 ];
 
 const appFeatures = [
@@ -227,6 +251,14 @@ function Index() {
   }
 
   const closeMenu = () => setMenuOpen(false);
+  const chooseTopic = (nextTopic: string) => setTopic(nextTopic);
+  const submitLabel = topic === "Agendar uma conversa"
+    ? "Solicitar uma conversa"
+    : topic === "Possibilidade de personalização"
+      ? "Avaliar personalização"
+      : topic === "Benefícios para colaboradores"
+        ? "Conhecer os benefícios"
+        : "Conhecer a solução";
 
 
   return (
@@ -236,29 +268,28 @@ function Index() {
           <a href="#inicio" aria-label="Imã — início" className="shrink-0">
             <img src={logoWhiteCoral} alt="Imã" className="h-10 w-auto" />
           </a>
-          <nav className="hidden items-center gap-5 xl:flex" aria-label="Navegação principal">
+          <nav className="hidden min-w-0 items-center gap-5 whitespace-nowrap lg:flex" aria-label="Navegação principal">
             <a className="nav-link" href="#cartao">O cartão</a>
             <a className="nav-link" href="#beneficios">Benefícios</a>
-            <a className="nav-link" href="#sua-marca">Personalização</a>
             <a className="nav-link" href="#empresas">Para empresas</a>
-            <a className="nav-link" href="#seguranca">PAT e segurança</a>
+            <a className="nav-link" href="#significado">O que é IMÃ?</a>
             <a className="nav-link" href="#duvidas">Dúvidas</a>
             <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a>
+              <a href={MEETING_HREF} onClick={() => chooseTopic("Agendar uma conversa")}><CalendarCheck /> Agendar uma conversa</a>
             </Button>
 
           </nav>
-          <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground xl:hidden" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen}>
+          <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground lg:hidden" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen}>
             {menuOpen ? <X /> : <Menu />}
           </Button>
         </div>
         {menuOpen && (
-          <nav className="border-t border-primary-foreground/15 bg-primary px-5 py-6 xl:hidden" aria-label="Menu móvel">
+          <nav className="border-t border-primary-foreground/15 bg-primary px-5 py-6 lg:hidden" aria-label="Menu móvel">
             <div className="mx-auto flex max-w-7xl flex-col gap-5">
-              {[['O cartão', '#cartao'], ['Benefícios', '#beneficios'], ['Personalização', '#sua-marca'], ['Para empresas', '#empresas'], ['PAT e segurança', '#seguranca'], ['Dúvidas', '#duvidas']].map(([label, href]) => (
+              {[['O cartão', '#cartao'], ['Benefícios', '#beneficios'], ['Para empresas', '#empresas'], ['O que é IMÃ?', '#significado'], ['Dúvidas', '#duvidas']].map(([label, href]) => (
                 <a key={href} className="nav-link" href={href} onClick={closeMenu}>{label}</a>
               ))}
-              <Button asChild className="mt-2 bg-accent text-accent-foreground hover:bg-accent/90"><a href={MEETING_HREF} onClick={closeMenu}><CalendarCheck /> Agendar uma conversa</a></Button>
+              <Button asChild className="mt-2 bg-accent text-accent-foreground hover:bg-accent/90"><a href={MEETING_HREF} onClick={() => { chooseTopic("Agendar uma conversa"); closeMenu(); }}><CalendarCheck /> Agendar uma conversa</a></Button>
               <Button asChild variant="outline" className="border-brand-mint/60 bg-transparent text-brand-mint"><a href="#cartao" onClick={closeMenu}>Conhecer a solução</a></Button>
 
             </div>
@@ -277,7 +308,7 @@ function Index() {
             <p className="mt-4 max-w-xl leading-relaxed text-primary-foreground/65">E, para empresas que desejam levar sua identidade ainda mais longe, existe a possibilidade de personalizar a experiência conforme o projeto.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href="#cartao">Conhecer a solução <ArrowRight /></a></Button>
-              <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-brand-mint/60 bg-transparent px-6 py-3 text-brand-mint hover:bg-brand-mint hover:text-primary"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button>
+               <Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-brand-mint/60 bg-transparent px-6 py-3 text-brand-mint hover:bg-brand-mint hover:text-primary"><a href={MEETING_HREF} onClick={() => chooseTopic("Agendar uma conversa")}><CalendarCheck /> Agendar uma conversa</a></Button>
             </div>
             <p className="mt-9 text-xl font-extrabold text-brand-mint">Sua empresa tem IMÃ?</p>
           </div>
@@ -289,7 +320,14 @@ function Index() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12"><div className="overflow-hidden rounded-md"><HeroMedia /></div></div>
       </section>
 
-      <section id="cartao" className="reveal-section bg-surface py-20 sm:py-28">
+      <section id="significado" className="magnetic-lines bg-secondary py-12 sm:py-16">
+        <div className="relative mx-auto grid max-w-7xl gap-6 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:px-12">
+          <div><p className="eyebrow">O que significa IMÃ?</p><h2 className="section-title mt-3">IMÃ é atração que se torna vínculo.</h2></div>
+          <div><p className="text-lg leading-relaxed text-secondary-foreground/80">Um benefício chama atenção. Uma experiência bem construída cria conexão. A IMÃ nasce para aproximar empresas e pessoas por meio de benefícios que fazem sentido na rotina.</p><p className="mt-4 font-extrabold text-primary">Benefícios que atraem. Pessoas que ficam.</p></div>
+        </div>
+      </section>
+
+      <section id="cartao" className="reveal-section bg-surface py-14 sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center lg:px-12">
           <div>
             <p className="eyebrow">Cartão multibenefícios</p>
@@ -299,26 +337,33 @@ function Index() {
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {["Cartão multibenefícios", "Alimentação e refeição", "Mobilidade e vale-transporte", "Premiação", "Clube de benefícios", "Aplicativo", "Gestão dos benefícios", "Bandeira Visa, quando aplicável à configuração contratada"].map((item) => <p key={item} className="flex items-center gap-3 font-bold text-primary"><span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-mint"><Check className="size-4" /></span>{item}</p>)}
             </div>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button></div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF} onClick={() => chooseTopic("Agendar uma conversa")}><CalendarCheck /> Agendar uma conversa</a></Button></div>
           </div>
           <TiltCard className="w-full" lazy />
         </div>
       </section>
 
 
-      <section id="beneficios" className="reveal-section py-20 sm:py-28">
+      <section id="como-funciona" className="reveal-section py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+          <div className="max-w-3xl"><p className="eyebrow">Como funciona</p><h2 className="section-title mt-4">Da escolha dos benefícios à experiência no dia a dia.</h2></div>
+          <div className="mt-9 grid gap-4 md:grid-cols-3">{howItWorks.map((step) => <article key={step.number} className="how-step"><span>{step.number}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div>
+        </div>
+      </section>
+
+      <section id="beneficios" className="reveal-section bg-surface py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="max-w-3xl"><p className="eyebrow">Benefícios para diferentes momentos</p><h2 className="section-title mt-4">Uma solução que acompanha a vida real.</h2><p className="mt-5 text-lg leading-relaxed text-muted-foreground">Categorias e experiências disponíveis conforme a configuração contratada e a validação técnica.</p></div>
-          <div className="mt-12 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
-            {benefits.map(({ icon: Icon, title, text }) => <details key={title} className="benefit-card group bg-background p-7 sm:p-8"><summary className="flex cursor-pointer list-none items-center gap-4"><span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-brand-mint text-primary"><Icon className="size-5" /></span><span className="flex-1 text-lg font-bold text-primary">{title}</span><ChevronDown className="size-5 shrink-0 text-accent transition-transform group-open:rotate-180" /></summary><div className="benefit-answer"><p className="pt-5 leading-relaxed text-muted-foreground">{text}</p></div></details>)}
+          <div className="mt-10 grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {benefits.map(({ icon: Icon, title, text }) => <details key={title} className="benefit-card group bg-background p-6"><summary className="flex cursor-pointer list-none flex-col items-start"><span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-brand-mint text-primary"><Icon className="size-5" /></span><span className="mt-5 flex min-h-14 w-full items-start justify-between gap-4"><span className="text-lg font-bold leading-snug text-primary">{title}</span><ChevronDown className="mt-1 size-5 shrink-0 text-accent transition-transform group-open:rotate-180" /></span></summary><div className="benefit-answer"><p className="pt-4 leading-relaxed text-muted-foreground">{text}</p></div></details>)}
           </div>
-          <Button asChild size="lg" variant="outline" className="mt-10 h-auto min-h-12 border-primary/30 px-6 py-3 text-primary hover:bg-primary hover:text-primary-foreground"><a href={MEETING_HREF}><CalendarCheck /> Entender como funciona</a></Button>
+          <Button asChild size="lg" variant="outline" className="mt-8 h-auto min-h-12 border-primary/30 px-6 py-3 text-primary hover:bg-primary hover:text-primary-foreground"><a href={MEETING_HREF} onClick={() => chooseTopic("Benefícios para colaboradores")}><CalendarCheck /> Entender como funciona</a></Button>
 
         </div>
       </section>
 
 
-      <section className="reveal-section py-20 sm:py-28">
+      <section className="reveal-section py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid gap-12 lg:grid-cols-[1.08fr_.92fr] lg:items-center">
             <div className="app-stage relative flex h-[520px] items-end justify-center overflow-hidden rounded-md bg-primary sm:h-[610px]">
@@ -334,14 +379,14 @@ function Index() {
         </div>
       </section>
 
-      <section id="empresas" className="bg-surface py-20 sm:py-28">
+      <section id="empresas" className="bg-surface py-14 sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:px-12">
           <div><p className="eyebrow">Para empresas</p><h2 className="section-title mt-4">Benefícios que também comunicam cultura.</h2><p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">Uma experiência bem apresentada torna o investimento da empresa mais visível, reconhecível e próximo de quem recebe.</p></div>
           <div className="grid gap-4 sm:grid-cols-2">{companyBenefits.map((item) => <div key={item} className="flex min-h-28 items-start gap-4 rounded-md border border-border bg-background p-5"><Users className="mt-0.5 size-5 shrink-0 text-accent" /><p className="font-bold text-primary">{item}</p></div>)}</div>
         </div>
       </section>
 
-      <section className="py-20 sm:py-28">
+      <section className="py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid gap-6 lg:grid-cols-3">
             <article className="info-panel bg-primary text-primary-foreground"><CreditCard /><p className="info-kicker text-brand-mint">Visa</p><h2>Liberdade para usar. Segurança para sua empresa.</h2><p>Com a aceitação da bandeira Visa, o colaborador utiliza seus benefícios nos estabelecimentos compatíveis com cada categoria, enquanto a empresa conta com uma operação estruturada.</p></article>
@@ -351,7 +396,7 @@ function Index() {
         </div>
       </section>
 
-      <section id="sua-marca" className="reveal-section bg-primary py-20 text-primary-foreground sm:py-28">
+      <section id="sua-marca" className="reveal-section bg-primary py-14 text-primary-foreground sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-12">
           <div>
             <p className="eyebrow text-brand-mint">Diferencial opcional</p>
@@ -363,29 +408,29 @@ function Index() {
             <p className="mt-6 max-w-xl text-sm leading-relaxed text-primary-foreground/60">Projetos personalizados sob consulta, conforme a configuração contratada e sujeitos à avaliação do projeto.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-accent px-6 py-3 text-accent-foreground hover:bg-accent/90"><a href={PREVIEW_HREF} onClick={() => setTopic("Possibilidade de personalização")}>Quero avaliar essa possibilidade <ArrowRight /></a></Button></div>
           </div>
-          <div className="relative">
-            <img src={brandExperience.url} alt="Exemplo demonstrativo de personalização com cartão, aplicativo e materiais de marca fictícia" loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
-            <p className="mt-4 text-sm leading-relaxed text-primary-foreground/65">Exemplo demonstrativo com marca fictícia. As possibilidades de personalização dependem da configuração contratada e da avaliação de cada projeto.</p>
+          <div className="personalization-visual relative">
+            <img src={brandExperience.url} alt="Exemplo demonstrativo de personalização com cartão, aplicativo e materiais de marca fictícia" loading="lazy" className="aspect-[4/3] w-full object-contain" />
+            <p className="border-t border-primary-foreground/15 px-5 py-4 text-sm leading-relaxed text-primary-foreground/65">Exemplo demonstrativo com marca fictícia. As possibilidades dependem da configuração contratada e da avaliação de cada projeto.</p>
           </div>
         </div>
       </section>
 
 
-      <section className="bg-primary py-20 text-primary-foreground sm:py-24">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:px-12">
-          <div><Gift className="size-10 text-brand-mint" /><p className="eyebrow mt-7 text-brand-mint">Clube de benefícios</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Um cartão. Várias formas de cuidar e reconhecer.</h2></div>
-          <div><p className="text-xl leading-relaxed text-primary-foreground/80">Um ecossistema de vantagens pode ampliar a percepção de valor com descontos, saúde, bem-estar, lazer, cultura, serviços e conveniência.</p><p className="mt-5 text-sm text-primary-foreground/60">Condições, parceiros e vantagens estão sujeitos à disponibilidade e à configuração comercial.</p></div>
+      <section className="bg-primary py-14 text-primary-foreground sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-9 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:px-12">
+          <div><Gift className="size-10 text-brand-mint" /><p className="eyebrow mt-6 text-brand-mint">Clube de benefícios</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Vantagens que continuam além do cartão.</h2><p className="mt-5 text-lg leading-relaxed text-primary-foreground/75">Um ecossistema de vantagens pode ampliar a percepção de valor no cotidiano.</p></div>
+          <div><div className="grid gap-3 sm:grid-cols-2">{clubHighlights.map(({ icon: Icon, title }) => <div key={title} className="club-tile"><Icon /><span>{title}</span></div>)}</div><p className="mt-5 text-sm text-primary-foreground/60">Condições, parceiros e vantagens estão sujeitos à disponibilidade e à configuração comercial.</p></div>
         </div>
       </section>
 
-      <section className="bg-background py-20 sm:py-28">
+      <section className="bg-background py-14 sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:items-center lg:px-12">
           <img src={deliveryExperience} alt="Colaboradora recebendo uma experiência de boas-vindas" width={1600} height={1200} loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover" />
-          <div><p className="eyebrow">Pertencimento em cada entrega</p><h2 className="section-title mt-4">Uma experiência que torna o cuidado visível.</h2><p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">Da entrega do cartão ao uso cotidiano, cada contato aproxima o colaborador do cuidado da empresa.</p><Button asChild size="lg" className="mt-8 h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button></div>
+           <div><p className="eyebrow">Pertencimento em cada entrega</p><h2 className="section-title mt-4">Uma experiência que torna o cuidado visível.</h2><p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">Da entrega do cartão ao uso cotidiano, cada contato aproxima o colaborador do cuidado da empresa.</p><Button asChild size="lg" className="mt-8 h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF} onClick={() => chooseTopic("Agendar uma conversa")}><CalendarCheck /> Agendar uma conversa</a></Button></div>
         </div>
       </section>
 
-      <section id="seguranca" className="bg-surface py-20 sm:py-28">
+      <section id="seguranca" className="bg-surface py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid gap-8 lg:grid-cols-2">
             <article className="rounded-md border border-border bg-background p-7 sm:p-10"><Scale className="size-9 text-accent" /><p className="eyebrow mt-7">PAT e segurança jurídica</p><h2 className="mt-4 text-3xl font-extrabold text-primary sm:text-4xl">Benefícios bem estruturados protegem a empresa e valorizam as pessoas.</h2><p className="mt-5 leading-relaxed text-muted-foreground">A Imã oferece uma estrutura preparada para apoiar empresas na organização de seus benefícios. A definição da política e seu enquadramento jurídico devem considerar a realidade de cada organização, as regras do PAT, a legislação aplicável e a separação adequada das categorias.</p></article>
@@ -395,7 +440,7 @@ function Index() {
         </div>
       </section>
 
-      <section id="duvidas" className="py-20 sm:py-28">
+      <section id="duvidas" className="py-14 sm:py-20">
         <div className="mx-auto max-w-4xl px-5 sm:px-8">
           <div className="text-center"><p className="eyebrow justify-center">Dúvidas frequentes</p><h2 className="section-title mt-4">O essencial sobre a Imã.</h2></div>
           <div className="mt-12 divide-y divide-border border-y border-border">
@@ -410,7 +455,6 @@ function Index() {
               ["É possível realizar campanhas de premiação?", "Sim, conforme estruturação adequada. Premiações não devem substituir salário ou verbas obrigatórias."],
               ["Como funciona o clube de benefícios?", "O colaborador pode acessar condições e vantagens adicionais conforme o ecossistema disponibilizado."],
               ["Qual é o prazo de implantação?", "O prazo varia conforme escopo, personalização e validações necessárias. A equipe comercial apresenta uma estimativa para cada projeto."],
-              ["Existe quantidade mínima de colaboradores?", "As condições dependem da proposta comercial. Converse com a equipe para avaliar o cenário da sua empresa."],
               ["Como avaliar a possibilidade de personalização?", "Preencha o formulário de avaliação. A equipe comercial analisará o cenário da sua empresa e orientará os próximos passos. O envio das informações representa uma solicitação de avaliação, não uma garantia de personalização."],
             ].map(([question, answer]) => <details key={question} className="group py-6"><summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-bold text-primary">{question}<ChevronDown className="size-5 shrink-0 transition-transform group-open:rotate-180" /></summary><p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">{answer}</p></details>)}
           </div>
@@ -419,10 +463,10 @@ function Index() {
 
       <section className="reveal-section relative overflow-hidden bg-accent py-16 text-accent-foreground sm:py-20">
         <div className="wave-lines absolute inset-0 opacity-20" />
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-8"><p className="text-sm font-extrabold uppercase">Sua empresa tem IMÃ?</p><h2 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">Benefícios que atraem. Pessoas que ficam.</h2><p className="mt-5 max-w-3xl text-lg leading-relaxed text-accent-foreground/75">Uma solução de benefícios que organiza a gestão da empresa e valoriza a experiência de quem recebe.</p><div className="mt-8 flex flex-col items-center gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF}><CalendarCheck /> Agendar uma conversa</a></Button><Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-accent-foreground/50 bg-transparent px-6 py-3 text-accent-foreground hover:bg-accent-foreground hover:text-accent"><a href={PREVIEW_HREF} onClick={() => setTopic("Possibilidade de personalização")}>Avaliar personalização</a></Button></div></div>
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-8"><p className="text-sm font-extrabold uppercase">Sua empresa tem IMÃ?</p><h2 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">Benefícios que atraem. Pessoas que ficam.</h2><p className="mt-5 max-w-3xl text-lg leading-relaxed text-accent-foreground/75">Uma solução de benefícios que organiza a gestão da empresa e valoriza a experiência de quem recebe.</p><div className="mt-8 flex flex-col items-center gap-3 sm:flex-row"><Button asChild size="lg" className="h-auto min-h-12 bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90"><a href={MEETING_HREF} onClick={() => chooseTopic("Agendar uma conversa")}><CalendarCheck /> Agendar uma conversa</a></Button><Button asChild size="lg" variant="outline" className="h-auto min-h-12 border-accent-foreground/50 bg-transparent px-6 py-3 text-accent-foreground hover:bg-accent-foreground hover:text-accent"><a href={PREVIEW_HREF} onClick={() => chooseTopic("Possibilidade de personalização")}>Avaliar personalização</a></Button></div></div>
       </section>
 
-      <section id="contato" className="reveal-section bg-primary py-20 text-primary-foreground sm:py-28">
+      <section id="contato" className="reveal-section bg-primary py-14 text-primary-foreground sm:py-20">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:px-12">
           <div className="lg:sticky lg:top-28"><p className="eyebrow text-brand-mint">Conhecer a solução</p><h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Vamos entender o que sua empresa precisa?</h2><p className="mt-6 max-w-lg text-lg leading-relaxed text-primary-foreground/70">Conte seu interesse em poucos campos. A personalização é uma possibilidade opcional, sob consulta e conforme o projeto contratado.</p></div>
           <form onSubmit={handleSubmit} className="grid gap-5 rounded-md bg-background p-6 text-foreground shadow-xl sm:grid-cols-2 sm:p-8">
@@ -434,7 +478,7 @@ function Index() {
             {topic === "Possibilidade de personalização" && <label className="form-label animate-fade-in sm:col-span-2">Logotipo da empresa <span className="font-normal text-muted-foreground">(opcional)</span><span className="flex min-h-24 cursor-pointer items-center justify-center gap-3 rounded-md border border-dashed border-input bg-surface px-4 text-center text-muted-foreground transition-colors hover:border-primary"><Upload className="size-5" />Selecionar arquivo<input name="logo" type="file" accept="image/png,image/jpeg,image/svg+xml,application/pdf" className="sr-only" /></span><span className="font-normal text-muted-foreground">PNG, JPG, SVG ou PDF, com até 5 MB. A personalização será avaliada conforme o projeto e a configuração contratada.</span></label>}
             <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground sm:col-span-2"><input type="checkbox" name="consentimento" required className="mt-1 size-4 shrink-0 accent-primary" />Autorizo o contato da Imã e o tratamento dos meus dados conforme a Política de Privacidade.</label>
             {notice && <p role="status" className={`rounded-md p-3 text-sm sm:col-span-2 ${notice.ok ? "bg-secondary text-secondary-foreground" : "bg-surface text-destructive"}`}>{notice.text}</p>}
-            <Button type="submit" size="lg" disabled={sending} className="h-12 bg-accent text-accent-foreground hover:bg-accent/90 sm:col-span-2">{sending ? "Preparando contato..." : "Conhecer a solução"} <ArrowRight /></Button>
+             <Button type="submit" size="lg" disabled={sending} className="h-12 bg-accent text-accent-foreground hover:bg-accent/90 sm:col-span-2">{sending ? "Preparando contato..." : submitLabel} <ArrowRight /></Button>
             <p className="text-xs leading-relaxed text-muted-foreground sm:col-span-2">{PRIVACY_NOTE}</p>
           </form>
         </div>
@@ -465,16 +509,16 @@ function Field({ label, name, type = "text", autoComplete, required }: { label: 
 }
 
 function TiltCard({ className, lazy }: { className?: string; lazy?: boolean }) {
-  const card = useRef<HTMLImageElement>(null);
+  const card = useRef<HTMLDivElement>(null);
   const move = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.pointerType === "touch" || !card.current) return;
     const bounds = event.currentTarget.getBoundingClientRect();
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-    card.current.style.transform = `perspective(900px) rotateX(${-y * 7}deg) rotateY(${x * 9}deg) translateY(-4px)`;
+    card.current.style.transform = `perspective(1000px) rotateX(${-y * 8}deg) rotateY(${x * 10}deg) translateY(-6px) scale(1.015)`;
   };
   const reset = () => { if (card.current) card.current.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)"; };
-  return <div className={`card-perspective ${className ?? ""}`} onPointerMove={move} onPointerLeave={reset}><img ref={card} src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} loading={lazy ? "lazy" : "eager"} className="card-tilt w-full object-contain drop-shadow-2xl" /></div>;
+  return <div className={`card-perspective ${className ?? ""}`} onPointerMove={move} onPointerLeave={reset}><div ref={card} className="card-tilt relative"><img src={officialCard.url} alt="Cartão verde oficial da Imã com bandeira Visa" width={669} height={403} loading={lazy ? "lazy" : "eager"} className="w-full object-contain" /><span className="card-sheen" aria-hidden="true" /></div></div>;
 }
 
 function ContactIcon({ href, label, external, children }: { href: string; label: string; external?: boolean; children: React.ReactElement }) {

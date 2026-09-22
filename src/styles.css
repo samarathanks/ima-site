@@ -199,6 +199,34 @@
     padding: 2rem;
   }
 
+  .how-step {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    min-height: 13rem;
+    padding: 1.5rem;
+  }
+
+  .how-step > span {
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  .how-step h3 {
+    color: var(--primary);
+    font-size: 1.35rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-top: 2.5rem;
+  }
+
+  .how-step p {
+    color: var(--muted-foreground);
+    line-height: 1.6;
+    margin-top: 0.75rem;
+  }
+
   .step-number {
     align-items: center;
     border: 1px solid var(--border);
@@ -235,7 +263,7 @@
   }
 
   .info-panel {
-    min-height: 25rem;
+    min-height: 21rem;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 2rem;
@@ -319,6 +347,18 @@
   background-image: repeating-radial-gradient(ellipse at 50% 120%, transparent 0 26px, color-mix(in oklab, var(--accent-foreground) 20%, transparent) 27px 28px);
 }
 
+.magnetic-lines {
+  position: relative;
+  overflow: hidden;
+}
+.magnetic-lines::after {
+  background-image: repeating-radial-gradient(ellipse at 100% 50%, transparent 0 22px, color-mix(in oklab, var(--primary) 11%, transparent) 23px 24px);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
 @keyframes rise {
   from { opacity: 0; transform: translateY(22px); }
   to { opacity: 1; transform: translateY(0); }
@@ -332,12 +372,24 @@
 .animate-rise { animation: rise 700ms ease-out both; }
 .animate-float { animation: float 6s ease-in-out infinite; }
 
-.card-perspective { perspective: 900px; }
+.card-perspective { perspective: 1000px; }
 .card-tilt {
+  filter: drop-shadow(0 28px 28px color-mix(in oklab, var(--primary-deep) 38%, transparent));
+  overflow: hidden;
+  position: relative;
   transform-style: preserve-3d;
-  transition: transform 180ms ease-out, filter 180ms ease-out;
+  transition: transform 200ms ease-out, filter 200ms ease-out;
   will-change: transform;
 }
+.card-sheen {
+  background: linear-gradient(110deg, transparent 28%, color-mix(in oklab, var(--primary-foreground) 24%, transparent) 47%, transparent 64%);
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-130%);
+  transition: transform 700ms ease;
+}
+.card-perspective:hover .card-sheen { transform: translateX(130%); }
 
 .reveal-section {
   opacity: 0;
@@ -347,10 +399,13 @@
 .reveal-section.is-visible { opacity: 1; transform: translateY(0); }
 
 .benefit-card {
-  min-height: 7.5rem;
-  transition: background-color 180ms ease, transform 180ms ease;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px color-mix(in oklab, var(--primary) 6%, transparent);
+  min-height: 10.5rem;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
-.benefit-card:hover { background: var(--surface); transform: translateY(-2px); }
+.benefit-card:hover { background: var(--background); border-color: color-mix(in oklab, var(--primary) 35%, var(--border)); box-shadow: 0 14px 34px color-mix(in oklab, var(--primary) 10%, transparent); transform: translateY(-2px); }
 .benefit-answer { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 220ms ease, opacity 180ms ease; }
 .benefit-answer > p { overflow: hidden; }
 .benefit-card[open] .benefit-answer { grid-template-rows: 1fr; opacity: 1; }
@@ -381,6 +436,28 @@
 .app-screen-center { animation: phone-center linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
 .app-screen-right { animation: phone-right linear both; animation-range: entry 5% cover 45%; animation-timeline: view(); }
 
+.personalization-visual {
+  background: color-mix(in oklab, var(--primary-deep) 82%, var(--primary));
+  border: 1px solid color-mix(in oklab, var(--primary-foreground) 16%, transparent);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.club-tile {
+  align-items: center;
+  background: color-mix(in oklab, var(--primary-foreground) 8%, transparent);
+  border: 1px solid color-mix(in oklab, var(--primary-foreground) 16%, transparent);
+  border-radius: var(--radius);
+  display: flex;
+  gap: 0.9rem;
+  min-height: 5.5rem;
+  padding: 1.1rem;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+.club-tile:hover { background: color-mix(in oklab, var(--brand-mint) 14%, transparent); transform: translateY(-2px); }
+.club-tile svg { color: var(--brand-mint); flex-shrink: 0; height: 1.4rem; width: 1.4rem; }
+.club-tile span { font-weight: 800; }
+
 @keyframes phone-left { from { transform: translateY(45px) rotate(-8deg); } to { transform: translateY(0) rotate(-5deg); } }
 @keyframes phone-center { from { transform: translateY(70px); } to { transform: translateY(0); } }
 @keyframes phone-right { from { transform: translateY(45px) rotate(8deg); } to { transform: translateY(0) rotate(5deg); } }
@@ -389,7 +466,8 @@
   html { scroll-behavior: auto; }
   .animate-rise, .animate-float, .app-screen { animation: none; }
   .reveal-section { opacity: 1; transform: none; transition: none; }
-  .card-tilt, .benefit-card, .benefit-answer, .app-feature, .app-feature-arrow { transition: none; }
+  .card-tilt, .card-sheen, .benefit-card, .benefit-answer, .app-feature, .app-feature-arrow, .club-tile { transition: none; }
+  .card-sheen { display: none; }
   .hero-video { display: none; }
 }
 

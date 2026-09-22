@@ -44,19 +44,19 @@
 
 ## Acabamento de produto e conversão
 - [ ] Remover o selo do Lovable da publicação
-- [ ] Refinar o efeito 3D do cartão oficial sem alterar sua arte
-- [ ] Criar a seção “Como funciona”
-- [ ] Manter despesas e antecipação salarial fora dos produtos principais
-- [ ] Tornar o Clube de benefícios mais visual
-- [ ] Ajustar a imagem e a leitura da seção de personalização
-- [ ] Corrigir formulário e hierarquia dos CTAs
-- [ ] Reduzir espaços vazios preservando a estrutura aprovada
-- [ ] Validar computador, celular, interações e conversão
+- [x] Refinar o efeito 3D do cartão oficial sem alterar sua arte
+- [x] Criar a seção “Como funciona”
+- [x] Manter despesas e antecipação salarial fora dos produtos principais
+- [x] Tornar o Clube de benefícios mais visual
+- [x] Ajustar a imagem e a leitura da seção de personalização
+- [x] Corrigir formulário e hierarquia dos CTAs
+- [x] Reduzir espaços vazios preservando a estrutura aprovada
+- [x] Validar computador, celular, interações e conversão
 
 ## Revisão detalhada de acabamento visual
-- [ ] Padronizar as 12 categorias em cards independentes, com grade responsiva e expansão uniforme
-- [ ] Simplificar o menu superior e adicionar “O que é IMÃ?” em uma única linha no desktop
-- [ ] Inserir o bloco compacto de significado da IMÃ após o vídeo institucional
-- [ ] Ajustar todos os intervalos verticais para a faixa aprovada em computador e celular
-- [ ] Preservar produto, personalização opcional, mensagens, formulário único e seções institucionais
-- [ ] Validar acabamento em computador, tablet e celular
+- [x] Padronizar as 12 categorias em cards independentes, com grade responsiva e expansão uniforme
+- [x] Simplificar o menu superior e adicionar “O que é IMÃ?” em uma única linha no desktop
+- [x] Inserir o bloco compacto de significado da IMÃ após o vídeo institucional
+- [x] Ajustar todos os intervalos verticais para a faixa aprovada em computador e celular
+- [x] Preservar produto, personalização opcional, mensagens, formulário único e seções institucionais
+- [x] Validar acabamento em computador, tablet e celular
