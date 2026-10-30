@@ -1,28 +1,35 @@
-# Ima Site Dev
+# Imã Site
 
-cd /root/grupo-thanks/ima-site-prototype
+Site institucional oficial da Imã, marca do Grupo Thanks.
 
-  npm run dev
+## Produção
 
-This project was built with [Lovable](https://lovable.dev).
+Repositório canônico: `samarathanks/ima-site`
 
-**Live app**: https://group-thanks-proto.lovable.app
+Domínio oficial: `https://somosima.com.br`
 
-## Build with Lovable
+A hospedagem de produção está sendo migrada do Lovable para GitHub Pages. O Lovable permanece apenas como origem histórica/editor visual enquanto a migração é validada.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/68041681-19dd-45ce-929d-defe0e6fb8b3).
+## Build
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Este projeto usa TanStack Start. A rota pública é prerenderizada para HTML estático no build de produção e publicada a partir de `.output/public`.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+npm ci
+npm run build
+```
+
+## Deploy
+
+O workflow `.github/workflows/pages.yml` publica automaticamente o conteúdo estático no GitHub Pages quando há push na branch `main`.
+
+## Desenvolvimento local
+
+```sh
+npm ci
 npm run dev
 ```
+
+## Observação
+
+Não alterar DNS do domínio até o workflow do GitHub Pages estar validado e a publicação estática responder corretamente.
