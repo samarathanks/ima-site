@@ -8,8 +8,17 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
+    // Keep the existing server entry for local/Lovable compatibility.
     server: { entry: "server" },
+
+    // The public Imã website is a single public route with no runtime server dependency.
+    // Prerender it so the production site can be hosted as static files on GitHub Pages.
+    prerender: {
+      enabled: true,
+      autoStaticPathsDiscovery: true,
+      autoSubfolderIndex: true,
+      crawlLinks: true,
+      failOnError: true,
+    },
   },
 });
